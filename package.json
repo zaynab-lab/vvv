@@ -1,6 +1,5 @@
 {
   "name": "nextjs",
-  "homepage": "https://vfdxz.sse.codesandbox.io/",
   "version": "1.0.0",
   "scripts": {
     "dev": "next",
@@ -26,8 +25,6 @@
     "mongodb": "^3.6.2"
   },
   "license": "MIT",
-  "keywords": [
-    "next"
-  ],
+  "keywords": ["next"],
   "description": "A \"Hello World\" application with multiple pages that shows how Next.js routing works."
 }
