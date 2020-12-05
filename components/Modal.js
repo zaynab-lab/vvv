@@ -51,6 +51,8 @@ export default function Modal({ children }) {
       }
 
       .modal-body{
+        display:flex;
+        justify-content:center;
       width:90vw;
       height:80vh;
       background:white;
