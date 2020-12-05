@@ -7,19 +7,16 @@ import Image from "../components/Image";
 import axios from "axios";
 
 export default function Menu() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
 
   useEffect(() => {
-    axios
-      .get("/api/auth")
-      .then((res) => {
-        const { data } = res;
-        if (data !== "noToken" && data !== "invalid") {
-          setUser(data);
-        }
-      })
-      .then(() => setLoading(false));
+    axios.get("/api/auth").then((res) => {
+      const { data } = res;
+      if (data !== "noToken" && data !== "invalid") {
+        setUser(data);
+      }
+    });
   }, []);
   return (
     <>

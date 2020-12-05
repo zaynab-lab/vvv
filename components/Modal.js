@@ -53,7 +53,7 @@ export default function Modal({ children }) {
       .modal-body{
         display:flex;
         flex-direction:column;
-        justify-content:center;
+        align-items;
         width:90vw;
         height:80vh;
         background:white;

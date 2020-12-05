@@ -7,7 +7,6 @@ import Router from "next/router";
 import { styles } from "../../public/js/styles";
 import Input from "../../components/Input";
 import { FaIdCard, FaMapMarkedAlt, FaTasks } from "react-icons/fa";
-import { set } from "mongoose";
 
 const userInputList = [
   { name: "name", placeholder: "الإسم", type: "text" },
@@ -54,7 +53,7 @@ export default function Profile() {
         }
       })
       .then(() => setLoading(false));
-  }, [setState, state]);
+  }, [setState]);
 
   return (
     <>
@@ -131,7 +130,7 @@ export default function Profile() {
               onClick={() => {
                 axios
 
-                  .post("/Logout")
+                  .post("/api/auth/Logout")
 
                   .then(
                     (res) =>

@@ -17,15 +17,15 @@ export default async (req, res) => {
           "Set-Cookie",
           cookie.serialize("jwt", "", {
             httpOnly: true,
-            secure: true,
-            sameSite: "strict",
+            // secure: true,
+            // sameSite: "strict",
             path: "/"
           })
         );
       });
     } catch (err) {
-      res.status(400).json({ success: false });
-      console.log(err);
+      res.end("invalid");
     }
   }
+  res.end("invalid");
 };
