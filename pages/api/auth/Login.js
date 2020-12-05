@@ -25,7 +25,7 @@ export default async (req, res) => {
           secure: true,
           sameSite: "strict",
           maxAge: "864000",
-          path: "/"
+          path: "http://localhost:3000/"
         })
       );
       if (user.name) {

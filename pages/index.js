@@ -41,7 +41,7 @@ export default function IndexPage({ categories }) {
 }
 
 export async function getStaticProps() {
-  return axios.get("http://localhost:80/api/categories").then((res) => {
+  return axios.get("http://localhost:3000/api/categories").then((res) => {
     const { data } = res;
     return { props: { categories: data } };
   });
