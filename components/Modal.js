@@ -52,18 +52,19 @@ export default function Modal({ children }) {
 
       .modal-body{
         display:flex;
+        flex-direction:column;
         justify-content:center;
-      width:90vw;
-      height:80vh;
-      background:white;
-      position:absolute; 
-      top:10vh;
-      right:5vw;
-      border:1px solid ${styles.primaryColorLight};
-      border-radius:.5rem;
-      padding:.5rem;
-      z-index:6;
-      overflow:auto;
+        width:90vw;
+        height:80vh;
+        background:white;
+        position:absolute; 
+        top:10vh;
+        right:5vw;
+        border:1px solid ${styles.primaryColorLight};
+        border-radius:.5rem;
+        padding:.5rem;
+        z-index:6;
+        overflow:auto;
       }
 
       `}</style>
