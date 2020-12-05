@@ -1,8 +1,8 @@
 import CategoryItems from "../components/CategoryItems";
 import TopBar from "../components/TopBar";
 import OrderBar from "../components/OrderBar";
-import { atom, useSetRecoilState } from "recoil";
-import { useEffect } from "react";
+import { atom } from "recoil";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export const productsState = atom({
@@ -14,11 +14,14 @@ export const categoriesState = atom({
   default: []
 });
 
-export default function IndexPage({ categories }) {
-  const setCategoryList = useSetRecoilState(categoriesState);
+export default function IndexPage() {
+  const [categories, setCategoryList] = useState([]);
   useEffect(() => {
-    setCategoryList(categories);
-  }, [setCategoryList, categories]);
+    axios.get("/api/categories").then((res) => {
+      const { data } = res;
+      setCategoryList(data);
+    });
+  }, [setCategoryList]);
   return (
     <>
       <TopBar title="الفئات" cart={true} main={true} />
@@ -40,9 +43,9 @@ export default function IndexPage({ categories }) {
   );
 }
 
-export async function getStaticProps() {
-  return axios.get("http://localhost:3000/api/categories").then((res) => {
-    const { data } = res;
-    return { props: { categories: data } };
-  });
-}
+// export async function getStaticProps() {
+//   return axios.get("http://localhost:3000/api/categories").then((res) => {
+//     const { data } = res;
+//     return { props: { categories: data } };
+//   });
+// }
