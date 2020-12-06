@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { styles } from "../../public/js/styles";
 import axios from "axios";
 import Input from "../Input";
+import { FaTrash } from "react-icons/fa";
 
 export default function ProductsPage() {
   const [roles, setRoles] = useState("");
@@ -13,9 +14,7 @@ export default function ProductsPage() {
   });
 
   const [categoryList, setCategoryList] = useState([]);
-
   const [subCategoryList, setSubCategoryList] = useState([]);
-
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
@@ -69,6 +68,12 @@ export default function ProductsPage() {
                           res.data === "done" &&
                             setState({ ...state, name: "", title: "" });
                         })
+                        .then(() =>
+                          axios.get("/api/categories").then((res) => {
+                            const { data } = res;
+                            data && setCategoryList(data);
+                          })
+                        )
                     : alert("املء الفراغات اللازمة");
                 }}
               >
@@ -80,34 +85,78 @@ export default function ProductsPage() {
           {/* ///////////addsubCategory///////// */}
 
           <div className="section">
-            <div className="title">اضافة مجموعة</div>
-
-            <select
-              className="select"
-              onChange={(e) => {
-                setState({ ...state, category: e.target.value });
-                axios
-                  .get(`/api/categories/${e.target.value}`)
-                  .then((res) => setSubCategoryList(res.data));
-              }}
-            >
-              <option value="">اختر قسم</option>
-              {categoryList.map((obj, index) => (
-                <option key={index} value={obj.name}>
-                  {obj.title}
-                </option>
-              ))}
-            </select>
-
-            <select className="select">
-              <option>اختر المجموعة</option>
-
-              {subCategoryList.map((obj, index) => (
-                <option key={index} value={obj}>
-                  {obj}
-                </option>
-              ))}
-            </select>
+            <div className="title">اضافة وحذف مجموعة</div>
+            <div className="addCategory-comb">
+              <select
+                className="select"
+                onChange={(e) => {
+                  setState({ ...state, category: e.target.value });
+                  e.target.value === ""
+                    ? setSubCategoryList([])
+                    : axios
+                        .get(`/api/categories/${e.target.value}`)
+                        .then((res) => setSubCategoryList(res.data));
+                }}
+              >
+                <option value="">اختر قسم</option>
+                {categoryList.map((obj, index) => (
+                  <option key={index} value={obj.name}>
+                    {obj.title}
+                  </option>
+                ))}
+              </select>
+              <FaTrash
+                onClick={() => {
+                  state.category !== "" &&
+                    axios
+                      .delete(`/api/categories/${state.category}`)
+                      .then((res) =>
+                        res.data === "done"
+                          ? axios
+                              .get("/api/categories")
+                              .then((res) => {
+                                const { data } = res;
+                                data && setCategoryList(data);
+                              })
+                              .then(() => {
+                                setState({ ...state, subCategory: "" });
+                                setSubCategoryList([]);
+                              })
+                          : alert("errrrr")
+                      );
+                }}
+              />
+            </div>
+            <div className="addCategory-comb">
+              <select
+                className="select"
+                onChange={(e) =>
+                  setState({ ...state, subCategory: e.target.value })
+                }
+              >
+                <option value="">اختر المجموعة</option>
+                {subCategoryList.map((obj, index) => (
+                  <option key={index} value={obj}>
+                    {obj}
+                  </option>
+                ))}
+              </select>
+              <FaTrash
+                onClick={() =>
+                  state.subCategory !== "" &&
+                  axios
+                    .delete(
+                      `/api/subCategories/${state.category}/${state.subCategory}`
+                    )
+                    .then((res) => {
+                      res.data === "done" &&
+                        axios
+                          .get(`/api/categories/${state.category}`)
+                          .then((res) => setSubCategoryList(res.data));
+                    })
+                }
+              />
+            </div>
 
             <div className="addCategory-comb">
               <Input
@@ -123,7 +172,7 @@ export default function ProductsPage() {
                   state.category !== "" && state.subCategory !== ""
                     ? axios
                         .post(
-                          "/api/categories/subCategory",
+                          "/api/subCategories",
                           {
                             category: state.category,
                             subCategory: state.subCategory
@@ -132,8 +181,11 @@ export default function ProductsPage() {
                         )
                         .then((res) => {
                           res.data === "done" &&
-                            setState({ ...state, subCategory: "" });
+                            axios
+                              .get(`/api/categories/${state.category}`)
+                              .then((res) => setSubCategoryList(res.data));
                         })
+                        .then(() => (state.subCategory = ""))
                     : alert("املء الفراغات اللازمة");
                 }}
               >
@@ -173,6 +225,7 @@ export default function ProductsPage() {
           height: 2.8rem;
           font-size: 1.1rem;
           margin: 0.5rem 0;
+          margin-left: 0.8rem;
         }
 
         .addCategory-comb {

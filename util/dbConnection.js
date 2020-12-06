@@ -8,7 +8,7 @@ async function dbConnection() {
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useFindAndModify: false,
+      useFindAndModify: true,
       useCreateIndex: true
     },
     () => {

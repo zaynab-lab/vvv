@@ -12,21 +12,25 @@ const productInputList = [
   { name: "description", placeholder: "الشرح", type: "text" }
 ];
 
-export default function EditProduct({ add }) {
+export default function EditProduct({ add, product }) {
   const [categoryList, setCategoryList] = useState([]);
   const [subCategoryList, setSubCategoryList] = useState([]);
 
-  const [state, setState] = useState({
-    img: false,
-    name: "",
-    brand: "",
-    initprice: "",
-    price: "",
-    description: "",
-    measure: "",
-    category: "",
-    subCategory: ""
-  });
+  const [state, setState] = useState(
+    add
+      ? {
+          img: false,
+          name: "",
+          brand: "",
+          initprice: "",
+          price: "",
+          description: "",
+          measure: "",
+          category: "",
+          subCategory: ""
+        }
+      : { product }
+  );
 
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -41,7 +45,9 @@ export default function EditProduct({ add }) {
   return (
     <>
       <div className="crtproduct-container">
-        <Image name="soon" />
+        <div className="crtproduct-img">
+          <Image name="soon" />
+        </div>
         {productInputList.map((obj, index) => (
           <Input
             key={index}
@@ -52,9 +58,7 @@ export default function EditProduct({ add }) {
             handleChange={handleChange.bind(this)}
           />
         ))}
-
         {/*///////////////////Measure/////////////////////////*/}
-
         <select
           className="select"
           onChange={(e) => {
@@ -66,11 +70,8 @@ export default function EditProduct({ add }) {
           <option value="حبة">حبة</option>
           <option value="ربطة">ربطة</option>
         </select>
-
         {/*///////////////////Category/////////////////////////*/}
-
         <div className="title">القسم والمجموعة</div>
-
         <select
           className="select"
           onChange={(e) => {
@@ -87,9 +88,7 @@ export default function EditProduct({ add }) {
             </option>
           ))}
         </select>
-
         {/*///////////////////subCategory/////////////////////////*/}
-
         <select
           className="select"
           onChange={(e) => setState({ ...state, subCategory: e.target.value })}
@@ -103,65 +102,88 @@ export default function EditProduct({ add }) {
         </select>
         <button
           className="crtproduct-btn"
-          onClick={() =>
-            axios
-              .post(
-                "/api/products",
-                { ...state },
-                { "content-type": "application/json" }
-              )
-
-              .then((res) => {
-                const { data } = res;
-                data === "done" &&
-                  setState({
-                    ...state,
-                    name: "",
-                    brand: "",
-                    initprice: "",
-                    price: "",
-                    description: ""
+          onClick={() => {
+            add
+              ? axios
+                  .post(
+                    "/api/products",
+                    { ...state },
+                    { "content-type": "application/json" }
+                  )
+                  .then((res) => {
+                    const { data } = res;
+                    data === "done" &&
+                      setState({
+                        ...state,
+                        name: "",
+                        brand: "",
+                        initprice: "",
+                        price: "",
+                        description: ""
+                      });
+                  })
+              : axios
+                  .put(
+                    "/api/products",
+                    { ...state },
+                    { "content-type": "application/json" }
+                  )
+                  .then((res) => {
+                    const { data } = res;
+                    data === "done" &&
+                      setState({
+                        ...state,
+                        name: "",
+                        brand: "",
+                        initprice: "",
+                        price: "",
+                        description: ""
+                      });
                   });
-              })
-          }
+          }}
         >
-          اضافة المنتج
+          {add ? <span>اضافة المنتج</span> : <span>تعديل المنتج</span>}
         </button>
       </div>
       <style>{`
       .crtproduct-container {
-      display: flex;
-      flex-direction: column;
+        display: flex;
+        flex-direction: column;
       }
       .select{
-      width: 100%;
-      height: 100%;
-      border: 1px solid gray;
-      background:white; 
-      border-radius: 0.5rem;
-      padding: 0.2rem 0.8rem;
-      color: #555;
-      height: 2.8rem;
-      font-size: 1.1rem;
-      margin:.5rem 0;
+        width: 100%;
+        height: 100%;
+        border: 1px solid gray;
+        background:white; 
+        border-radius: 0.5rem;
+        padding: 0.2rem 0.8rem;
+        color: #555;
+        height: 2.8rem;
+        font-size: 1.1rem;
+        margin:.5rem 0;
       }
 
 
       .crtproduct-btn {
-      background: ${styles.primaryColorLight};
-      color:white;
-      border:none;
-      font-size:1.2rem;
-      border-radius: 0.5rem;
-      padding: 0.2rem 0.8rem;
-      margin:.5rem 0; 
+        background: ${styles.primaryColorLight};
+        color:white;
+        border:none;
+        font-size:1.2rem;
+        border-radius: 0.5rem;
+        padding: 0.2rem 0.8rem;
+        margin:.5rem 0; 
       }
 
 
       .title {
-      color: ${styles.secondaryColor};
+        color: ${styles.secondaryColor};
       }
 
+      .crtproduct-img{
+          display:flex;
+          justify-content:center;
+          align-items:center
+        }
       `}</style>
     </>
   );

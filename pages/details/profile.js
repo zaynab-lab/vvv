@@ -7,6 +7,8 @@ import Router from "next/router";
 import { styles } from "../../public/js/styles";
 import Input from "../../components/Input";
 import { FaIdCard, FaMapMarkedAlt, FaTasks } from "react-icons/fa";
+import { useRecoilValue } from "recoil";
+import { userState } from "../menu";
 
 const userInputList = [
   { name: "name", placeholder: "الإسم", type: "text" },
@@ -21,13 +23,8 @@ const userInputList = [
 ];
 
 export default function Profile() {
-  const [state, setState] = useState({
-    name: "",
-    number: "",
-    mail: "",
-    address: "",
-    birth: ""
-  });
+  const userInfo = useRecoilValue(userState);
+  const [state, setState] = useState(userInfo);
 
   const [address, setAddress] = useState([]);
   const [roles, setRoles] = useState([]);
@@ -42,6 +39,7 @@ export default function Profile() {
       .get("/api/auth")
       .then((res) => {
         const { data } = res;
+        setState("");
         if (data !== "noToken" && data !== "invalid") {
           setState({
             ...state,
@@ -129,15 +127,12 @@ export default function Profile() {
               className="Logout"
               onClick={() => {
                 axios
-
                   .post("/api/auth/Logout")
-
                   .then(
                     (res) =>
                       res.data === "done" &&
                       setState({ name: "", number: "", mail: "", password: "" })
                   )
-
                   .then(() => Router.push("/"));
               }}
             >

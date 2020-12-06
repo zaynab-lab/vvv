@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Modal from "../Modal";
+import Modal from "./components/Modal";
 import EditProduct from "./components/EditProduct";
 import ProductCard from "./components/ProductCard";
 import CategoryList from "./components/CategoryList";
 
 export default function ProductsPage() {
   const [roles, setRoles] = useState("");
+  const [selected, setSelected] = useState("Vegetables");
   const [productList, setProductsList] = useState([]);
+  const [currentProduct, setCurrentProduct] = useState({});
+  const [modalOn, setModalOn] = useState(false);
 
   useEffect(() => {
     axios.get("/api/auth").then((res) => {
@@ -16,25 +19,56 @@ export default function ProductsPage() {
         setRoles(data.roles);
       }
     });
-
-    axios.get("/api/products").then((res) => {
+    axios.get(`/api/products/Vegetables`).then((res) => {
       const { data } = res;
       setProductsList(data);
     });
   }, [setRoles]);
 
+  const select = (category) => {
+    axios.get(`/api/products/${category}`).then((res) => {
+      const { data } = res;
+      setProductsList(data);
+      setSelected(category);
+    });
+  };
+  const setActionById = (id, action, state, callback) => {
+    if (action !== "edit") {
+      axios
+        .put(
+          "/api/products",
+          { id, [action]: !state },
+          { "content-type": "application/json" }
+        )
+        .then((res) => {
+          const { data } = res;
+          data === "done" && callback(!state);
+        });
+    } else {
+      setCurrentProduct({ product: state });
+      setModalOn(true);
+    }
+  };
   return (
     <>
       {roles.includes("productsManager") && (
         <div className="container">
-          <CategoryList />
+          <CategoryList selected={selected} select={select.bind(this)} />
           <>
             {productList.map((obj, index) => (
-              <ProductCard key={index} product={obj} />
+              <ProductCard
+                setActionById={setActionById.bind(this)}
+                key={index}
+                product={obj}
+              />
             ))}
           </>
 
-          <Modal>
+          <Modal modalOn={modalOn}>
+            <EditProduct product={currentProduct} />
+          </Modal>
+
+          <Modal add={true}>
             <EditProduct add={true} />
           </Modal>
         </div>

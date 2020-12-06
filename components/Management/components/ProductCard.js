@@ -1,61 +1,89 @@
-import { useState } from "react";
 import { styles } from "../../../public/js/styles";
-import { FaStore, FaBan, FaEdit, FaAppStoreIos } from "react-icons/fa";
+import { FaStore, FaBan, FaEdit } from "react-icons/fa";
+import {
+  FiActivity,
+  FiAirplay,
+  FiAlertCircle,
+  FiAlertOctagon
+} from "react-icons/fi";
+import { useState } from "react";
 
-export default function ProductCard({ product }) {
-  const [appear, setAppear] = useState(true);
-  const [exist, setExist] = useState(true);
-
+export default function ProductCard({ product, setActionById }) {
+  const [newproduct, setproduct] = useState(product);
   return (
     <>
       <div className="productCard">
         <div className="productCard-ImgName">
           <img
             className="productCard-img"
-            // src={`/img/png/${product.name}.png`}
-
+            // src={`/img/png/${newproduct.category}/${newproduct._id}.png`}
             src={`/img/png/Default.png`}
             alt=""
           />
-
           <div className="productCard-content">
-            <div className="productCard-name">{product.name}</div>
-
-            <div className="productCard-brand">الماركة: {product.brand}</div>
-
+            <div className="productCard-name">{newproduct.name}</div>
+            {newproduct.brand && (
+              <div className="productCard-brand">
+                الماركة: {newproduct.brand}
+              </div>
+            )}
             <div className="productCard-brand">
-              <span>{product.category}</span>\<span>{product.subCategory}</span>
+              <span>{newproduct.category}</span>
+              {newproduct.subCategory && <>\</>}
+              <span>{newproduct.subCategory}</span>
             </div>
-
-            <div className="productCard-brand"></div>
           </div>
 
           <div className="productCard-options">
-            <li onClick={() => setAppear(!appear)}>
-              {appear ? <>&#128064;</> : <FaBan />}
+            <li
+              onClick={() => {
+                setActionById(
+                  newproduct._id,
+                  "appear",
+                  newproduct.appear,
+                  (appear) => {
+                    setproduct({ ...newproduct, appear });
+                  }
+                );
+              }}
+            >
+              {newproduct.appear ? <>&#128064;</> : <FaBan />}
             </li>
 
-            <li onClick={() => setExist(!exist)}>
-              {exist ? <FaStore /> : <FaAppStoreIos />}
+            <li
+              onClick={() => {
+                setActionById(
+                  newproduct._id,
+                  "exist",
+                  newproduct.exist,
+                  (exist) => setproduct({ ...newproduct, exist })
+                );
+              }}
+            >
+              {newproduct.exist ? <FaStore /> : <FiAlertOctagon />}
             </li>
 
             <li>
-              <FaEdit />
+              <FaEdit
+                onClick={() => {
+                  setActionById(newproduct._id, "edit", newproduct, (e) => {
+                    alert(e);
+                  });
+                }}
+              />
             </li>
           </div>
         </div>
-
         <div className="productCard-footer">
           <div className="productCard-price">
-            السعر الأولي: {product.initprice}
+            السعر الأولي: {newproduct.initprice}
           </div>
 
           <div className="productCard-price">
-            السعر النهائي: {product.price}
+            السعر النهائي: {newproduct.price}
           </div>
         </div>
       </div>
-
       <style jsx>{`
         .productCard {
           display: flex;

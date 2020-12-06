@@ -2,7 +2,7 @@ import { styles } from "../../../public/js/styles";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function CategoryList() {
+export default function CategoryList({ selected, select }) {
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -20,7 +20,12 @@ export default function CategoryList() {
       {!loading && (
         <div className="categoryList-container">
           {categoryList.map((obj) => (
-            <div className="categoryList-content">
+            <div
+              className={`categoryList-content ${
+                obj.name === selected && "selected"
+              }`}
+              onClick={() => select(obj.name)}
+            >
               <div className="categoryList-content-item">{obj.title}</div>
             </div>
           ))}
@@ -37,7 +42,10 @@ export default function CategoryList() {
           overflow-y: hidden;
           padding: 0.2rem;
         }
-
+        .selected {
+          font-size: 1.2rem;
+          color: ${styles.secondaryColor};
+        }
         .categoryList-content {
           flex: 1 0 12rem;
           display: flex;
