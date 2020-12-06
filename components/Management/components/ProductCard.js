@@ -1,11 +1,6 @@
 import { styles } from "../../../public/js/styles";
 import { FaStore, FaBan, FaEdit } from "react-icons/fa";
-import {
-  FiActivity,
-  FiAirplay,
-  FiAlertCircle,
-  FiAlertOctagon
-} from "react-icons/fi";
+import { FiAlertOctagon } from "react-icons/fi";
 import { useState } from "react";
 
 export default function ProductCard({ product, setActionById }) {
@@ -66,9 +61,7 @@ export default function ProductCard({ product, setActionById }) {
             <li>
               <FaEdit
                 onClick={() => {
-                  setActionById(newproduct._id, "edit", newproduct, (e) => {
-                    alert(e);
-                  });
+                  setActionById(newproduct._id, "edit", newproduct);
                 }}
               />
             </li>

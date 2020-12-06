@@ -10,7 +10,7 @@ export default function ProductsPage() {
   const [selected, setSelected] = useState("Vegetables");
   const [productList, setProductsList] = useState([]);
   const [currentProduct, setCurrentProduct] = useState({});
-  const [modalOn, setModalOn] = useState(false);
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     axios.get("/api/auth").then((res) => {
@@ -45,8 +45,8 @@ export default function ProductsPage() {
           data === "done" && callback(!state);
         });
     } else {
-      setCurrentProduct({ product: state });
-      setModalOn(true);
+      setCurrentProduct(state);
+      setModal(true);
     }
   };
   return (
@@ -64,13 +64,15 @@ export default function ProductsPage() {
             ))}
           </>
 
-          <Modal modalOn={modalOn}>
-            <EditProduct product={currentProduct} />
-          </Modal>
+          {modal && (
+            <Modal
+              add={false}
+              setModal={setModal}
+              children={<EditProduct product={currentProduct} />}
+            />
+          )}
 
-          <Modal add={true}>
-            <EditProduct add={true} />
-          </Modal>
+          <Modal add={true} children={<EditProduct add={true} />} />
         </div>
       )}
 

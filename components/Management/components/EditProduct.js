@@ -11,6 +11,7 @@ const productInputList = [
   { name: "price", placeholder: "السعر النهائي", type: "number" },
   { name: "description", placeholder: "الشرح", type: "text" }
 ];
+const measures = ["كيلوغرام", "حبة", "ربطة"];
 
 export default function EditProduct({ add, product }) {
   const [categoryList, setCategoryList] = useState([]);
@@ -29,7 +30,7 @@ export default function EditProduct({ add, product }) {
           category: "",
           subCategory: ""
         }
-      : { product }
+      : product
   );
 
   const handleChange = (e) => {
@@ -66,9 +67,15 @@ export default function EditProduct({ add, product }) {
           }}
         >
           <option value="">وحدة القياس</option>
-          <option value="كيلوغرام">كيلوغرام</option>
-          <option value="حبة">حبة</option>
-          <option value="ربطة">ربطة</option>
+          {measures.map((obj, index) => (
+            <option
+              key={index}
+              value={obj}
+              selected={!add && obj === state.measure}
+            >
+              {obj}
+            </option>
+          ))}
         </select>
         {/*///////////////////Category/////////////////////////*/}
         <div className="title">القسم والمجموعة</div>
@@ -81,9 +88,13 @@ export default function EditProduct({ add, product }) {
               .then((res) => setSubCategoryList(res.data));
           }}
         >
-          <option value="">اختر قسم</option>
+          {add && <option value="">اختر قسم</option>}
           {categoryList.map((obj, index) => (
-            <option key={index} value={obj.name}>
+            <option
+              key={index}
+              value={add ? obj.name : state.category}
+              selected={!add && obj.name === state.category}
+            >
               {obj.title}
             </option>
           ))}
@@ -95,11 +106,16 @@ export default function EditProduct({ add, product }) {
         >
           <option value="">اختر المجموعة</option>
           {subCategoryList.map((obj, index) => (
-            <option key={index} value={obj}>
+            <option
+              key={index}
+              value={obj}
+              selected={!add && obj === state.subCategory}
+            >
               {obj}
             </option>
           ))}
         </select>
+        {/*///////////////////button/////////////////////////*/}
         <button
           className="crtproduct-btn"
           onClick={() => {
@@ -122,24 +138,25 @@ export default function EditProduct({ add, product }) {
                         description: ""
                       });
                   })
-              : axios
-                  .put(
-                    "/api/products",
-                    { ...state },
-                    { "content-type": "application/json" }
-                  )
-                  .then((res) => {
-                    const { data } = res;
-                    data === "done" &&
-                      setState({
-                        ...state,
-                        name: "",
-                        brand: "",
-                        initprice: "",
-                        price: "",
-                        description: ""
-                      });
-                  });
+              : alert(state.category);
+            //     axios
+            //         .put(
+            //           "/api/products",
+            //           { ...state },
+            //           { "content-type": "application/json" }
+            //         )
+            //         .then((res) => {
+            //           const { data } = res;
+            //           data === "done" &&
+            //             setState({
+            //               ...state,
+            //               name: "",
+            //               brand: "",
+            //               initprice: "",
+            //               price: "",
+            //               description: ""
+            //             });
+            //         });
           }}
         >
           {add ? <span>اضافة المنتج</span> : <span>تعديل المنتج</span>}

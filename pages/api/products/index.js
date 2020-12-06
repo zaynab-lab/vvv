@@ -53,9 +53,8 @@ export default async (req, res) => {
                 appear: body.appear && body.appear,
                 exist: body.exist && body.exist
               },
-              (err, u) => {
+              (err) => {
                 if (err) return res.end("invalid");
-                console.log(u);
               }
             );
             return res.end("done");
