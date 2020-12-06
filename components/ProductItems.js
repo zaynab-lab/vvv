@@ -5,13 +5,10 @@ const ProductCard = ({ product }) => (
   <>
     <div className="card">
       <img className="card-img" src={`/img/png/${product.name}.png`} alt="" />
-
       <div className="card-content">
         <div className="card-name">{product.title}</div>
-
         <div className="card-price">
           <div className="initprice">{product.initprice}</div>
-
           <div className="price">{product.price}</div>
         </div>
       </div>

@@ -5,19 +5,29 @@ import Loader from "../components/Loader";
 import { useEffect, useState } from "react";
 import Image from "../components/Image";
 import axios from "axios";
+import { atom, useRecoilState } from "recoil";
+
+export const userState = atom({
+  key: "user",
+  default: {}
+});
 
 export default function Menu() {
+  const [userInfo, setUserInfo] = useRecoilState(userState);
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(userInfo !== {} ? userInfo : "");
 
   useEffect(() => {
     axios.get("/api/auth").then((res) => {
       const { data } = res;
+      setUser("");
+      setUserInfo("");
       if (data !== "noToken" && data !== "invalid") {
         setUser(data);
+        setUserInfo(data);
       }
     });
-  }, []);
+  }, [setUser, setUserInfo]);
   return (
     <>
       <TopBar title="الإعدادات" page={true} />

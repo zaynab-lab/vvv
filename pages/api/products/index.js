@@ -9,13 +9,6 @@ export default async (req, res) => {
   const { method } = req;
 
   switch (method) {
-    case "GET":
-      try {
-        const products = await Product.find({});
-        return res.end(JSON.stringify(products));
-      } catch (err) {
-        return res.end(JSON.stringify([]));
-      }
     case "POST":
       try {
         const { body } = req;
@@ -44,6 +37,35 @@ export default async (req, res) => {
       } catch (err) {
         return res.end(JSON.stringify([]));
       }
+      break;
+    case "PUT":
+      try {
+        const { body } = req;
+        const token = req.cookies.jwt;
+        if (!token) return res.end("noToken");
+        jwt.verify(token, process.env.TOKEN_SECRET, async (err, decoded) => {
+          if (err) return res.end("invalid");
+          const user = await User.findById(decoded.id).exec();
+          if (user.roles.includes("productsManager")) {
+            Product.findByIdAndUpdate(
+              body.id,
+              {
+                appear: body.appear && body.appear,
+                exist: body.exist && body.exist
+              },
+              (err, u) => {
+                if (err) return res.end("invalid");
+                console.log(u);
+              }
+            );
+            return res.end("done");
+          }
+          return res.end("invalid");
+        });
+      } catch (err) {
+        return res.end(JSON.stringify([]));
+      }
+
       break;
     default:
       return res.end(JSON.stringify([]));

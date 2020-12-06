@@ -4,7 +4,7 @@ const Layout = ({ children }) => (
   <>
     <Head>
       <title>Za Market</title>
-      <link rel="img/icon" href="../public/favicon.ico" />
+      <link rel="img/icon" href="/favicon.ico" />
     </Head>
     {children}
   </>
