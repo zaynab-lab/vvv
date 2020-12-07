@@ -42,8 +42,8 @@ export default function ProductsPage() {
     if (action !== "edit") {
       axios
         .put(
-          "/api/products/id",
-          { id, [action]: !state },
+          `/api/products/id/${id}`,
+          { [action]: !state },
           { "content-type": "application/json" }
         )
         .then((res) => {
@@ -84,7 +84,7 @@ export default function ProductsPage() {
             add={true}
             refresh={refresh}
             selected={selected}
-            children={<EditProduct add={true} category={selected} />}
+            children={<EditProduct add={true} />}
           />
         </div>
       )}

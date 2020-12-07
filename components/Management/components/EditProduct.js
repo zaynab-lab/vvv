@@ -3,6 +3,7 @@ import { styles } from "../../../public/js/styles";
 import Input from "../../Input";
 import Image from "../../Image";
 import axios from "axios";
+import { FaTrash } from "react-icons/fa";
 
 const productInputList = [
   { name: "name", placeholder: "اسم المنتج", type: "text" },
@@ -13,7 +14,7 @@ const productInputList = [
 ];
 const measures = ["كيلوغرام", "حبة", "ربطة"];
 
-export default function EditProduct({ add, product, category }) {
+export default function EditProduct({ add, product }) {
   const [categoryList, setCategoryList] = useState([]);
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [state, setState] = useState({
@@ -24,7 +25,7 @@ export default function EditProduct({ add, product, category }) {
     price: add ? "" : product.price,
     description: add ? "" : product.description,
     measure: add ? "" : product.measure,
-    category: add ? category : product.category,
+    category: add ? "" : product.category,
     subCategory: add ? "" : product.subCategory
   });
 
@@ -83,17 +84,28 @@ export default function EditProduct({ add, product, category }) {
               .then((res) => setSubCategoryList(res.data));
           }}
         >
-          {add && <option value="">اختر قسم</option>}
+          {add && (
+            <option value="" selected>
+              اختر قسم
+            </option>
+          )}
           {categoryList.map((obj, index) => (
             <option
               key={index}
-              value={state.category}
-              selected={obj.name === state.category}
+              value={obj.name}
+              selected={!add && obj.name === state.category}
             >
               {obj.title}
             </option>
           ))}
         </select>
+        <button
+          onClick={() => {
+            alert(state.category);
+          }}
+        >
+          test
+        </button>
         {/*///////////////////subCategory/////////////////////////*/}
         <select
           className="select"
@@ -111,50 +123,81 @@ export default function EditProduct({ add, product, category }) {
           ))}
         </select>
         {/*///////////////////button/////////////////////////*/}
-        <button
-          className="crtproduct-btn"
-          onClick={() => {
-            add
-              ? axios
-                  .post(
-                    "/api/products",
-                    { ...state },
-                    { "content-type": "application/json" }
-                  )
-                  .then((res) => {
-                    const { data } = res;
-                    data === "done" &&
-                      setState({
-                        ...state,
-                        name: "",
-                        brand: "",
-                        initprice: "",
-                        price: "",
-                        description: ""
+        <div className="btnContainer">
+          <button
+            className="crtproduct-btn"
+            onClick={() => {
+              if (
+                state.category !== "" &&
+                state.name !== "" &&
+                state.price !== ""
+              ) {
+                add
+                  ? axios
+                      .post(
+                        "/api/products",
+                        { ...state },
+                        { "content-type": "application/json" }
+                      )
+                      .then((res) => {
+                        const { data } = res;
+                        data === "done" &&
+                          setState({
+                            ...state,
+                            name: "",
+                            brand: "",
+                            initprice: "",
+                            price: "",
+                            description: ""
+                          });
+                      })
+                  : axios
+                      .put(
+                        `/api/products/id/${product._id}`,
+                        { ...state },
+                        { "content-type": "application/json" }
+                      )
+                      .then((res) => {
+                        const { data } = res;
+                        data === "done" &&
+                          setState({
+                            ...state,
+                            name: "",
+                            brand: "",
+                            initprice: "",
+                            price: "",
+                            description: ""
+                          });
                       });
-                  })
-              : axios
-                  .put(
-                    `/api/products/id`,
-                    { ...state, id: product._id },
-                    { "content-type": "application/json" }
-                  )
-                  .then((res) => {
-                    const { data } = res;
-                    data === "done" &&
-                      setState({
-                        ...state,
-                        name: "",
-                        brand: "",
-                        initprice: "",
-                        price: "",
-                        description: ""
-                      });
-                  });
-          }}
-        >
-          {add ? <span>اضافة المنتج</span> : <span>تعديل المنتج</span>}
-        </button>
+              } else {
+                alert("املء المطلوب");
+              }
+            }}
+          >
+            {add ? <span>اضافة المنتج</span> : <span>تعديل المنتج</span>}
+          </button>
+          {!add && (
+            <button
+              className="delete-btn"
+              onClick={() => {
+                axios.delete(`/api/products/id/${product._id}`).then((res) => {
+                  const { data } = res;
+                  data === "done" &&
+                    setState({
+                      ...state,
+                      name: "",
+                      brand: "",
+                      initprice: "",
+                      price: "",
+                      description: ""
+                    });
+                });
+              }}
+            >
+              <FaTrash />
+            </button>
+          )}
+        </div>
       </div>
       <style>{`
       .crtproduct-container {
@@ -174,6 +217,16 @@ export default function EditProduct({ add, product, category }) {
         margin:.5rem 0;
       }
 
+      .btnContainer{
+        display:flex;
+      }
+      .delete-btn{
+        flex:1 1 4rem;
+        font-size:1.3rem;
+        background:white;
+        border:none;
+        color:${styles.secondaryColor}
+      }
 
       .crtproduct-btn {
         background: ${styles.primaryColorLight};
@@ -182,7 +235,8 @@ export default function EditProduct({ add, product, category }) {
         font-size:1.2rem;
         border-radius: 0.5rem;
         padding: 0.2rem 0.8rem;
-        margin:.5rem 0; 
+        margin:.5rem 0;
+        flex:1 1 100%; 
       }
 
 
