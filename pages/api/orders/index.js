@@ -1,8 +1,10 @@
 import dbConnection from "../../../util/dbConnection";
 import User from "../../../models/user";
 import jwt from "jsonwebtoken";
+import Order from "../../../models/order";
 
 dbConnection();
+
 export default async (req, res) => {
   const { method } = req;
 
@@ -14,9 +16,9 @@ export default async (req, res) => {
         jwt.verify(token, process.env.TOKEN_SECRET, async (err, decoded) => {
           if (err) return res.end("invalid");
           const user = await User.findById(decoded.id).exec();
-          if (user.roles.includes("customersManager")) {
-            const users = await User.find({});
-            return res.end(JSON.stringify(users));
+          if (user.roles.includes("ordersManager")) {
+            const orders = await Order.find({});
+            return res.end(JSON.stringify(orders));
           }
           return res.end("done");
         });

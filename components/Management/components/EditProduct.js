@@ -138,25 +138,24 @@ export default function EditProduct({ add, product }) {
                         description: ""
                       });
                   })
-              : alert(state.category);
-            //     axios
-            //         .put(
-            //           "/api/products",
-            //           { ...state },
-            //           { "content-type": "application/json" }
-            //         )
-            //         .then((res) => {
-            //           const { data } = res;
-            //           data === "done" &&
-            //             setState({
-            //               ...state,
-            //               name: "",
-            //               brand: "",
-            //               initprice: "",
-            //               price: "",
-            //               description: ""
-            //             });
-            //         });
+              : axios
+                  .put(
+                    "/api/products",
+                    { ...state },
+                    { "content-type": "application/json" }
+                  )
+                  .then((res) => {
+                    const { data } = res;
+                    data === "done" &&
+                      setState({
+                        ...state,
+                        name: "",
+                        brand: "",
+                        initprice: "",
+                        price: "",
+                        description: ""
+                      });
+                  });
           }}
         >
           {add ? <span>اضافة المنتج</span> : <span>تعديل المنتج</span>}

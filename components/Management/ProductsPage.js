@@ -25,13 +25,19 @@ export default function ProductsPage() {
     });
   }, [setRoles]);
 
-  const select = (category) => {
-    axios.get(`/api/products/${category}`).then((res) => {
+  const refresh = (selected) => {
+    axios.get(`/api/products/${selected}`).then((res) => {
       const { data } = res;
+      setProductsList([]);
       setProductsList(data);
-      setSelected(category);
+      setSelected(selected);
     });
   };
+
+  const select = (category) => {
+    refresh(category);
+  };
+
   const setActionById = (id, action, state, callback) => {
     if (action !== "edit") {
       axios
@@ -68,11 +74,18 @@ export default function ProductsPage() {
             <Modal
               add={false}
               setModal={setModal}
+              refresh={refresh}
+              selected={selected}
               children={<EditProduct product={currentProduct} />}
             />
           )}
 
-          <Modal add={true} children={<EditProduct add={true} />} />
+          <Modal
+            add={true}
+            refresh={refresh}
+            selected={selected}
+            children={<EditProduct add={true} />}
+          />
         </div>
       )}
 

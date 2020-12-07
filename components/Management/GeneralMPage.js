@@ -4,7 +4,7 @@ import axios from "axios";
 import Input from "../Input";
 import { FaTrash } from "react-icons/fa";
 
-export default function ProductsPage() {
+export default function GeneralMPage() {
   const [roles, setRoles] = useState("");
   const [state, setState] = useState({
     name: "",

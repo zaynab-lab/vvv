@@ -68,9 +68,11 @@ export default function ProductCard({ product, setActionById }) {
           </div>
         </div>
         <div className="productCard-footer">
-          <div className="productCard-price">
-            السعر الأولي: {newproduct.initprice}
-          </div>
+          {newproduct.initprice && (
+            <div className="productCard-price">
+              السعر الأولي: {newproduct.initprice}
+            </div>
+          )}
 
           <div className="productCard-price">
             السعر النهائي: {newproduct.price}

@@ -50,6 +50,15 @@ export default async (req, res) => {
             Product.findByIdAndUpdate(
               body.id,
               {
+                img: body.img && body.img,
+                name: body.name && body.name,
+                brand: body.brand && body.brand,
+                initprice: body.initprice && body.initprice,
+                price: body.price && body.price,
+                description: body.description && body.description,
+                measure: body.measure && body.measure,
+                category: body.category && body.category,
+                subCategory: body.subCategory && body.subCategory,
                 appear: body.appear && body.appear,
                 exist: body.exist && body.exist
               },

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { styles } from "../../../public/js/styles";
 
-export default function Modal({ children, add, setModal }) {
+export default function Modal({ children, add, setModal, refresh, selected }) {
   const [displayAdd, setDisplayAdd] = useState("none");
   // const [displayEdit, setDisplayEdit] = useState(true);
   return (
@@ -11,7 +11,10 @@ export default function Modal({ children, add, setModal }) {
           <div className="addmodal">
             <div
               className="addmodal-background"
-              onClick={() => setDisplayAdd("none")}
+              onClick={() => {
+                setDisplayAdd("none");
+                refresh(selected);
+              }}
             ></div>
             <div className="addmodal-body">{children}</div>
           </div>
@@ -23,7 +26,10 @@ export default function Modal({ children, add, setModal }) {
         <div className="editmodal">
           <div
             className="editmodal-background"
-            onClick={() => setModal(false)}
+            onClick={() => {
+              setModal(false);
+              refresh(selected);
+            }}
           ></div>
           <div className="editmodal-body">{children}</div>
         </div>

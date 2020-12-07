@@ -5,11 +5,13 @@ import axios from "axios";
 import Loader from "../../components/Loader";
 import GeneralMPage from "../../components/Management/GeneralMPage";
 import ProductsPage from "../../components/Management/ProductsPage";
+import CustomersPage from "../../components/Management/CustomersPage";
+import OrdersPage from "../../components/Management/OrdersPage";
 
 export default function Conditions() {
-  const [current, setCurrent] = useState("");
   const [loadpage, setLoadpage] = useState(false);
   const [roles, setRoles] = useState([]);
+  const [current, setCurrent] = useState("");
 
   useEffect(() => {
     axios
@@ -76,11 +78,11 @@ export default function Conditions() {
           )}
 
           {roles.includes("customersManager") && current === "customers" && (
-            <div>customers menu</div>
+            <CustomersPage />
           )}
 
           {roles.includes("ordersManager") && current === "orders" && (
-            <div>orders menu</div>
+            <OrdersPage />
           )}
         </div>
       )}
