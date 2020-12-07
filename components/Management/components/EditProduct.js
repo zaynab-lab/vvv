@@ -13,25 +13,20 @@ const productInputList = [
 ];
 const measures = ["كيلوغرام", "حبة", "ربطة"];
 
-export default function EditProduct({ add, product }) {
+export default function EditProduct({ add, product, category }) {
   const [categoryList, setCategoryList] = useState([]);
   const [subCategoryList, setSubCategoryList] = useState([]);
-
-  const [state, setState] = useState(
-    add
-      ? {
-          img: false,
-          name: "",
-          brand: "",
-          initprice: "",
-          price: "",
-          description: "",
-          measure: "",
-          category: "",
-          subCategory: ""
-        }
-      : product
-  );
+  const [state, setState] = useState({
+    img: add ? false : product.img,
+    name: add ? "" : product.name,
+    brand: add ? "" : product.brand,
+    initprice: add ? "" : product.initprice,
+    price: add ? "" : product.price,
+    description: add ? "" : product.description,
+    measure: add ? "" : product.measure,
+    category: add ? category : product.category,
+    subCategory: add ? "" : product.subCategory
+  });
 
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -92,8 +87,8 @@ export default function EditProduct({ add, product }) {
           {categoryList.map((obj, index) => (
             <option
               key={index}
-              value={add ? obj.name : state.category}
-              selected={!add && obj.name === state.category}
+              value={state.category}
+              selected={obj.name === state.category}
             >
               {obj.title}
             </option>
@@ -109,7 +104,7 @@ export default function EditProduct({ add, product }) {
             <option
               key={index}
               value={obj}
-              selected={!add && obj === state.subCategory}
+              selected={obj === state.subCategory}
             >
               {obj}
             </option>
@@ -140,8 +135,8 @@ export default function EditProduct({ add, product }) {
                   })
               : axios
                   .put(
-                    "/api/products",
-                    { ...state },
+                    `/api/products/id`,
+                    { ...state, id: product._id },
                     { "content-type": "application/json" }
                   )
                   .then((res) => {
