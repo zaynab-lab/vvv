@@ -25,7 +25,7 @@ export default function ProductsPage() {
     });
   }, [setRoles]);
 
-  const refresh = (selected) => {
+  const select = (selected) => {
     axios.get(`/api/products/${selected}`).then((res) => {
       const { data } = res;
       setProductsList([]);
@@ -33,26 +33,57 @@ export default function ProductsPage() {
       setSelected(selected);
     });
   };
+  const setActionById = async (id, action, state, callback) => {
+    switch (action) {
+      case "appear":
+        axios
+          .put(
+            `/api/products/id/${id}`,
+            { [action]: !state },
+            { "content-type": "application/json" }
+          )
+          .then((res) => {
+            const { data } = res;
+            data === "done" && callback(!state);
+          });
+        break;
+      case "exist":
+        axios
+          .put(
+            `/api/products/id/${id}`,
+            { [action]: !state },
+            { "content-type": "application/json" }
+          )
+          .then((res) => {
+            const { data } = res;
+            data === "done" && callback(!state);
+          });
 
-  const select = (category) => {
-    refresh(category);
-  };
-
-  const setActionById = (id, action, state, callback) => {
-    if (action !== "edit") {
-      axios
-        .put(
-          `/api/products/id/${id}`,
-          { [action]: !state },
-          { "content-type": "application/json" }
-        )
-        .then((res) => {
+        break;
+      case "edit":
+        setCurrentProduct(state);
+        setModal(true);
+        break;
+      case "delete":
+        setProductsList([]);
+        setProductsList(await productList.filter((obj) => obj._id !== id));
+        setModal(false);
+        break;
+      case "update":
+        setProductsList([]);
+        setProductsList(
+          await productList.map((obj) => {
+            return obj._id !== id ? obj : { obj, ...state };
+          })
+        );
+        setModal(false);
+        break;
+      default:
+        axios.get(`/api/products/${selected}`).then((res) => {
           const { data } = res;
-          data === "done" && callback(!state);
+          setProductsList([]);
+          setProductsList(data);
         });
-    } else {
-      setCurrentProduct(state);
-      setModal(true);
     }
   };
   return (
@@ -74,16 +105,18 @@ export default function ProductsPage() {
             <Modal
               add={false}
               setModal={setModal}
-              refresh={refresh}
-              selected={selected}
-              children={<EditProduct product={currentProduct} />}
+              children={
+                <EditProduct
+                  product={currentProduct}
+                  refresh={setActionById.bind(this)}
+                />
+              }
             />
           )}
 
           <Modal
             add={true}
-            refresh={refresh}
-            selected={selected}
+            refresh={setActionById}
             children={<EditProduct add={true} />}
           />
         </div>

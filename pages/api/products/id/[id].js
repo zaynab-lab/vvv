@@ -66,7 +66,13 @@ export default async (req, res) => {
         return res.end("invalid");
       }
       break;
-
+    case "GET":
+      try {
+        const product = await Product.findById(id).exec();
+        return res.end(JSON.stringify(product));
+      } catch (err) {
+        return res.end("invalid");
+      }
     default:
       return res.end("invalid");
   }

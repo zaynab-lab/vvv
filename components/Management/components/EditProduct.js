@@ -14,7 +14,7 @@ const productInputList = [
 ];
 const measures = ["كيلوغرام", "حبة", "ربطة"];
 
-export default function EditProduct({ add, product }) {
+export default function EditProduct({ add, product, refresh }) {
   const [categoryList, setCategoryList] = useState([]);
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [state, setState] = useState({
@@ -99,13 +99,13 @@ export default function EditProduct({ add, product }) {
             </option>
           ))}
         </select>
-        <button
+        {/* <button
           onClick={() => {
             alert(state.category);
           }}
         >
           test
-        </button>
+        </button> */}
         {/*///////////////////subCategory/////////////////////////*/}
         <select
           className="select"
@@ -168,7 +168,8 @@ export default function EditProduct({ add, product }) {
                             price: "",
                             description: ""
                           });
-                      });
+                      })
+                      .then(() => refresh(product._id, "update", state));
               } else {
                 alert("املء المطلوب");
               }
@@ -180,18 +181,21 @@ export default function EditProduct({ add, product }) {
             <button
               className="delete-btn"
               onClick={() => {
-                axios.delete(`/api/products/id/${product._id}`).then((res) => {
-                  const { data } = res;
-                  data === "done" &&
-                    setState({
-                      ...state,
-                      name: "",
-                      brand: "",
-                      initprice: "",
-                      price: "",
-                      description: ""
-                    });
-                });
+                axios
+                  .delete(`/api/products/id/${product._id}`)
+                  .then((res) => {
+                    const { data } = res;
+                    data === "done" &&
+                      setState({
+                        ...state,
+                        name: "",
+                        brand: "",
+                        initprice: "",
+                        price: "",
+                        description: ""
+                      });
+                  })
+                  .then(() => refresh(product._id, "delete", state));
               }}
             >
               <FaTrash />
@@ -203,6 +207,8 @@ export default function EditProduct({ add, product }) {
       .crtproduct-container {
         display: flex;
         flex-direction: column;
+        position:relative;
+        margin-bottom:3rem;
       }
       .select{
         width: 100%;
@@ -219,6 +225,12 @@ export default function EditProduct({ add, product }) {
 
       .btnContainer{
         display:flex;
+        padding:0 .2rem;
+        position:fixed;
+        bottom:10.2vh;
+        background:white;
+        width:88vw;
+        right:6vw;
       }
       .delete-btn{
         flex:1 1 4rem;
