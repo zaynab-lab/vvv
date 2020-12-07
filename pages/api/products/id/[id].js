@@ -8,7 +8,10 @@ dbConnection();
 export default async (req, res) => {
   const { method } = req;
   const { body } = req;
-
+  const {
+    query: { id }
+  } = req;
+  console.log(id);
   switch (method) {
     case "PUT":
       try {
@@ -20,24 +23,16 @@ export default async (req, res) => {
           if (user.roles.includes("productsManager")) {
             //////////////////////update///////////
             if (!!body.exist === body.exist) {
-              Product.findByIdAndUpdate(
-                body.id,
-                { exist: body.exist },
-                (err) => {
-                  return err && res.end("invalid");
-                }
-              ).exec();
+              Product.findByIdAndUpdate(id, { exist: body.exist }, (err) => {
+                return err && res.end("invalid");
+              }).exec();
             } else if (!!body.appear === body.appear) {
-              Product.findByIdAndUpdate(
-                body.id,
-                { appear: body.appear },
-                (err) => {
-                  return err && res.end("invalid");
-                }
-              ).exec();
+              Product.findByIdAndUpdate(id, { appear: body.appear }, (err) => {
+                return err && res.end("invalid");
+              }).exec();
             } else {
               Product.findByIdAndUpdate(
-                body.id,
+                id,
                 {
                   img: body.img,
                   name: body.name,
@@ -62,6 +57,16 @@ export default async (req, res) => {
         return res.end("invalid");
       }
       break;
+    case "DELETE":
+      try {
+        Product.findByIdAndRemove(id, (err) => {
+          return err && res.end("invalid");
+        });
+      } catch (err) {
+        return res.end("invalid");
+      }
+      break;
+
     default:
       return res.end("invalid");
   }
