@@ -14,7 +14,7 @@ export default function CartCard({ product }) {
         <div className="cartCard-ImgName">
           <img
             className="cartCard-img"
-            src={`/img/png/${product._id}.png`}
+            src={`/img/png/${product.category}/${product._id}.png`}
             alt=""
           />
 

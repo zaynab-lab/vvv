@@ -5,7 +5,11 @@ const ProductCard = ({ product }) => (
   <>
     {product.appear && (
       <div className="card">
-        <img className="card-img" src={`/img/png/${product._id}.png`} alt="" />
+        <img
+          className="card-img"
+          src={`/img/png/${product.category}/${product._id}.png`}
+          alt=""
+        />
         <div className="card-content">
           <div className="card-name">{product.name}</div>
           <div className="card-price">
