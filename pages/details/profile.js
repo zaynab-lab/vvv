@@ -41,6 +41,8 @@ export default function Profile() {
       .then((res) => {
         const { data } = res;
         setState("");
+        setRoles(data.roles);
+        console.log("yes");
         if (data !== "noToken" && data !== "invalid") {
           setState({
             ...state,
@@ -48,7 +50,6 @@ export default function Profile() {
             number: data.number,
             mail: data.mail
           });
-          setRoles(data.roles);
         }
       })
       .then(() => setDots(false));
@@ -65,7 +66,7 @@ export default function Profile() {
               <Link href="/details/management">
                 <div onClick={() => setLoading(true)} className="management">
                   <FaTasks />
-                  <span>الصفحة الإدارية</span>
+                  <span className="section-title-name">الصفحة الإدارية</span>
                 </div>
               </Link>
             )}

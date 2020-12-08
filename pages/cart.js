@@ -4,7 +4,6 @@ import CartCard from "../components/CartCard";
 import LoadData from "../components/LoadData";
 import Link from "next/link";
 import TopBar from "../components/TopBar";
-import { productsState } from "../pages/index";
 import { styles } from "../public/js/styles";
 import axios from "axios";
 
@@ -15,7 +14,6 @@ export const cartListState = atom({
 
 export default function CartPage() {
   const cartList = useRecoilValue(cartListState);
-  const productListInfo = useRecoilValue(productsState);
   const [cartProducts, setCartProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [productList, setProductList] = useState([]);

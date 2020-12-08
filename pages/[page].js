@@ -4,7 +4,7 @@ import TopBar from "../components/TopBar";
 import ProductItems from "../components/ProductItems";
 import { useRecoilValue } from "recoil";
 import LoadData from "../components/LoadData";
-import { categoriesState, productsState } from "./index";
+import { categoriesState } from "./index";
 import axios from "axios";
 
 export default function Page() {
@@ -12,7 +12,6 @@ export default function Page() {
   const [title, setTitle] = useState("");
   const categoryListInfo = useRecoilValue(categoriesState);
   const [categoryList, setCategoryList] = useState(categoryListInfo);
-  // const productListInfo = useRecoilValue(productsState);
   const router = useRouter();
   const { page } = router.query;
 
@@ -21,15 +20,11 @@ export default function Page() {
       const { data } = res;
       setCategoryList(data);
     });
-    // setPageProducts(productListInfo.filter((obj) => obj.catagory === page));
-    // console.log("load first");
   }, [setCategoryList, page]);
   useEffect(() => {
     const p = categoryList.find((obj) => obj.name === page);
     setTitle(p && p.title);
-    console.log(page);
   }, [setTitle, page, categoryList]);
-
   useEffect(() => {
     axios.get(`/api/products/${page}`).then((res) => {
       const { data } = res;
