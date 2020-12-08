@@ -1,12 +1,21 @@
 import Link from "next/link";
 import TopBar from "../components/TopBar";
 import { styles } from "../public/js/styles";
-// import Loader from "../components/Loader";
 import { useEffect, useState } from "react";
-import Image from "../components/Image";
-import axios from "axios";
 import { atom, useRecoilState } from "recoil";
 import Dots from "../components/Loaders/Dots";
+import Image from "../components/Image";
+import axios from "axios";
+import Loader from "../components/Loader";
+import {
+  FaDollarSign,
+  FaFileContract,
+  FaIdCard,
+  FaMugHot,
+  FaPercentage,
+  FaTruckLoading,
+  FaWhatsapp
+} from "react-icons/fa";
 
 export const userState = atom({
   key: "user",
@@ -15,8 +24,9 @@ export const userState = atom({
 
 export default function Menu() {
   const [userInfo, setUserInfo] = useRecoilState(userState);
-  const [loading, setLoading] = useState(true);
+  const [dots, setDots] = useState(true);
   const [user, setUser] = useState(userInfo !== {} ? userInfo : "");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     axios
@@ -30,12 +40,13 @@ export default function Menu() {
           setUserInfo(data);
         }
       })
-      .then(() => setLoading(false));
+      .then(() => setDots(false));
   }, [setUser, setUserInfo]);
+
   return (
     <>
       <TopBar title="الإعدادات" page={true} />
-
+      {loading && <Loader />}
       <div className="container">
         <div className="menu-header">
           {user ? (
@@ -46,11 +57,11 @@ export default function Menu() {
           ) : (
             <>
               <img className="menu-Img" src="/img/png/Profile.png" alt="" />
-              {loading ? (
+              {dots ? (
                 <Dots />
               ) : (
                 <Link href="/Login">
-                  <span onClick={() => setLoading(true)}>تسجيل الدخول</span>
+                  <span onClick={() => setDots(true)}>تسجيل الدخول</span>
                 </Link>
               )}
             </>
@@ -58,7 +69,7 @@ export default function Menu() {
         </div>
 
         <ul>
-          {loading ? (
+          {dots ? (
             <div className="dots">
               <Dots />
             </div>
@@ -67,10 +78,16 @@ export default function Menu() {
               {user && (
                 <>
                   <Link href="/details/profile">
-                    <li onClick={() => setLoading(true)}>الملف الشخصي</li>
+                    <li onClick={() => setDots(true)}>
+                      <FaIdCard /> <span>الملف الشخصي</span>
+                    </li>
                   </Link>
                   <li className="amount-container">
-                    الرصيد <span className="amount">{user.amount}</span>
+                    <span>
+                      <FaDollarSign />
+                      <span>الرصيد</span>
+                    </span>
+                    <span className="amount">{user.amount}</span>
                     <button
                       className="chargebtn"
                       onClick={() => alert("هذه الخدمة ليست متوفرة حالياً")}
@@ -79,25 +96,35 @@ export default function Menu() {
                     </button>
                   </li>
 
-                  <li>كد خصم</li>
+                  <li>
+                    <FaPercentage /> <span>كد خصم</span>
+                  </li>
 
                   <Link href="/details/orders">
-                    <li onClick={() => setLoading(true)}>الطلبيات السابقة</li>
+                    <li onClick={() => setDots(true)}>
+                      <FaTruckLoading /> <span>الطلبيات السابقة</span>
+                    </li>
                   </Link>
                 </>
               )}
             </>
           )}
           <Link href="/details/customers">
-            <li onClick={() => setLoading(true)}>حقوق الزبون</li>
+            <li onClick={() => setLoading(true)}>
+              <FaMugHot /> <span>حقوق الزبون</span>
+            </li>
           </Link>
 
           <Link href="/details/conditions">
-            <li onClick={() => setLoading(true)}>شروط الاستخدام</li>
+            <li onClick={() => setLoading(true)}>
+              <FaFileContract /> <span>شروط الاستخدام</span>
+            </li>
           </Link>
 
           <Link href="https://wa.me/+96181026095?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C+%D8%A8%D8%AF%D9%8A+%D8%AA%D8%B3%D8%A7%D8%B9%D8%AF%D9%86%D9%8A+%D8%A8%D9%80">
-            <li>اتصل بنا</li>
+            <li>
+              <FaWhatsapp /> <span>اتصل بنا</span>
+            </li>
           </Link>
         </ul>
       </div>

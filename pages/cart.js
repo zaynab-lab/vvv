@@ -25,6 +25,8 @@ export default function CartPage() {
       const { data } = res;
       setProductList(data);
     });
+  }, [setProductList]);
+  useEffect(() => {
     setCartProducts(
       productList.filter((obj) =>
         cartList.map((items) => items.id).includes(obj._id)
@@ -42,7 +44,7 @@ export default function CartPage() {
             .reduce((a, b) => a + b)
         )
       : setTotal(0);
-  }, [cartList, productList]);
+  }, [productList, cartList]);
 
   return (
     <>

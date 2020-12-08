@@ -74,6 +74,7 @@ const ProductCard = ({ product }) => (
         }
 
         .initprice {
+          font-size: 1rem;
           color: ${styles.secondaryColor};
           text-decoration: line-through;
         }
