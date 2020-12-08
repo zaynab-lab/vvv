@@ -7,7 +7,6 @@ export default function Loader() {
     <>
       <div className="loading">
         <div className="loading-title">جاري تحميل البيانات</div>
-
         <div className="svg">
           <Cloud />
         </div>
@@ -29,7 +28,7 @@ export default function Loader() {
 
         .loading-title {
           font-size: 1.3rem;
-          color: ${styles.primaryColorLight};
+          color: ${styles.secondaryColor};
         }
 
         .svg {

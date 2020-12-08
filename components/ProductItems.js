@@ -38,6 +38,7 @@ const ProductCard = ({ product }) => (
           margin: 0.3rem;
           font-size: 1.2rem;
           text-align: center;
+          box-shadow: 0px 0px 1px 2px ${styles.thirdColor};
         }
 
         .card-img {

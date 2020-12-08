@@ -4,6 +4,7 @@ import OrderBar from "../components/OrderBar";
 import { atom, useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import LoadData from "../components/LoadData";
 
 export const productsState = atom({
   key: "productList",
@@ -34,6 +35,7 @@ export default function IndexPage() {
         <OrderBar />
         <CategoryItems categories={categoryList} />
       </div>
+      <LoadData />
       <style jsx>{`
         .container {
           display: flex;

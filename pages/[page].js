@@ -36,7 +36,6 @@ export default function Page() {
     <>
       <TopBar title={title} page={true} cart={true} />
       <ProductItems pageProducts={pageProducts} />
-      <LoadData />
       <style jsx>
         {`
           .page {

@@ -5,6 +5,7 @@ import { useRecoilValue } from "recoil";
 import { cartListState } from "../pages/cart";
 import { styles } from "../public/js/styles";
 import Loader from "./Loader";
+import LoadData from "./LoadData";
 
 export default function TopBar({ title, page, cart, main }) {
   const cartList = useRecoilValue(cartListState);

@@ -6,6 +6,7 @@ import Link from "next/link";
 import TopBar from "../components/TopBar";
 import { styles } from "../public/js/styles";
 import axios from "axios";
+import Dots from "../components/Loaders/Dots";
 
 export const cartListState = atom({
   key: "cartList",
@@ -17,6 +18,7 @@ export default function CartPage() {
   const [cartProducts, setCartProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [productList, setProductList] = useState([]);
+  const [dots, setDots] = useState(false);
 
   useEffect(() => {
     axios.get("/api/products").then((res) => {
@@ -64,7 +66,14 @@ export default function CartPage() {
 
         {total > 0 && (
           <Link href="/proceed">
-            <div className="proceed">تأكيد الطلب</div>
+            <div
+              className="proceedbtn"
+              onClick={() => {
+                setDots(true);
+              }}
+            >
+              {dots ? <Dots /> : <span>تأكيد الطلب</span>}
+            </div>
           </Link>
         )}
       </div>
@@ -79,14 +88,16 @@ export default function CartPage() {
           content: " ل.ل";
         }
 
-        .proceed {
-          background-color: ${styles.primaryColorLight};
+        .proceedbtn {
+          background-color: ${!dots && styles.primaryColorLight};
           font-size: 1.4rem;
-          width: fit-content;
+          width: 10rem;
+          text-align: center;
           padding: 0.2rem 1rem;
           color: white;
           border-radius: 0.3rem;
           margin: 1rem auto;
+          border: 1.5px solid ${dots && styles.primaryColorLight};
         }
 
         .total {

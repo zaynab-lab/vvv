@@ -1,3 +1,5 @@
+import { styles } from "../../public/js/styles";
+
 export default function Cloud() {
   const cloud_speed = "4s";
   const ball_delay = `${cloud_speed}/150`;
@@ -19,7 +21,7 @@ export default function Cloud() {
             r="3.5"
             cy="87.290741"
             cx="48.762711"
-            fill="#FF6600"
+            fill={styles.primaryColor}
           />
         </g>
 
@@ -27,14 +29,14 @@ export default function Cloud() {
           <polygon
             id="cloud_arrow_top"
             className="arrow"
-            fill="#FF6600"
+            fill={styles.primaryColor}
             points="41.7 54.2 48.7 47.6 55.7 54.2 54.2 55.6 48.7 50.3 43.2 55.6 "
           />
 
           <polygon
             id="cloud_arrow_bottom"
             className="arrow"
-            fill="#FF6600"
+            fill={styles.primaryColor}
             points="55.7 76.8 48.7 83.4 41.7 76.8 43.2 75.4 48.7 80.7 54.2 75.4 "
           />
         </g>
@@ -42,7 +44,7 @@ export default function Cloud() {
         <g>
           <path
             id="cloud_reflection"
-            fill="#12C4E8"
+            fill={styles.secondaryColor}
             d="m 30.178658,31.155089 c -0.383147,0 -0.766295,-0.306518 -0.766295,-0.766295 0,-0.07663 0,-10.651504 11.417799,-11.494429 0.459777,0 0.766295,0.306518 0.842925,0.689666 0,0.459777 -0.306518,0.766295 -0.689666,0.842925 -9.961838,0.766295 -10.038467,9.57869 -10.038467,9.961838 0,0.383147 -0.306518,0.689665 -0.766296,0.766295 0,0 0,0 0,0 z"
           />
         </g>
