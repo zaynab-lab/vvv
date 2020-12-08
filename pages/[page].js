@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TopBar from "../components/TopBar";
-import Products from "../components/ProductItems";
-import { useRecoilState, useRecoilValue } from "recoil";
+import ProductItems from "../components/ProductItems";
+import { useRecoilValue } from "recoil";
 import LoadData from "../components/LoadData";
 import { categoriesState, productsState } from "./index";
 import axios from "axios";
@@ -12,8 +12,7 @@ export default function Page() {
   const [title, setTitle] = useState("");
   const categoryListInfo = useRecoilValue(categoriesState);
   const [categoryList, setCategoryList] = useState(categoryListInfo);
-  const [productListInfo, setProductListInfo] = useRecoilState(productsState);
-  const [productList, setProductList] = useState(productListInfo);
+  // const productListInfo = useRecoilValue(productsState);
   const router = useRouter();
   const { page } = router.query;
 
@@ -22,19 +21,26 @@ export default function Page() {
       const { data } = res;
       setCategoryList(data);
     });
-    setPageProducts(productList.filter((obj) => obj.catagory === page));
+    // setPageProducts(productListInfo.filter((obj) => obj.catagory === page));
+    // console.log("load first");
+  }, [setCategoryList, page]);
+  useEffect(() => {
     const p = categoryList.find((obj) => obj.name === page);
     setTitle(p && p.title);
-    // axios.get(`/api/products/${page}`).then((res) => {
-    //   const { data } = res;
-    //   setProductList(data);
-    // });
-  }, [productList, categoryList, page]);
+    console.log(page);
+  }, [setTitle, page, categoryList]);
+
+  useEffect(() => {
+    axios.get(`/api/products/${page}`).then((res) => {
+      const { data } = res;
+      setPageProducts(data);
+    });
+  }, [setPageProducts, page]);
 
   return (
     <>
       <TopBar title={title} page={true} cart={true} />
-      <Products pageProducts={pageProducts} />
+      <ProductItems pageProducts={pageProducts} />
       <LoadData />
       <style jsx>
         {`

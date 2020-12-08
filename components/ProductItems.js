@@ -3,19 +3,23 @@ import { styles } from "../public/js/styles";
 
 const ProductCard = ({ product }) => (
   <>
-    <div className="card">
-      <img className="card-img" src={`/img/png/${product.name}.png`} alt="" />
-      <div className="card-content">
-        <div className="card-name">{product.title}</div>
-        <div className="card-price">
-          <div className="initprice">{product.initprice}</div>
-          <div className="price">{product.price}</div>
+    {product.appear && (
+      <div className="card">
+        <img className="card-img" src={`/img/png/${product._id}.png`} alt="" />
+        <div className="card-content">
+          <div className="card-name">{product.name}</div>
+          <div className="card-price">
+            <div className="initprice">{product.initprice}</div>
+            <div className="price">{product.price}</div>
+          </div>
         </div>
+        {product.exist ? (
+          <Controll id={product._id} measure={product.measure} />
+        ) : (
+          <div className="exist">نفذ المنتج</div>
+        )}
       </div>
-
-      <Controll id={product.id} measure={product.measure} />
-    </div>
-
+    )}
     <style jsx>
       {`
         .card {
@@ -73,6 +77,10 @@ const ProductCard = ({ product }) => (
           font-size: 1rem;
           ${product.initprice && "content:' ل.ل'"};
         }
+        .exist {
+          line-height: 4rem;
+          color: ${styles.primaryColor};
+        }
       `}
     </style>
   </>
@@ -84,7 +92,7 @@ export default function ProductsList({ pageProducts }) {
       <div>
         <div className="productsList">
           {pageProducts.map((product) => (
-            <ProductCard product={product} key={product.id} />
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
       </div>

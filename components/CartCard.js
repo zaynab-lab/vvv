@@ -6,7 +6,7 @@ import { styles } from "../public/js/styles";
 export default function CartCard({ product }) {
   const cartList = useRecoilValue(cartListState);
   const a = cartList
-    .filter((items) => items.id === product.id)
+    .filter((items) => items.id === product._id)
     .map((obj) => obj.quantity);
   return (
     <>
@@ -14,13 +14,13 @@ export default function CartCard({ product }) {
         <div className="cartCard-ImgName">
           <img
             className="cartCard-img"
-            src={`/img/png/${product.name}.png`}
+            src={`/img/png/${product._id}.png`}
             alt=""
           />
 
           <div className="cartCard-content">
-            <div className="cartCard-name">{product.title}</div>
-            <Controll id={product.id} measure={product.measure} />
+            <div className="cartCard-name">{product.name}</div>
+            <Controll id={product._id} measure={product.measure} />
           </div>
         </div>
 

@@ -6,6 +6,7 @@ import Link from "next/link";
 import TopBar from "../components/TopBar";
 import { productsState } from "../pages/index";
 import { styles } from "../public/js/styles";
+import axios from "axios";
 
 export const cartListState = atom({
   key: "cartList",
@@ -14,14 +15,19 @@ export const cartListState = atom({
 
 export default function CartPage() {
   const cartList = useRecoilValue(cartListState);
-  const productList = useRecoilValue(productsState);
+  const productListInfo = useRecoilValue(productsState);
   const [cartProducts, setCartProducts] = useState([]);
   const [total, setTotal] = useState(0);
+  const [productList, setProductList] = useState([]);
 
   useEffect(() => {
+    axios.get("/api/products").then((res) => {
+      const { data } = res;
+      setProductList(data);
+    });
     setCartProducts(
       productList.filter((obj) =>
-        cartList.map((items) => items.id).includes(obj.id)
+        cartList.map((items) => items.id).includes(obj._id)
       )
     );
     cartList.length
@@ -30,7 +36,7 @@ export default function CartPage() {
             .map(
               (obj) =>
                 productList
-                  .filter((items) => items.id === obj.id)
+                  .filter((items) => items._id === obj.id)
                   .map((items) => items.price) * obj.quantity
             )
             .reduce((a, b) => a + b)
@@ -44,7 +50,7 @@ export default function CartPage() {
       <div>
         <div className="cartItems">
           {cartProducts.map((obj) => (
-            <div key={obj.id}>
+            <div key={obj._id}>
               <CartCard product={obj} />
             </div>
           ))}

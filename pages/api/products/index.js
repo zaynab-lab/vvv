@@ -38,6 +38,13 @@ export default async (req, res) => {
         return res.end(JSON.stringify([]));
       }
       break;
+    case "GET":
+      try {
+        const products = await Product.find({}).exec();
+        return res.end(JSON.stringify(products));
+      } catch (err) {
+        return res.end("invalid");
+      }
     default:
       return res.end(JSON.stringify([]));
   }

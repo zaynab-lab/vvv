@@ -137,21 +137,28 @@ export default function Profile() {
                 </>
               )}
             </div>
-            <div
-              className="Logout"
-              onClick={() => {
-                axios
-                  .post("/api/auth/Logout")
-                  .then(
-                    (res) =>
-                      res.data === "done" &&
-                      setState({ name: "", number: "", mail: "", password: "" })
-                  )
-                  .then(() => Router.push("/"));
-              }}
-            >
-              تسجيل الخروج
-            </div>
+            {!dots && (
+              <div
+                className="Logout"
+                onClick={() => {
+                  axios
+                    .post("/api/auth/Logout")
+                    .then(
+                      (res) =>
+                        res.data === "done" &&
+                        setState({
+                          name: "",
+                          number: "",
+                          mail: "",
+                          password: ""
+                        })
+                    )
+                    .then(() => Router.push("/"));
+                }}
+              >
+                تسجيل الخروج
+              </div>
+            )}
           </div>
         </>
       )}
