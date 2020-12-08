@@ -15,8 +15,8 @@ export default function ProductCard({ product, setActionById }) {
         <div className="productCard-ImgName">
           <img
             className="productCard-img"
-            // src={`/img/png/${newproduct.category}/${newproduct._id}.png`}
-            src={`/img/png/Default.png`}
+            src={`/img/png/${newproduct.category}/${newproduct._id}.png`}
+            // src={`/img/png/Default.png`}
             alt=""
           />
           <div className="productCard-content">
