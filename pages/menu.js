@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Image from "../components/Image";
 import axios from "axios";
 import { atom, useRecoilState } from "recoil";
+import Dots from "../components/Loaders/Dots";
 
 export const userState = atom({
   key: "user",
@@ -14,82 +15,94 @@ export const userState = atom({
 
 export default function Menu() {
   const [userInfo, setUserInfo] = useRecoilState(userState);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(userInfo !== {} ? userInfo : "");
 
   useEffect(() => {
-    axios.get("/api/auth").then((res) => {
-      const { data } = res;
-      setUser("");
-      setUserInfo("");
-      if (data !== "noToken" && data !== "invalid") {
-        setUser(data);
-        setUserInfo(data);
-      }
-    });
+    axios
+      .get("/api/auth")
+      .then((res) => {
+        const { data } = res;
+        setUser("");
+        setUserInfo("");
+        if (data !== "noToken" && data !== "invalid") {
+          setUser(data);
+          setUserInfo(data);
+        }
+      })
+      .then(() => setLoading(false));
   }, [setUser, setUserInfo]);
   return (
     <>
       <TopBar title="الإعدادات" page={true} />
-      {loading && <Loader />}
-      {!loading && (
-        <>
-          <div className="menuContainer">
-            <div className="menu-header">
-              {user ? (
-                <>
-                  <Image name={"Profile"} />
-                  <div className="userName">{user.name}</div>
-                </>
-              ) : (
-                <>
-                  <img className="menu-Img" src="/img/png/Profile.png" alt="" />
+
+      <>
+        <div className="menuContainer">
+          <div className="menu-header">
+            {user ? (
+              <>
+                <Image name={"Profile"} />
+                <div className="userName">{user.name}</div>
+              </>
+            ) : (
+              <>
+                <img className="menu-Img" src="/img/png/Profile.png" alt="" />
+                {loading ? (
+                  <Dots />
+                ) : (
                   <Link href="/Login">
                     <span onClick={() => setLoading(true)}>تسجيل الدخول</span>
                   </Link>
-                </>
-              )}
-            </div>
-
-            <ul>
-              {user && (
-                <>
-                  <Link href="/details/profile">
-                    <li onClick={() => setLoading(true)}>الملف الشخصي</li>
-                  </Link>
-                  <li className="amount-container">
-                    الرصيد <span className="amount">{user.amount}</span>
-                    <button
-                      className="chargebtn"
-                      onClick={() => alert("هذه الخدمة ليست متوفرة حالياً")}
-                    >
-                      شحن
-                    </button>
-                  </li>
-
-                  <li>كد خصم</li>
-
-                  <Link href="/details/orders">
-                    <li onClick={() => setLoading(true)}>الطلبيات السابقة</li>
-                  </Link>
-                </>
-              )}
-
-              <Link href="/details/customers">
-                <li onClick={() => setLoading(true)}>حقوق الزبون</li>
-              </Link>
-
-              <Link href="/details/conditions">
-                <li onClick={() => setLoading(true)}>شروط الاستخدام</li>
-              </Link>
-
-              <Link href="https://wa.me/+96181026095?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C+%D8%A8%D8%AF%D9%8A+%D8%AA%D8%B3%D8%A7%D8%B9%D8%AF%D9%86%D9%8A+%D8%A8%D9%80">
-                <li>اتصل بنا</li>
-              </Link>
-            </ul>
+                )}
+              </>
+            )}
           </div>
-        </>
-      )}
+
+          <ul>
+            {loading ? (
+              <div className="dots">
+                <Dots />
+              </div>
+            ) : (
+              <>
+                {user && (
+                  <>
+                    <Link href="/details/profile">
+                      <li onClick={() => setLoading(true)}>الملف الشخصي</li>
+                    </Link>
+                    <li className="amount-container">
+                      الرصيد <span className="amount">{user.amount}</span>
+                      <button
+                        className="chargebtn"
+                        onClick={() => alert("هذه الخدمة ليست متوفرة حالياً")}
+                      >
+                        شحن
+                      </button>
+                    </li>
+
+                    <li>كد خصم</li>
+
+                    <Link href="/details/orders">
+                      <li onClick={() => setLoading(true)}>الطلبيات السابقة</li>
+                    </Link>
+                  </>
+                )}
+              </>
+            )}
+            <Link href="/details/customers">
+              <li onClick={() => setLoading(true)}>حقوق الزبون</li>
+            </Link>
+
+            <Link href="/details/conditions">
+              <li onClick={() => setLoading(true)}>شروط الاستخدام</li>
+            </Link>
+
+            <Link href="https://wa.me/+96181026095?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C+%D8%A8%D8%AF%D9%8A+%D8%AA%D8%B3%D8%A7%D8%B9%D8%AF%D9%86%D9%8A+%D8%A8%D9%80">
+              <li>اتصل بنا</li>
+            </Link>
+          </ul>
+        </div>
+      </>
 
       <style jsx>{`
         .container {
@@ -145,6 +158,12 @@ export default function Menu() {
           border: 1px solid ${styles.primaryColor};
           padding: 0.2rem 0.8rem;
           border-radius: 0.2rem;
+        }
+        .dots {
+          height: 7rem;
+          padding: 1rem;
+          display: flex;
+          justify-content: center;
         }
       `}</style>
     </>

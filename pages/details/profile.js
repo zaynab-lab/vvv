@@ -9,6 +9,7 @@ import Input from "../../components/Input";
 import { FaIdCard, FaMapMarkedAlt, FaTasks } from "react-icons/fa";
 import { useRecoilValue } from "recoil";
 import { userState } from "../menu";
+import Dots from "../../components/Loaders/Dots";
 
 const userInputList = [
   { name: "name", placeholder: "الإسم", type: "text" },
@@ -25,10 +26,10 @@ const userInputList = [
 export default function Profile() {
   const userInfo = useRecoilValue(userState);
   const [state, setState] = useState(userInfo);
-
+  const [dots, setDots] = useState(true);
   const [address, setAddress] = useState([]);
   const [roles, setRoles] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -50,7 +51,7 @@ export default function Profile() {
           setRoles(data.roles);
         }
       })
-      .then(() => setLoading(false));
+      .then(() => setDots(false));
   }, [setState]);
 
   return (
@@ -73,29 +74,36 @@ export default function Profile() {
               <FaIdCard />
               <span className="section-title-name">الهوية</span>
             </div>
+            {dots ? (
+              <div className="dots">
+                <Dots />
+              </div>
+            ) : (
+              <>
+                {userInputList.map((obj, index) => (
+                  <Input
+                    key={index}
+                    name={obj.name}
+                    value={state[obj.name]}
+                    type={obj.type}
+                    placeholder={obj.placeholder}
+                    disabled={obj.disabled}
+                    handleChange={handleChange.bind(this)}
+                  />
+                ))}
 
-            {userInputList.map((obj, index) => (
-              <Input
-                key={index}
-                name={obj.name}
-                value={state[obj.name]}
-                type={obj.type}
-                placeholder={obj.placeholder}
-                disabled={obj.disabled}
-                handleChange={handleChange.bind(this)}
-              />
-            ))}
+                <div>تاريخ الميلاد</div>
 
-            <div>تاريخ الميلاد</div>
-
-            <input
-              className="birth"
-              name={"birth"}
-              type="date"
-              ata-date=""
-              data-date-format="DD MMMM YYYY"
-              value="2019-01-01"
-            />
+                <input
+                  className="birth"
+                  name={"birth"}
+                  type="date"
+                  ata-date=""
+                  data-date-format="DD MMMM YYYY"
+                  value="2019-01-01"
+                />
+              </>
+            )}
 
             {/* ////////////////Address////////////// */}
 
@@ -104,25 +112,31 @@ export default function Profile() {
                 <FaMapMarkedAlt />
                 <span className="section-title-name">العناوين</span>
               </div>
+              {dots ? (
+                <div className="dots">
+                  <Dots />
+                </div>
+              ) : (
+                <>
+                  {address.map((obj) => (
+                    <input
+                      className="address-input"
+                      placeholder="عنوان"
+                      value={""}
+                    />
+                  ))}
 
-              {address.map((obj) => (
-                <input
-                  className="address-input"
-                  placeholder="عنوان"
-                  value={""}
-                />
-              ))}
-
-              <button
-                className="addbtn"
-                onClick={() => {
-                  setAddress([...address, ""]);
-                }}
-              >
-                اضافة عنوان
-              </button>
+                  <button
+                    className="addbtn"
+                    onClick={() => {
+                      setAddress([...address, ""]);
+                    }}
+                  >
+                    اضافة عنوان
+                  </button>
+                </>
+              )}
             </div>
-
             <div
               className="Logout"
               onClick={() => {
@@ -205,9 +219,16 @@ export default function Profile() {
           display: block;
           margin: auto;
           background: white;
+          color: ${styles.secondaryColor};
           border: 1.5px solid ${styles.primaryColor};
           border-radius: 0.5rem;
           padding: 0.2rem 0.8rem;
+        }
+        .dots {
+          height: 7rem;
+          padding: 1rem;
+          display: flex;
+          justify-content: center;
         }
       `}</style>
     </>

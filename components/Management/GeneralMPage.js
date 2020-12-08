@@ -145,8 +145,10 @@ export default function GeneralMPage() {
                 onClick={() =>
                   state.subCategory !== "" &&
                   axios
-                    .delete(
-                      `/api/subCategories/${state.category}/${state.subCategory}`
+                    .put(
+                      `/api/categories/${state.category}`,
+                      { subCategory: JSON.stringify(state.subCategory) },
+                      { "content-type": "application/json" }
                     )
                     .then((res) => {
                       res.data === "done" &&
