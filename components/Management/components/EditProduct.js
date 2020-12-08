@@ -4,6 +4,7 @@ import Input from "../../Input";
 import Image from "../../Image";
 import axios from "axios";
 import { FaTrash } from "react-icons/fa";
+import Dots from "../../Loaders/Dots";
 
 const productInputList = [
   { name: "name", placeholder: "اسم المنتج", type: "text" },
@@ -17,6 +18,7 @@ const measures = ["كيلوغرام", "حبة", "ربطة"];
 export default function EditProduct({ add, product, refresh }) {
   const [categoryList, setCategoryList] = useState([]);
   const [subCategoryList, setSubCategoryList] = useState([]);
+  const [dots, setDots] = useState(false);
   const [state, setState] = useState({
     img: add ? false : product.img,
     name: add ? "" : product.name,
@@ -132,6 +134,7 @@ export default function EditProduct({ add, product, refresh }) {
                 state.name !== "" &&
                 state.price !== ""
               ) {
+                setDots(true);
                 add
                   ? axios
                       .post(
@@ -150,6 +153,7 @@ export default function EditProduct({ add, product, refresh }) {
                             price: "",
                             description: ""
                           });
+                        setDots(false);
                       })
                   : axios
                       .put(
@@ -175,7 +179,17 @@ export default function EditProduct({ add, product, refresh }) {
               }
             }}
           >
-            {add ? <span>اضافة المنتج</span> : <span>تعديل المنتج</span>}
+            {add ? (
+              dots ? (
+                <div className="dots">
+                  <Dots />
+                </div>
+              ) : (
+                <span>اضافة المنتج</span>
+              )
+            ) : (
+              <span>تعديل المنتج</span>
+            )}
           </button>
           {!add && (
             <button
@@ -241,7 +255,7 @@ export default function EditProduct({ add, product, refresh }) {
       }
 
       .crtproduct-btn {
-        background: ${styles.primaryColorLight};
+        background: ${!dots && styles.primaryColorLight};
         color:white;
         border:none;
         font-size:1.2rem;
@@ -260,6 +274,9 @@ export default function EditProduct({ add, product, refresh }) {
           display:flex;
           justify-content:center;
           align-items:center
+        }
+        .dots{
+        line-height:2.2rem
         }
       `}</style>
     </>

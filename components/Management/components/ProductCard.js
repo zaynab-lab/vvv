@@ -2,9 +2,13 @@ import { styles } from "../../../public/js/styles";
 import { FaStore, FaBan, FaEdit } from "react-icons/fa";
 import { FiAlertOctagon } from "react-icons/fi";
 import { useState } from "react";
+import Dots from "../../Loaders/Dots";
 
 export default function ProductCard({ product, setActionById }) {
   const [newproduct, setproduct] = useState(product);
+  const [appearDots, setAppearDots] = useState(false);
+  const [existDots, setExistDots] = useState(false);
+
   return (
     <>
       <div className="productCard">
@@ -32,32 +36,49 @@ export default function ProductCard({ product, setActionById }) {
           <div className="productCard-options">
             <li
               onClick={() => {
+                setAppearDots(true);
                 setActionById(
                   newproduct._id,
                   "appear",
                   newproduct.appear,
                   (appear) => {
                     setproduct({ ...newproduct, appear });
+                    setAppearDots(false);
                   }
                 );
               }}
             >
-              {newproduct.appear ? <>&#128064;</> : <FaBan />}
+              {appearDots ? (
+                <div className="clkdots">
+                  <Dots />
+                </div>
+              ) : (
+                <>{newproduct.appear ? <>&#128064;</> : <FaBan />}</>
+              )}
             </li>
 
             <li
               onClick={() => {
+                setExistDots(true);
                 setActionById(
                   newproduct._id,
                   "exist",
                   newproduct.exist,
-                  (exist) => setproduct({ ...newproduct, exist })
+                  (exist) => {
+                    setproduct({ ...newproduct, exist });
+                    setExistDots(false);
+                  }
                 );
               }}
             >
-              {newproduct.exist ? <FaStore /> : <FiAlertOctagon />}
+              {existDots ? (
+                <div className="clkdots">
+                  <Dots />
+                </div>
+              ) : (
+                <>{newproduct.exist ? <FaStore /> : <FiAlertOctagon />}</>
+              )}
             </li>
-
             <li>
               <FaEdit
                 onClick={() => {
@@ -196,6 +217,9 @@ export default function ProductCard({ product, setActionById }) {
           padding: 0.5rem;
 
           list-style: none;
+        }
+        .clkdots {
+          width: 1.8rem;
         }
       `}</style>
     </>
