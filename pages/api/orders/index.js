@@ -37,11 +37,7 @@ export default async (req, res) => {
           if (user) {
             const order = new Order({
               userID: user._id,
-              products: {
-                productID: body.id,
-                Quantity: body.quantity,
-                price: body.price
-              },
+              products: body.proceedProducts,
               total: body.total,
               paymentMethod: body.payment
             });

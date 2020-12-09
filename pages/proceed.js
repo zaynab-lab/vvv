@@ -99,7 +99,7 @@ export default function Proceed() {
                 axios
                   .post(
                     "/api/orders",
-                    { ...proceedProducts, total, payment },
+                    { proceedProducts, total, payment },
                     { "content-type": "application/json" }
                   )
                   .then((res) => {
