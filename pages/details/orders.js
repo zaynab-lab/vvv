@@ -20,31 +20,37 @@ export default function OrdersPage() {
   return (
     <>
       <TopBar title="الطلبيات" page={true} />
+      <div className="container">
+        <div className="topBar">
+          <div
+            className={`topBar-item ${current && "current"}`}
+            onClick={() => setCurrent(true)}
+          >
+            الحالية
+          </div>
 
-      <div className="topBar">
-        <div
-          className={`topBar-item ${current && "current"}`}
-          onClick={() => setCurrent(true)}
-        >
-          الحالية
+          <div
+            className={`topBar-item ${!current && "current"}`}
+            onClick={() => setCurrent(false)}
+          >
+            السابقة
+          </div>
         </div>
 
-        <div
-          className={`topBar-item ${!current && "current"}`}
-          onClick={() => setCurrent(false)}
-        >
-          السابقة
-        </div>
+        <Orders current={current} orderList={orderList} />
       </div>
-
-      <Orders current={current} orderList={orderList} />
-
       <style jsx>{`
         .topBar {
           display: flex;
           width: 100%;
           overflow: auto;
           border-bottom: 1px solid ${styles.primaryColor};
+        }
+
+        .container {
+          height: calc(100vh - 3rem);
+
+          overflow: auto;
         }
 
         .topBar-item {

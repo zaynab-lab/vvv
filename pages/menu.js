@@ -97,7 +97,7 @@ export default function Menu() {
                   </li>
 
                   <li>
-                    <FaPercentage /> <span>كد خصم</span>
+                    <FaPercentage /> <span>حسومات وقسائم شرائية</span>
                   </li>
 
                   <Link href="/details/orders">
