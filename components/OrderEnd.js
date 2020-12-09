@@ -2,22 +2,21 @@ import { styles } from "../public/js/styles";
 
 const ProductCard = ({ product }) => (
   <>
-    {product.appear && (
-      <div className="card">
-        <img
-          className="card-img"
-          src={`/img/png/${product.category}/${product._id}.png`}
-          alt=""
-        />
+    <div className="card">
+      <img
+        className="card-img"
+        src={`/img/png/${product.category}/${product._id}.png`}
+        alt=""
+      />
 
-        <div className="card-content">
-          <div className="card-name">{product.name}</div>
-          <div>
-            {product.quantity} <span>{product.measure}</span>
-          </div>
+      <div className="card-content">
+        <div className="card-name">{product.name}</div>
+        <div>
+          {product.quantity} <span className="measure">{product.measure}</span>
         </div>
+        <div className="price">{product.quantity * product.price}</div>
       </div>
-    )}
+    </div>
 
     <style jsx>
       {`
@@ -43,22 +42,12 @@ const ProductCard = ({ product }) => (
         .card-content {
           width: 100%;
         }
-
-        .card-price {
-          background-color: ${styles.thirdColor};
-          width: 100%;
-          padding: 0.1rem;
-          border: solid ${styles.primaryColor};
-          border-width: 1px 0;
-          margin: 0;
-          height: 4rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
+        .measure {
+          font-size: 0.7rem;
         }
 
         .price:after {
-          font-size: 1rem;
+          font-size: 0.7rem;
           content: " ل.ل";
         }
       `}

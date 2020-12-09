@@ -4,11 +4,16 @@ const orderSchema = new mongoose.Schema(
   {
     userID: { type: String },
     orderCode: { type: Number },
-    products: {
-      productID: { type: String },
-      Quantity: { type: Number },
-      price: { type: Number }
-    },
+    products: [
+      {
+        id: { type: String },
+        name: { type: String },
+        measure: { type: String },
+        category: { type: String },
+        quantity: { type: Number },
+        price: { type: Number }
+      }
+    ],
     total: { type: Number },
     paymentMethod: { type: String },
     date: { type: Date, default: Date.now },
