@@ -12,7 +12,9 @@ const ProductCard = ({ product }) => (
 
         <div className="card-content">
           <div className="card-name">{product.name}</div>
-          <div>{product.quantity}</div>
+          <div>
+            {product.quantity} <span>{product.measure}</span>
+          </div>
         </div>
       </div>
     )}
@@ -59,20 +61,16 @@ const ProductCard = ({ product }) => (
           font-size: 1rem;
           content: " ل.ل";
         }
-
-        .card-name {
-          margin: 0.3rem;
-        }
       `}
     </style>
   </>
 );
 
-export default function OrderEnd({ cartProducts }) {
+export default function OrderEnd({ proceedProducts }) {
   return (
     <>
       <div className="orderContainer">
-        {cartProducts.map((obj, index) => (
+        {proceedProducts.map((obj, index) => (
           <ProductCard key={index} product={obj} />
         ))}
       </div>
@@ -84,6 +82,7 @@ export default function OrderEnd({ cartProducts }) {
           padding: 0.5rem 0rem;
           border: solid ${styles.primaryColor};
           border-width: 1px 0px;
+          min-height: fit-content;
         }
       `}</style>
     </>

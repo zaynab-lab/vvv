@@ -26,6 +26,36 @@ export default async (req, res) => {
         return res.end("invalid");
       }
       break;
+    case "POST":
+      try {
+        const token = req.cookies.jwt;
+        const { body } = req;
+        if (!token) return res.end("noToken");
+        jwt.verify(token, process.env.TOKEN_SECRET, async (err, decoded) => {
+          if (err) return res.end("invalid");
+          const user = await User.findById(decoded.id).exec();
+          if (user) {
+            const order = new Order({
+              userID: user._id,
+              products: {
+                productID: body.id,
+                Quantity: body.quantity,
+                price: body.price
+              },
+              total: body.total,
+              paymentMethod: body.payment
+            });
+            await order.save().catch((err) => console.log(err));
+            return res.end("done");
+          }
+          return res.end("invalid");
+        });
+      } catch (err) {
+        return res.end("invalid");
+      }
+
+      break;
+
     default:
       return res.end("invalid");
   }

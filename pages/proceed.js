@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import TopBar from "../components/TopBar";
 import { styles } from "../public/js/styles";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import Router from "next/router";
 import axios from "axios";
 import Dots from "../components/Loaders/Dots";
@@ -16,7 +16,9 @@ export default function Proceed() {
   const cartList = useRecoilValue(cartListState);
   const [total, setTotal] = useState(0);
   const [productList, setProductList] = useState([]);
-  const [cartProducts, setCartProducts] = useState([]);
+  const [proceedProducts, setProceedProducts] = useState([]);
+  const [payment, setPayment] = useState("عند الإستلام");
+  const router = useRouter();
 
   useEffect(() => {
     axios.get("/api/products").then((res) => {
@@ -31,11 +33,6 @@ export default function Proceed() {
         Router.push("/Login");
       } else {
         setRoute(false);
-        setCartProducts(
-          productList.filter((obj) =>
-            cartList.map((items) => items.id).includes(obj._id)
-          )
-        );
         cartList.length
           ? setTotal(
               cartList
@@ -50,7 +47,18 @@ export default function Proceed() {
           : setTotal("");
       }
     });
-  }, [total, cartList, productList]);
+  }, [total, cartList, productList, proceedProducts, setProceedProducts]);
+
+  useEffect(() => {
+    setProceedProducts(
+      productList
+        .filter((obj) => cartList.map((items) => items.id).includes(obj._id))
+        .map((obj) => ({
+          ...obj,
+          ...cartList.find((item) => item.id === obj._id)
+        }))
+    );
+  }, [productList, cartList]);
 
   return (
     <>
@@ -65,35 +73,55 @@ export default function Proceed() {
               <span>اجمالي الطلب بـ</span>{" "}
               <span className="total">{total}</span>
             </label>
-            <OrderEnd cartProducts={cartProducts} />
+            <OrderEnd proceedProducts={proceedProducts} />
 
             <label>اختر العنوان</label>
             <select className="select">
               <option>العنوان الأول: </option>
             </select>
             <label>اختر طريقة الدفع</label>
-            <select className="select">
-              <option>عند الإستلام</option>
-              <option>بطاقة الائتمان</option>
-              <option disabled>عبر الإنترنت</option>
+            <select
+              className="select"
+              onChange={(e) => setPayment(e.target.value)}
+            >
+              <option value="عند الإستلام">عند الإستلام</option>
+              <option value="بطاقة الائتمان">بطاقة الائتمان</option>
+              <option onClick={() => alert("الخدمة غير متوفرة حاليا")} disabled>
+                عبر الإنترنت
+              </option>
             </select>
 
-            <Link href="/">
-              <button
-                className="confirmbtn"
-                onClick={() => {
-                  setDots(true);
-                }}
-              >
-                {dots ? <Dots /> : <span>الموافقة النهائية</span>}
-              </button>
-            </Link>
+            {/* <Link href="/"> */}
+            <button
+              className="confirmbtn"
+              onClick={() => {
+                setDots(true);
+                axios
+                  .post(
+                    "/api/orders",
+                    { ...proceedProducts, total, payment },
+                    { "content-type": "application/json" }
+                  )
+                  .then((res) => {
+                    const { data } = res;
+                    data === "done" && setDots(false);
+                  })
+                  .then(() => {
+                    localStorage.setItem("cartList", JSON.stringify([]));
+                    router.push("/");
+                  });
+              }}
+            >
+              {dots ? <Dots /> : <span>الموافقة النهائية</span>}
+            </button>
+            {/* </Link> */}
           </div>
         </>
       )}
       <style jsx>{`
         .container {
           height: calc(100vh - 3rem);
+          overflow: auto;
           display: flex;
           flex-direction: column;
           padding: 1.5rem;
