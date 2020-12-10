@@ -2,6 +2,9 @@ import dbConnection from "../../../util/dbConnection";
 import User from "../../../models/user";
 import jwt from "jsonwebtoken";
 import cookie from "cookie";
+import twilio from "twilio";
+
+const client = twilio(process.env.TWILIO_ACSID, process.env.TWILIO_AUTH_TOKEN);
 
 dbConnection();
 
@@ -9,7 +12,6 @@ export default async (req, res) => {
   const { method } = req;
   if (method === "POST") {
     const { body } = req;
-    console.log(body);
     const user = await User.findOne({ number: body.phoneNumber }).exec();
     const d = Date.now();
     if (Math.ceil((d - user.date) / 60000) > 5) {
@@ -17,7 +19,22 @@ export default async (req, res) => {
     }
     const token = jwt.sign({ id: user._id }, process.env.TOKEN_SECRET);
     User.findByIdAndUpdate(user._id, { jwt: token }, (err) => console.log(err));
-    if (user.otp === body.oTP) {
+
+    const receptor =
+      body.phoneNumber.length === 10
+        ? "+98" + body.phoneNumber
+        : "+961" + body.phoneNumber;
+
+    const status = await client.verify
+      .services(process.env.VA_SID)
+      .verificationChecks.create({
+        to: receptor,
+        code: body.oTP
+      })
+      .then((verification_check) => {
+        return verification_check.status;
+      });
+    if (status === "approved") {
       res.setHeader(
         "Set-Cookie",
         cookie.serialize("jwt", token, {

@@ -20,12 +20,15 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-icons": "4.1.0",
-    "recoil": "0.1.2"
+    "recoil": "0.1.2",
+    "twilio": "3.54.0"
   },
   "peerOptionalDependencies": {
     "mongodb": "^3.6.2"
   },
   "license": "MIT",
-  "keywords": ["next"],
+  "keywords": [
+    "next"
+  ],
   "description": "A \"Hello World\" application with multiple pages that shows how Next.js routing works."
 }

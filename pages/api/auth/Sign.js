@@ -2,6 +2,9 @@ import dbConnection from "../../../util/dbConnection";
 import User from "../../../models/user";
 import axios from "axios";
 import qs from "qs";
+import twilio from "twilio";
+
+const client = twilio(process.env.TWILIO_ACSID, process.env.TWILIO_AUTH_TOKEN);
 
 dbConnection();
 
@@ -53,41 +56,22 @@ export default async (req, res) => {
         } else {
           const createdUser = new User({
             number: body.phoneNumber,
-
             otp: param1,
-
             otptimes: 1
           });
 
           createdUser.save().catch((err) => console.log(err));
         }
 
-        var options = {
-          method: "POST",
-          url: "https://api.ghasedak.io/v2/verification/send/simple",
-          headers: {
-            "content-type": "application/x-www-form-urlencoded",
-            apikey: process.env.GHASEDAK_API
-          },
-          data: qs.stringify({
-            type: "1",
-            param1: param1,
-            receptor:
-              body.phoneNumber.length === 10
-                ? "0" + body.phoneNumber
-                : "+961" + body.phoneNumber,
-            template: "test",
-            lineNumber: process.env.LINENUMBER
-          })
-        };
-        axios
-          .request(options)
-          .then((response) => {
-            console.log(response.data.result.code);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        const receptor =
+          body.phoneNumber.length === 10
+            ? "+98" + body.phoneNumber
+            : "+961" + body.phoneNumber;
+
+        client.verify
+          .services(process.env.VA_SID)
+          .verifications.create({ to: receptor, channel: "sms" });
+
         return res.end("done");
       } else {
         res.end("يرجى ادخال الرقم بالشكل الصحيح");
