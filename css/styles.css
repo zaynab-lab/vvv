@@ -16,3 +16,20 @@
 *::-webkit-scrollbar {
   display: none;
 }
+
+@media only screen and (min-width: 450px) {
+  .app {
+    width: 450px;
+    border: solid black;
+    border-width: 0px 1px;
+    margin: auto;
+    position: relative;
+    background-color: white;
+    height: 100vh;
+  }
+  body {
+    background-color: lightblue;
+    background-image: url("../public/img/png/background.png");
+    background-repeat: repeat;
+  }
+}

@@ -17,7 +17,7 @@ export default function Loader() {
           position: absolute;
           background: white;
           height: calc(100vh - 3rem);
-          width: 100vw;
+          width: 100%;
           top: 3rem;
           z-index: 20;
           display: flex;
