@@ -20,7 +20,7 @@ export default function Proceed() {
   const [proceedProducts, setProceedProducts] = useState([]);
   const [payment, setPayment] = useState("عند الإستلام");
   const router = useRouter();
-  const [selectedAddress, setSelectedAddress] = useState(0);
+  const [selectedAddress, setSelectedAddress] = useState("");
 
   useEffect(() => {
     axios.get("/api/products").then((res) => {
@@ -84,7 +84,7 @@ export default function Proceed() {
                   <Dots />
                 </div>
               ) : (
-                <AddAddress />
+                <AddAddress setSelectedAddress={setSelectedAddress} />
               )}
             </div>
 
@@ -101,27 +101,33 @@ export default function Proceed() {
               </option>
             </select>
 
-            <button
-              className="confirmbtn"
-              onClick={() => {
-                setDots(true);
-                axios
-                  .post(
-                    "/api/orders",
-                    { proceedProducts, total, payment, selectedAddress },
-                    { "content-type": "application/json" }
-                  )
-                  .then((res) => {
-                    const { data } = res;
-                    data === "done" && setDots(false);
-                  })
-                  .then(() => {
-                    localStorage.setItem("cartList", JSON.stringify([]));
-                    router.push("/");
-                  });
-              }}
-            >
-              {dots ? <Dots /> : <span>الموافقة النهائية</span>}
+            <button>
+              {dots ? (
+                <Dots />
+              ) : (
+                <div
+                  className="confirmbtn"
+                  onClick={() => {
+                    setDots(true);
+                    axios
+                      .post(
+                        "/api/orders",
+                        { proceedProducts, total, payment, selectedAddress },
+                        { "content-type": "application/json" }
+                      )
+                      .then((res) => {
+                        const { data } = res;
+                        data === "done" && setDots(false);
+                      })
+                      .then(() => {
+                        localStorage.setItem("cartList", JSON.stringify([]));
+                        router.push("/");
+                      });
+                  }}
+                >
+                  الموافقة النهائية
+                </div>
+              )}
             </button>
           </div>
         </>
