@@ -5,63 +5,43 @@ import OrderEnd from "../../components/OrderEnd";
 import ArrowBar from "../ArrowBar";
 import { FaCalendarAlt, FaMapMarkedAlt } from "react-icons/fa";
 
-export default function CustomersPage() {
-  const [roles, setRoles] = useState("");
-  const [orderList, setOrderList] = useState([]);
-
-  useEffect(() => {
-    axios.get("/api/auth").then((res) => {
-      const { data } = res;
-      if (data !== "noToken" && data !== "invalid") {
-        setRoles(data.roles);
-      }
-    });
-    axios.get("/api/orders").then((res) => {
-      const { data } = res;
-      data && setOrderList(data);
-    });
-  }, [setRoles, setOrderList]);
+const OrderItem = ({ order }) => {
+  const [hidden, setHidden] = useState(true);
 
   return (
     <>
-      {roles.includes("ordersManager") && (
-        <div>
-          {orderList.map((obj) => (
-            <div className="orderContainer">
-              <div className="header">
-                <div>
-                  <FaCalendarAlt /> تاريخ الطلب: {obj.date}
-                </div>
+      <div className="orderContainer" onClick={() => setHidden(!hidden)}>
+        <div className="header">
+          <div>
+            <FaCalendarAlt /> تاريخ الطلب: {order.date}
+          </div>
 
-                <div className="totalbar">
-                  <span>الإجمالي: {obj.total} ل.ل</span>{" "}
-                  <span>رقم الطلب: {obj.orderCode}</span>
-                </div>
-                <div>
-                  <FaMapMarkedAlt /> العنوان: {obj.address}
-                </div>
-                <div>اسم الزبون: {obj.userName}</div>
-              </div>
+          <div className="totalbar">
+            <span>الإجمالي: {order.total} ل.ل</span>{" "}
+            <span>رقم الطلب: {order.orderCode}</span>
+          </div>
 
-              <OrderEnd proceedProducts={obj.products} />
+          <div>
+            <FaMapMarkedAlt /> العنوان: {order.address}
+          </div>
 
-              <div className="footer">
-                <span>المراحل : </span>
-
-                <div>
-                  <ArrowBar />
-                </div>
-              </div>
-            </div>
-          ))}
+          <div className="totalbar">
+            <span>اسم الزبون: {order.userName}</span>
+            <span>الرقم: {order.number}</span>
+          </div>
         </div>
-      )}
-      <style jsx>{`
-        // .OrdersContainer {
-        //   display: flex;
-        //   flex-direction: column-reverse;
-        // }
 
+        {!hidden && <OrderEnd proceedProducts={order.products} />}
+
+        <div className="footer">
+          <span>المراحل : </span>
+
+          <div>
+            <ArrowBar />
+          </div>
+        </div>
+      </div>
+      <style jsx>{`
         .orderContainer {
           margin: 1rem;
           border: 1px solid ${styles.primaryColor};
@@ -99,6 +79,36 @@ export default function CustomersPage() {
           flex: 1 1 100%;
         }
       `}</style>
+    </>
+  );
+};
+
+export default function OrdersPage() {
+  const [roles, setRoles] = useState("");
+  const [orderList, setOrderList] = useState([]);
+
+  useEffect(() => {
+    axios.get("/api/auth").then((res) => {
+      const { data } = res;
+      if (data !== "noToken" && data !== "invalid") {
+        setRoles(data.roles);
+      }
+    });
+    axios.get("/api/orders").then((res) => {
+      const { data } = res;
+      data && setOrderList(data);
+    });
+  }, [setRoles, setOrderList]);
+
+  return (
+    <>
+      {roles.includes("ordersManager") && (
+        <div>
+          {orderList.map((obj) => (
+            <OrderItem order={obj} />
+          ))}
+        </div>
+      )}
     </>
   );
 }

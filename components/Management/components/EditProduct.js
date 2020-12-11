@@ -101,13 +101,6 @@ export default function EditProduct({ add, product, refresh }) {
             </option>
           ))}
         </select>
-        {/* <button
-          onClick={() => {
-            alert(state.category);
-          }}
-        >
-          test
-        </button> */}
         {/*///////////////////subCategory/////////////////////////*/}
         <select
           className="select"
@@ -240,11 +233,6 @@ export default function EditProduct({ add, product, refresh }) {
       .btnContainer{
         display:flex;
         padding:0 .2rem;
-        position:fixed;
-        bottom:10.2vh;
-        background:white;
-        width:88vw;
-        right:6vw;
       }
       .delete-btn{
         flex:1 1 4rem;

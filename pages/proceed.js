@@ -9,6 +9,7 @@ import Loader from "../components/Loader";
 import { cartListState } from "./cart";
 import { useRecoilValue } from "recoil";
 import OrderEnd from "../components/OrderEnd";
+import AddAddress from "../components/AddAdress";
 
 export default function Proceed() {
   const [route, setRoute] = useState(true);
@@ -19,8 +20,6 @@ export default function Proceed() {
   const [proceedProducts, setProceedProducts] = useState([]);
   const [payment, setPayment] = useState("عند الإستلام");
   const router = useRouter();
-  const [modal, setModal] = useState(false);
-  const [address, setAddress] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(0);
 
   useEffect(() => {
@@ -79,29 +78,15 @@ export default function Proceed() {
             <OrderEnd proceedProducts={proceedProducts} />
 
             {/* ////////////////Address////////////// */}
-
-            {dots ? (
-              <div className="dots">
-                <Dots />
-              </div>
-            ) : (
-              <div className="addressContainer">
-                <select className="select-address">
-                  {address.map((obj, index) => (
-                    <option value={index}>{obj.content}</option>
-                  ))}
-                </select>
-
-                <button
-                  className="addbtn"
-                  onClick={() => {
-                    setModal(true);
-                  }}
-                >
-                  اضافة عنوان
-                </button>
-              </div>
-            )}
+            <div className="address">
+              {dots ? (
+                <div className="dots">
+                  <Dots />
+                </div>
+              ) : (
+                <AddAddress />
+              )}
+            </div>
 
             {/* ///////////////////////////////// */}
             <label>اختر طريقة الدفع</label>
@@ -182,37 +167,6 @@ export default function Proceed() {
         }
         .total::after {
           content: " ل.ل";
-        }
-
-        .address {
-          border: 1px solid lightgrey;
-          border-width: 1px 0;
-          padding: 0.5rem;
-        }
-
-        .addressContainer {
-          display: flex;
-        }
-
-        .select-address {
-          flex: 1 1 70%;
-          margin: 0.5rem;
-          margin-right: 0;
-          padding: 0.8rem;
-          height: 3rem;
-          background: white;
-          border-radius: 0.5rem;
-        }
-
-        .addbtn {
-          display: block;
-          margin: auto;
-          background: white;
-          color: ${styles.secondaryColor};
-          border: 1.5px solid ${styles.primaryColor};
-          border-radius: 0.5rem;
-          padding: 0.2rem 0.8rem;
-          height: 3rem;
         }
 
         .dots {

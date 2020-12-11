@@ -34,7 +34,7 @@ export default function Input({
       <style jsx>{`
         .inputContainer {
           position: relative;
-          margin: 1.2rem 0;
+          margin: 0.6rem 0;
         }
 
         .input {

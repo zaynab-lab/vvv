@@ -6,35 +6,46 @@ export default function Modal({ children, add, setModal, refresh }) {
   // const [displayEdit, setDisplayEdit] = useState(true);
   return (
     <>
-      {add ? (
-        <>
-          <div className="addmodal">
+      <div className="modalContainer">
+        {add ? (
+          <>
+            <div className="addmodal">
+              <div
+                className="addmodal-background"
+                onClick={() => {
+                  setDisplayAdd("none");
+                  refresh();
+                }}
+              ></div>
+              <div className="addmodal-body">{children}</div>
+            </div>
             <div
-              className="addmodal-background"
+              className="addproductbtn"
+              onClick={() => setDisplayAdd("block")}
+            >
+              +
+            </div>
+          </>
+        ) : (
+          <div className="editmodal">
+            <div
+              className="editmodal-background"
               onClick={() => {
-                setDisplayAdd("none");
-                refresh();
+                setModal(false);
               }}
             ></div>
-            <div className="addmodal-body">{children}</div>
+            <div className="editmodal-body">{children}</div>
           </div>
-          <div className="addproductbtn" onClick={() => setDisplayAdd("block")}>
-            +
-          </div>
-        </>
-      ) : (
-        <div className="editmodal">
-          <div
-            className="editmodal-background"
-            onClick={() => {
-              setModal(false);
-            }}
-          ></div>
-          <div className="editmodal-body">{children}</div>
-        </div>
-      )}
+        )}
+      </div>
       <style>{`
-
+.modalContainer{
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0;
+  right:0;
+}
 
 .addproductbtn{
 position: absolute;
@@ -115,9 +126,27 @@ overflow:auto;
   z-index:8;
   overflow:auto;
   }
+
   
-  
-  
+
+@media only screen and (min-width: 450px) {
+  .addmodal-background{
+    width:450px;
+    }
+  .addmodal-body{
+    width:400px;
+    right:25px;  
+  }
+  .editmodal-background{
+  width:450px;
+  }
+  .editmodal-body{
+  width:400px;
+  right:25px;
+  }
+
+
+} 
 
 `}</style>
     </>

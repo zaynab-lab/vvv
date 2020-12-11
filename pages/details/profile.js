@@ -10,7 +10,6 @@ import { FaIdCard, FaMapMarkedAlt, FaTasks } from "react-icons/fa";
 import { useRecoilValue } from "recoil";
 import { userState } from "../menu";
 import Dots from "../../components/Loaders/Dots";
-import Modal from "../../components/Management/components/Modal";
 import AddAddress from "../../components/AddAdress";
 
 const userInputList = [
@@ -29,10 +28,8 @@ export default function Profile() {
   const userInfo = useRecoilValue(userState);
   const [state, setState] = useState(userInfo);
   const [dots, setDots] = useState(true);
-  const [address, setAddress] = useState([]);
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [modal, setModal] = useState(false);
 
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -82,18 +79,19 @@ export default function Profile() {
               </div>
             ) : (
               <>
-                {userInputList.map((obj, index) => (
-                  <Input
-                    key={index}
-                    name={obj.name}
-                    value={state[obj.name]}
-                    type={obj.type}
-                    placeholder={obj.placeholder}
-                    disabled={obj.disabled}
-                    handleChange={handleChange.bind(this)}
-                  />
-                ))}
-
+                <div className="inputContainer">
+                  {userInputList.map((obj, index) => (
+                    <Input
+                      key={index}
+                      name={obj.name}
+                      value={state[obj.name]}
+                      type={obj.type}
+                      placeholder={obj.placeholder}
+                      disabled={obj.disabled}
+                      handleChange={handleChange.bind(this)}
+                    />
+                  ))}
+                </div>
                 <div>تاريخ الميلاد</div>
 
                 <input
@@ -119,21 +117,7 @@ export default function Profile() {
                   <Dots />
                 </div>
               ) : (
-                <div className="addressContainer">
-                  <select className="select-address">
-                    {address.map((obj, index) => (
-                      <option value={index}>{obj.content}</option>
-                    ))}
-                  </select>
-                  <button
-                    className="addbtn"
-                    onClick={() => {
-                      setModal(true);
-                    }}
-                  >
-                    اضافة عنوان
-                  </button>
-                </div>
+                <AddAddress />
               )}
             </div>
             {/* /////////////////LOGOUT///////////////////// */}
@@ -162,8 +146,6 @@ export default function Profile() {
           </div>
         </>
       )}
-      {modal && <Modal children={<AddAddress />} setModal={setModal} />}
-
       <style jsx>{`
         .container {
           padding: 0.5rem;
@@ -178,6 +160,10 @@ export default function Profile() {
           border-radius: 0.5rem;
           text-align: center;
           font-size: 1.2rem;
+        }
+        .inputContainer {
+          display: flex;
+          flex-direction: column;
         }
 
         .birth {
@@ -208,32 +194,6 @@ export default function Profile() {
           border-width: 1px 0;
           padding: 0.5rem;
         }
-
-        .addressContainer {
-          display: flex;
-        }
-
-        .select-address {
-          flex: 1 1 70%;
-          margin: 0.5rem;
-          margin-right: 0;
-          padding: 0.8rem;
-          height: 3rem;
-          background: white;
-          border-radius: 0.5rem;
-        }
-
-        .addbtn {
-          display: block;
-          margin: auto;
-          background: white;
-          color: ${styles.secondaryColor};
-          border: 1.5px solid ${styles.primaryColor};
-          border-radius: 0.5rem;
-          padding: 0.2rem 0.8rem;
-          height: 3rem;
-        }
-
         .dots {
           height: 7rem;
           padding: 1rem;
