@@ -10,6 +10,8 @@ import { FaIdCard, FaMapMarkedAlt, FaTasks } from "react-icons/fa";
 import { useRecoilValue } from "recoil";
 import { userState } from "../menu";
 import Dots from "../../components/Loaders/Dots";
+import Modal from "../../components/Management/components/Modal";
+import AddAddress from "../../components/AddAdress";
 
 const userInputList = [
   { name: "name", placeholder: "الإسم", type: "text" },
@@ -30,6 +32,7 @@ export default function Profile() {
   const [address, setAddress] = useState([]);
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState(false);
 
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -40,9 +43,7 @@ export default function Profile() {
       .get("/api/auth")
       .then((res) => {
         const { data } = res;
-        setState("");
         setRoles(data.roles);
-        console.log("yes");
         if (data !== "noToken" && data !== "invalid") {
           setState({
             ...state,
@@ -118,26 +119,24 @@ export default function Profile() {
                   <Dots />
                 </div>
               ) : (
-                <>
-                  {address.map((obj) => (
-                    <input
-                      className="address-input"
-                      placeholder="عنوان"
-                      value={""}
-                    />
-                  ))}
-
+                <div className="addressContainer">
+                  <select className="select-address">
+                    {address.map((obj, index) => (
+                      <option value={index}>{obj.content}</option>
+                    ))}
+                  </select>
                   <button
                     className="addbtn"
                     onClick={() => {
-                      setAddress([...address, ""]);
+                      setModal(true);
                     }}
                   >
                     اضافة عنوان
                   </button>
-                </>
+                </div>
               )}
             </div>
+            {/* /////////////////LOGOUT///////////////////// */}
             {!dots && (
               <div
                 className="Logout"
@@ -163,6 +162,8 @@ export default function Profile() {
           </div>
         </>
       )}
+      {modal && <Modal children={<AddAddress />} setModal={setModal} />}
+
       <style jsx>{`
         .container {
           padding: 0.5rem;
@@ -187,27 +188,6 @@ export default function Profile() {
           border-radius: 0.5rem;
         }
 
-        .address {
-          border: 1px solid lightgrey;
-          border-width: 1px 0;
-          padding: 0.5rem;
-        }
-
-        .address-input {
-          width: 100%;
-          border: 1.5px solid lightgray;
-          border-radius: 0.5rem;
-          margin-bottom: 0.5rem;
-          padding: 0.5rem 0.8rem;
-          color: lightgray;
-          line-height: 1.5rem;
-        }
-
-        .address-input:focus {
-          color: gray;
-          border: 1.5px solid ${styles.primaryColor};
-        }
-
         .section-title {
           font-size: 1.2rem;
           color: ${styles.secondaryColor};
@@ -223,6 +203,26 @@ export default function Profile() {
           text-align: center;
         }
 
+        .address {
+          border: 1px solid lightgrey;
+          border-width: 1px 0;
+          padding: 0.5rem;
+        }
+
+        .addressContainer {
+          display: flex;
+        }
+
+        .select-address {
+          flex: 1 1 70%;
+          margin: 0.5rem;
+          margin-right: 0;
+          padding: 0.8rem;
+          height: 3rem;
+          background: white;
+          border-radius: 0.5rem;
+        }
+
         .addbtn {
           display: block;
           margin: auto;
@@ -231,7 +231,9 @@ export default function Profile() {
           border: 1.5px solid ${styles.primaryColor};
           border-radius: 0.5rem;
           padding: 0.2rem 0.8rem;
+          height: 3rem;
         }
+
         .dots {
           height: 7rem;
           padding: 1rem;

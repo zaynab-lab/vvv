@@ -11,7 +11,13 @@ const userSchema = new mongoose.Schema(
     amount: { type: Number, default: 5000 },
     roles: { type: [String], default: ["customer"] },
     mail: { type: String },
-    address: { type: [String] },
+    addresses: [
+      {
+        content: { type: String },
+        long: { type: Number },
+        lat: { type: Number }
+      }
+    ],
     birth: { type: Date },
     messages: [
       {

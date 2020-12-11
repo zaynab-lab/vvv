@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { styles } from "../../public/js/styles";
 import axios from "axios";
-// import Input from "../Input";
-// import { FaTrash } from "react-icons/fa";
 import OrderEnd from "../../components/OrderEnd";
 import ArrowBar from "../ArrowBar";
-import { FaCalendarAlt } from "react-icons/fa";
+import { FaCalendarAlt, FaMapMarkedAlt } from "react-icons/fa";
 
 export default function CustomersPage() {
   const [roles, setRoles] = useState("");
@@ -37,8 +35,12 @@ export default function CustomersPage() {
 
                 <div className="totalbar">
                   <span>الإجمالي: {obj.total} ل.ل</span>{" "}
-                  <span>رقم الطلب: </span>
+                  <span>رقم الطلب: {obj.orderCode}</span>
                 </div>
+                <div>
+                  <FaMapMarkedAlt /> العنوان: {obj.address}
+                </div>
+                <div>اسم الزبون: {obj.userName}</div>
               </div>
 
               <OrderEnd proceedProducts={obj.products} />
@@ -55,32 +57,29 @@ export default function CustomersPage() {
         </div>
       )}
       <style jsx>{`
+        // .OrdersContainer {
+        //   display: flex;
+        //   flex-direction: column-reverse;
+        // }
+
         .orderContainer {
           margin: 1rem;
-
           border: 1px solid ${styles.primaryColor};
-
           border-radius: 0.5rem;
         }
 
         .header,
         .footer {
           padding: 0.5rem;
-
           background: ${styles.thirdColor};
-
           color: ${styles.primaryColor};
-
           border-radius: 0.5rem;
         }
 
         .footer {
           display: flex;
-
           align-items: center;
-
           overflow: auto;
-
           width: 100%;
         }
 

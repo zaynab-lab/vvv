@@ -37,9 +37,12 @@ export default async (req, res) => {
           if (user) {
             const order = new Order({
               userID: user._id,
+              userName: user.name,
+              number: user.number,
               products: body.proceedProducts,
               total: body.total,
-              paymentMethod: body.payment
+              paymentMethod: body.payment,
+              address: { content: user.addresses[body.selectedAddress] }
             });
             await order.save().catch((err) => console.log(err));
             return res.end("done");
