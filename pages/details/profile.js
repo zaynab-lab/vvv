@@ -40,8 +40,8 @@ export default function Profile() {
       .get("/api/auth")
       .then((res) => {
         const { data } = res;
-        setRoles(data.roles);
         if (data !== "noToken" && data !== "invalid") {
+          setRoles(data.roles);
           setState({
             ...state,
             name: data.name,

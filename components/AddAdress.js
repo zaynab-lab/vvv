@@ -1,19 +1,21 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { styles } from "../public/js/styles";
 import Input from "./Input";
 import Dots from "./Loaders/Dots";
 import Modal from "./Management/components/Modal";
 
 const addressInputList = [
-  { name: "region", placeholder: "المنطقة", type: "text" },
-  { name: "street", placeholder: "الشارع", type: "text" },
-  { name: "building", placeholder: "المبنى", type: "text" },
-  { name: "floor", placeholder: "الطابق", type: "number" },
+  { name: "region", placeholder: "المنطقة*", type: "text" },
+  { name: "street", placeholder: "الشارع*", type: "text" },
+  { name: "building", placeholder: "المبنى*", type: "text" },
+  { name: "floor", placeholder: "الطابق*", type: "number" },
   { name: "details", placeholder: "تفاصيل العنوان", type: "text" }
 ];
 
-const ModalContent = () => {
+const ModalContent = ({ setModal, setAddresses }) => {
   const [state, setState] = useState({
+    city: "بيروت",
     region: "",
     street: "",
     building: "",
@@ -28,7 +30,10 @@ const ModalContent = () => {
   return (
     <>
       <div className="header">اضف عنوان</div>
-      <select className="select">
+      <select
+        className="select"
+        onChange={(e) => setState({ ...state, city: e.target.value })}
+      >
         <option value="بيروت">بيروت</option>
         <option value="النبطية">النبطية</option>
       </select>
@@ -50,7 +55,61 @@ const ModalContent = () => {
                 <Dots />
               </div>
             ) : (
-              <span>اضافة</span>
+              <div
+                onClick={() => {
+                  setDots(true);
+                  if (
+                    state.building === "" ||
+                    state.floor === "" ||
+                    state.region === "" ||
+                    state.street === ""
+                  ) {
+                    alert("املاء الخانات اللازمة، واللتي تحتوي على نجمة*");
+                    setDots(false);
+                  } else {
+                    const fadd =
+                      state.city +
+                      "، " +
+                      state.region +
+                      "، " +
+                      state.street +
+                      "، " +
+                      state.building +
+                      "، " +
+                      state.floor +
+                      "، " +
+                      state.details;
+                    axios
+                      .put(
+                        "/api/users/update/address",
+                        { fadd },
+                        { "content-type": "application/json" }
+                      )
+                      .then((res) => {
+                        const { data } = res;
+                        data === "done" &&
+                          setState({
+                            city: "بيروت",
+                            region: "",
+                            street: "",
+                            building: "",
+                            floor: "",
+                            details: ""
+                          });
+                        data === "done" && setModal(false);
+                        data === "done" && setDots(false);
+                      })
+                      .then(() => {
+                        axios.get("/api/users/addresses").then((res) => {
+                          const { data } = res;
+                          setAddresses(data);
+                        });
+                      });
+                  }
+                }}
+              >
+                اضافة
+              </div>
             )}
           </button>
         </div>
@@ -84,23 +143,35 @@ const ModalContent = () => {
           padding: 0.2rem 0.8rem;
           margin: 0.5rem 0;
           flex: 1 1 100%;
+          line-height: 2.2rem;
         }
       `}</style>
     </>
   );
 };
 
-export default function AddAddress() {
+export default function AddAddress({ setSelectedAddress }) {
   const [modal, setModal] = useState(false);
   const [addresses, setAddresses] = useState([]);
+
+  useEffect(() => {
+    axios.get("/api/users/addresses").then((res) => {
+      const { data } = res;
+      setAddresses(data);
+    });
+  }, []);
 
   return (
     <>
       <div className="addressContainer">
         {addresses.length > 0 && (
-          <select className="select-address">
-            {addresses.map((obj, index) => (
-              <option value={index}>{obj.content}</option>
+          <select
+            className="select-address"
+            onChange={(e) => setSelectedAddress(e.target.value)}
+          >
+            <option value="">اختر عنوان</option>
+            {addresses.map((obj) => (
+              <option value={obj.content}>{obj.content}</option>
             ))}
           </select>
         )}
@@ -113,7 +184,13 @@ export default function AddAddress() {
           اضافة عنوان
         </button>
       </div>
-      {modal && <Modal children={<ModalContent />} setModal={setModal} />}
+      {modal && (
+        <Modal
+          children={
+            <ModalContent setModal={setModal} setAddresses={setAddresses} />
+          }
+        />
+      )}
       <style jsx>{`
         .addressContainer {
           display: flex;

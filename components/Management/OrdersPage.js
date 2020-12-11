@@ -10,12 +10,11 @@ const OrderItem = ({ order }) => {
 
   return (
     <>
-      <div className="orderContainer" onClick={() => setHidden(!hidden)}>
-        <div className="header">
+      <div className="orderContainer">
+        <div className="header" onClick={() => setHidden(!hidden)}>
           <div>
             <FaCalendarAlt /> تاريخ الطلب: {order.date}
           </div>
-
           <div className="totalbar">
             <span>الإجمالي: {order.total} ل.ل</span>{" "}
             <span>رقم الطلب: {order.orderCode}</span>
@@ -24,7 +23,6 @@ const OrderItem = ({ order }) => {
           <div>
             <FaMapMarkedAlt /> العنوان: {order.address}
           </div>
-
           <div className="totalbar">
             <span>اسم الزبون: {order.userName}</span>
             <span>الرقم: {order.number}</span>
@@ -35,7 +33,6 @@ const OrderItem = ({ order }) => {
 
         <div className="footer">
           <span>المراحل : </span>
-
           <div>
             <ArrowBar />
           </div>

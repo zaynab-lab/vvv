@@ -11,7 +11,6 @@ export default async (req, res) => {
   const {
     query: { id }
   } = req;
-  console.log(id);
   switch (method) {
     case "PUT":
       try {
