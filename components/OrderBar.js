@@ -6,7 +6,7 @@ import axios from "axios";
 
 export default function OrderBar() {
   const [user, setUser] = useState(false);
-  const [inProgress, setInProgress] = useState(false);
+  const [inProgress, setInProgress] = useState(true);
 
   useEffect(() => {
     axios.get("/api/auth").then((res) => {
@@ -24,7 +24,7 @@ export default function OrderBar() {
           {inProgress ? (
             <Link href="/details/orders">
               <div className="currentOrders">
-                <div>الطلبيات الحالية</div>
+                <div>طلبيات قيد الإنتظار</div>
                 <div className="loader">
                   <Cloud />
                 </div>
@@ -39,7 +39,7 @@ export default function OrderBar() {
       <style jsx>{`
         .oldOrders {
           margin: 0.3rem;
-          padding: 0.5rem;
+          padding: 0.3rem;
           color: ${styles.secondaryColor};
           border: 1.5px solid ${styles.primaryColor};
           border-radius: 0.5rem;
@@ -48,7 +48,6 @@ export default function OrderBar() {
         }
 
         .currentOrders {
-          width: 100vw;
           margin: 0.3rem;
           padding: 0.5rem;
           background: white;
@@ -59,9 +58,6 @@ export default function OrderBar() {
           display: flex;
           justify-content: space-evenly;
           align-items: center;
-          position: -webkit-sticky;
-          position: sticky;
-          top: 0;
           font-size: 1.2rem;
         }
 
