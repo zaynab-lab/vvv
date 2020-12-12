@@ -87,7 +87,8 @@ const ModalContent = ({ setModal, setAddresses }) => {
                       )
                       .then((res) => {
                         const { data } = res;
-                        data === "done" &&
+                        if (data === "done") {
+                          setAddresses(addresses.push(fadd));
                           setState({
                             city: "بيروت",
                             region: "",
@@ -96,13 +97,11 @@ const ModalContent = ({ setModal, setAddresses }) => {
                             floor: "",
                             details: ""
                           });
-
-                        data === "done" && setModal(false);
-                        data === "done" && setDots(false);
-                        axios.get("/api/users/addresses").then((res) => {
-                          const { data } = res;
-                          setAddresses(data);
-                        });
+                          setModal(false);
+                        } else {
+                          alert("نرجو المحاولة مجددا، هناك خطأ في العملية");
+                        }
+                        setDots(false);
                       });
                   }
                 }}
