@@ -31,6 +31,7 @@ export default function Profile() {
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState("");
+  const [hasAddress, setHasAddress] = useState(false);
 
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -119,18 +120,23 @@ export default function Profile() {
                 </div>
               ) : (
                 <>
-                  <AddAddress setSelectedAddress={setSelectedAddress} />
-                  <div
-                    className="delete"
-                    onClick={() => {
-                      axios.delete("");
-                    }}
-                  >
-                    <span>حذف العنوان</span>
-                    <span className="icon">
-                      <FaTrash />
-                    </span>
-                  </div>
+                  <AddAddress
+                    setSelectedAddress={setSelectedAddress}
+                    setHasAddress={setHasAddress}
+                  />
+                  {hasAddress && selectedAddress !== "" && (
+                    <div
+                      className="delete"
+                      onClick={() => {
+                        alert("this should delete");
+                      }}
+                    >
+                      <span>حذف العنوان</span>
+                      <span className="icon">
+                        <FaTrash />
+                      </span>
+                    </div>
+                  )}
                 </>
               )}
             </div>

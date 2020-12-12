@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { styles } from "../public/js/styles";
 import Link from "next/link";
 import Cloud from "./Loaders/Cloud";
+import axios from "axios";
 
 export default function OrderBar() {
   const [user, setUser] = useState(false);
-  const [inProgress, setInProgress] = useState(true);
+  const [inProgress, setInProgress] = useState(false);
+
+  useEffect(() => {
+    axios.get("/api/auth").then((res) => {
+      const { data } = res;
+      if (data !== "noToken" && data !== "invalid") {
+        setUser(true);
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -28,8 +38,7 @@ export default function OrderBar() {
 
       <style jsx>{`
         .oldOrders {
-          width: 100vw;
-          margin: 0.5rem;
+          margin: 0.3rem;
           padding: 0.5rem;
           color: ${styles.secondaryColor};
           border: 1.5px solid ${styles.primaryColor};

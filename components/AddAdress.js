@@ -150,14 +150,18 @@ const ModalContent = ({ setModal, setAddresses }) => {
   );
 };
 
-export default function AddAddress({ setSelectedAddress }) {
+export default function AddAddress({ setSelectedAddress, setHasAddress }) {
   const [modal, setModal] = useState(false);
   const [addresses, setAddresses] = useState([]);
 
   useEffect(() => {
     axios.get("/api/users/addresses").then((res) => {
       const { data } = res;
-      setAddresses(data);
+      const { status } = res;
+      if (status === 200) {
+        setAddresses(data);
+        data.length > 0 && setHasAddress(true);
+      }
     });
   }, []);
 
@@ -186,7 +190,9 @@ export default function AddAddress({ setSelectedAddress }) {
       </div>
       {modal && (
         <Modal
-          children={<ModalContent setAddresses={setAddresses} />}
+          children={
+            <ModalContent setAddresses={setAddresses} setModal={setModal} />
+          }
           setModal={setModal}
         />
       )}
@@ -203,7 +209,7 @@ export default function AddAddress({ setSelectedAddress }) {
           padding: 0.2rem 0.8rem;
           background: white;
           border-radius: 0.5rem;
-          max-width: calc(100% - 6.5rem);
+          max-width: calc(100% - 6.8rem);
         }
 
         .addbtn {

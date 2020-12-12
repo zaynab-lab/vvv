@@ -5,6 +5,7 @@ import { atom, useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import LoadData from "../components/LoadData";
+import SlideShow from "../components/SlideShow";
 
 export const productsState = atom({
   key: "productList",
@@ -33,6 +34,7 @@ export default function IndexPage() {
       <TopBar title="الفئات" cart={true} main={true} />
       <div className="container">
         <OrderBar />
+        <SlideShow />
         <CategoryItems categories={categoryList} />
       </div>
       <LoadData />

@@ -15,7 +15,7 @@ export default async (req, res) => {
         jwt.verify(token, process.env.TOKEN_SECRET, async (err, decoded) => {
           if (err) return res.end("invalid");
           const user = await User.findById(decoded.id).exec();
-
+          res.status(200);
           return res.end(JSON.stringify(user.addresses));
         });
       } catch (err) {

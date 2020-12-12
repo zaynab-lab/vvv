@@ -4,6 +4,7 @@ import axios from "axios";
 import OrderEnd from "../../components/OrderEnd";
 import ArrowBar from "../ArrowBar";
 import { FaCalendarAlt, FaMapMarkedAlt } from "react-icons/fa";
+import OrderControllBar from "./components/OrderControllBar";
 
 const OrderItem = ({ order }) => {
   const [hidden, setHidden] = useState(true);
@@ -30,7 +31,7 @@ const OrderItem = ({ order }) => {
         </div>
 
         {!hidden && <OrderEnd proceedProducts={order.products} />}
-
+        <OrderControllBar />
         <div className="footer">
           <span>المراحل : </span>
           <div>

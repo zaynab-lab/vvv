@@ -21,6 +21,7 @@ export default function Proceed() {
   const [payment, setPayment] = useState("عند الإستلام");
   const router = useRouter();
   const [selectedAddress, setSelectedAddress] = useState("");
+  const [hasAddress, setHasAddress] = useState(false);
 
   useEffect(() => {
     axios.get("/api/products").then((res) => {
@@ -84,7 +85,10 @@ export default function Proceed() {
                   <Dots />
                 </div>
               ) : (
-                <AddAddress setSelectedAddress={setSelectedAddress} />
+                <AddAddress
+                  setSelectedAddress={setSelectedAddress}
+                  setHasAddress={setHasAddress}
+                />
               )}
             </div>
 
@@ -101,15 +105,16 @@ export default function Proceed() {
               </option>
             </select>
 
-            <div>
+            <div className="confirmbtn">
               {dots ? (
                 <Dots />
               ) : (
                 <div
-                  className="confirmbtn"
                   onClick={() => {
                     if (selectedAddress === "") {
-                      alert("اختر العنوان المطلوب الإرسال إليه، او اضف عنوان");
+                      !hasAddress
+                        ? alert("اضف عنوان للتمكن من الإرسال")
+                        : alert("اختر العنوان المطلوب الإرسال إليه");
                     } else {
                       setDots(true);
                       axios
@@ -136,6 +141,7 @@ export default function Proceed() {
           </div>
         </>
       )}
+
       <style jsx>{`
         .container {
           height: calc(100vh - 3rem);
@@ -163,7 +169,7 @@ export default function Proceed() {
         }
 
         .confirmbtn {
-          font-size: 1.3rem;
+          font-size: 1.2rem;
           border: 1px solid ${styles.primaryColorLight};
           background-color: ${dots ? "white" : styles.primaryColorLight};
           color: white;
@@ -171,7 +177,7 @@ export default function Proceed() {
           margin: 2rem auto;
           padding: 0.5rem 0.8rem;
           border-radius: 0.5rem;
-          line-height: 2rem;
+          line-height: 1.8rem;
           text-align: center;
         }
         .total::after {
