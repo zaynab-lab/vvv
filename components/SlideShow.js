@@ -1,3 +1,5 @@
+import { styles } from "../public/js/styles";
+
 export default function SlideShow() {
   return (
     <>
@@ -14,10 +16,10 @@ export default function SlideShow() {
         .container {
           color: #999;
           text-transform: uppercase;
-          font-size: 1.8rem;
+          font-size: 1.6rem;
           font-weight: bold;
           width: 100%;
-          padding: 0.2rem;
+          padding: 0.5rem 0.8rem;
           display: flex;
           justify-content: center;
         }
@@ -32,7 +34,8 @@ export default function SlideShow() {
 
         .flip > div {
           color: #fff;
-          padding: 0.2rem 2rem;
+          padding: 0.2rem 0.8rem;
+          margin: 0 1.2rem;
           height: 3rem;
           margin-bottom: 40px;
           display: inline-block;
@@ -43,13 +46,13 @@ export default function SlideShow() {
         }
 
         .flip div {
-          color: #42c58a;
+          background: ${styles.primaryColorLight};
         }
         .flip div:first-child {
-          color: #4ec7f3;
+          background: ${styles.secondaryColor};
         }
         .flip div:last-child {
-          color: #dc143c;
+          background: #999;
         }
 
         @keyframes show {

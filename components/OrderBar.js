@@ -49,7 +49,6 @@ export default function OrderBar() {
 
         .currentOrders {
           margin: 0.3rem;
-          padding: 0.5rem;
           background: white;
           color: ${styles.secondaryColor};
           border: 1.5px solid ${styles.primaryColor};
