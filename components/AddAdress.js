@@ -87,7 +87,6 @@ const ModalContent = ({ setModal, setAddresses }) => {
                       )
                       .then((res) => {
                         const { data } = res;
-                        data === "done" && setAddresses(addresses.push(fadd));
                         data === "done" &&
                           setState({
                             city: "بيروت",
@@ -100,7 +99,6 @@ const ModalContent = ({ setModal, setAddresses }) => {
                         data === "done" && setModal(false);
                         data !== "done" &&
                           alert("نرجو المحاولة مجددا، هناك خطأ في العملية");
-
                         setDots(false);
                       });
                   }
