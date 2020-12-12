@@ -96,10 +96,9 @@ const ModalContent = ({ setModal, setAddresses }) => {
                             floor: "",
                             details: ""
                           });
+
                         data === "done" && setModal(false);
                         data === "done" && setDots(false);
-                      })
-                      .then(() => {
                         axios.get("/api/users/addresses").then((res) => {
                           const { data } = res;
                           setAddresses(data);
