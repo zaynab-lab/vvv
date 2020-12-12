@@ -16,11 +16,7 @@ const orderSchema = new mongoose.Schema(
         price: { type: Number }
       }
     ],
-    address: {
-      content: { type: String },
-      long: { type: Number },
-      lat: { type: Number }
-    },
+    address: { type: String },
     total: { type: Number },
     paymentMethod: { type: String },
     date: { type: Date, default: Date.now },

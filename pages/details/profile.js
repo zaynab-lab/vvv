@@ -6,7 +6,7 @@ import Link from "next/link";
 import Router from "next/router";
 import { styles } from "../../public/js/styles";
 import Input from "../../components/Input";
-import { FaIdCard, FaMapMarkedAlt, FaTasks } from "react-icons/fa";
+import { FaIdCard, FaMapMarkedAlt, FaTasks, FaTrash } from "react-icons/fa";
 import { useRecoilValue } from "recoil";
 import { userState } from "../menu";
 import Dots from "../../components/Loaders/Dots";
@@ -30,6 +30,7 @@ export default function Profile() {
   const [dots, setDots] = useState(true);
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState("");
 
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -117,7 +118,20 @@ export default function Profile() {
                   <Dots />
                 </div>
               ) : (
-                <AddAddress />
+                <>
+                  <AddAddress setSelectedAddress={setSelectedAddress} />
+                  <div
+                    className="delete"
+                    onClick={() => {
+                      axios.delete("");
+                    }}
+                  >
+                    <span>حذف العنوان</span>
+                    <span className="icon">
+                      <FaTrash />
+                    </span>
+                  </div>
+                </>
               )}
             </div>
             {/* /////////////////LOGOUT///////////////////// */}
@@ -199,6 +213,21 @@ export default function Profile() {
           padding: 1rem;
           display: flex;
           justify-content: center;
+        }
+        .delete {
+          font-size: 0.9rem;
+          background: ${styles.primaryColor};
+          color: white;
+          width: fit-content;
+          padding: 0.4rem;
+          border-radius: 0.5rem;
+          text-align: center;
+          margin: auto;
+          display: flex;
+          justify-content: center;
+        }
+        .icon {
+          margin: auto 0.3rem;
         }
       `}</style>
     </>

@@ -42,7 +42,7 @@ export default async (req, res) => {
               products: body.proceedProducts,
               total: body.total,
               paymentMethod: body.payment,
-              address: { content: user.addresses[body.selectedAddress] }
+              address: body.selectedAddress
             });
             await order.save().catch((err) => console.log(err));
             return res.end("done");

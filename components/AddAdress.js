@@ -186,31 +186,31 @@ export default function AddAddress({ setSelectedAddress }) {
       </div>
       {modal && (
         <Modal
-          children={
-            <ModalContent setModal={setModal} setAddresses={setAddresses} />
-          }
+          children={<ModalContent setAddresses={setAddresses} />}
+          setModal={setModal}
         />
       )}
       <style jsx>{`
         .addressContainer {
           display: flex;
+          margin: 0.5rem 0;
         }
 
         .select-address {
           flex: 1 1 70%;
           margin: 0.5rem;
           margin-right: 0;
-          padding: 0.8rem;
-          height: 3rem;
+          padding: 0.2rem 0.8rem;
           background: white;
           border-radius: 0.5rem;
+          max-width: calc(100% - 6.5rem);
         }
 
         .addbtn {
           display: block;
           margin: 0.5rem auto;
           background: white;
-          color: ${styles.secondaryColor};
+          color: ${styles.primaryColor};
           border: 1.5px solid ${styles.primaryColor};
           border-radius: 0.5rem;
           padding: 0.5rem 0.8rem;

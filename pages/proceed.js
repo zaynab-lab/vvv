@@ -101,34 +101,38 @@ export default function Proceed() {
               </option>
             </select>
 
-            <button>
+            <div>
               {dots ? (
                 <Dots />
               ) : (
                 <div
                   className="confirmbtn"
                   onClick={() => {
-                    setDots(true);
-                    axios
-                      .post(
-                        "/api/orders",
-                        { proceedProducts, total, payment, selectedAddress },
-                        { "content-type": "application/json" }
-                      )
-                      .then((res) => {
-                        const { data } = res;
-                        data === "done" && setDots(false);
-                      })
-                      .then(() => {
-                        localStorage.setItem("cartList", JSON.stringify([]));
-                        router.push("/");
-                      });
+                    if (selectedAddress === "") {
+                      alert("اختر العنوان المطلوب الإرسال إليه، او اضف عنوان");
+                    } else {
+                      setDots(true);
+                      axios
+                        .post(
+                          "/api/orders",
+                          { proceedProducts, total, payment, selectedAddress },
+                          { "content-type": "application/json" }
+                        )
+                        .then((res) => {
+                          const { data } = res;
+                          data === "done" && setDots(false);
+                        })
+                        .then(() => {
+                          localStorage.setItem("cartList", JSON.stringify([]));
+                          router.push("/");
+                        });
+                    }
                   }}
                 >
                   الموافقة النهائية
                 </div>
               )}
-            </button>
+            </div>
           </div>
         </>
       )}
@@ -144,10 +148,9 @@ export default function Proceed() {
 
         .select {
           border-radius: 0.5rem;
-          font-size: 1.2rem;
+          font-size: 1rem;
           padding: 0.2rem 0.8rem;
           background: white;
-          margin-right: 0.4rem;
         }
 
         .select:focus {
@@ -156,13 +159,13 @@ export default function Proceed() {
 
         label {
           width: 80%;
-          margin-top: 1rem;
+          font-size: 1rem;
         }
 
         .confirmbtn {
-          font-size: 1.4rem;
+          font-size: 1.3rem;
           border: 1px solid ${styles.primaryColorLight};
-          background-color: ${!dots && styles.primaryColorLight};
+          background-color: ${dots ? "white" : styles.primaryColorLight};
           color: white;
           width: 12rem;
           margin: 2rem auto;
