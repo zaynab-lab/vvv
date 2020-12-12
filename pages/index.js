@@ -33,7 +33,7 @@ export default function IndexPage() {
     <>
       <TopBar title="الفئات" cart={true} main={true} />
       <div className="container">
-        <OrderBar />
+        {/* <OrderBar /> */}
         <SlideShow />
         <CategoryItems categories={categoryList} />
       </div>

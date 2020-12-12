@@ -87,8 +87,8 @@ const ModalContent = ({ setModal, setAddresses }) => {
                       )
                       .then((res) => {
                         const { data } = res;
-                        if (data === "done") {
-                          setAddresses(addresses.push(fadd));
+                        data === "done" && setAddresses(addresses.push(fadd));
+                        data === "done" &&
                           setState({
                             city: "بيروت",
                             region: "",
@@ -97,10 +97,10 @@ const ModalContent = ({ setModal, setAddresses }) => {
                             floor: "",
                             details: ""
                           });
-                          setModal(false);
-                        } else {
+                        data === "done" && setModal(false);
+                        data !== "done" &&
                           alert("نرجو المحاولة مجددا، هناك خطأ في العملية");
-                        }
+
                         setDots(false);
                       });
                   }
