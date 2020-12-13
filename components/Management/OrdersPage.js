@@ -14,26 +14,40 @@ const OrderItem = ({ order }) => {
       <div className="orderContainer">
         <div className="header" onClick={() => setHidden(!hidden)}>
           <div>
-            <FaCalendarAlt /> تاريخ الطلب: {order.date}
+            <span className="label">
+              <FaCalendarAlt /> تاريخ الطلب:{" "}
+            </span>
+            {order.date}
           </div>
           <div className="totalbar">
-            <span>الإجمالي: {order.total} ل.ل</span>{" "}
-            <span>رقم الطلب: {order.orderCode}</span>
+            <span>
+              <span className="label">الإجمالي:</span> {order.total} ل.ل
+            </span>{" "}
+            <span>
+              <span className="label">رقم الطلب:</span> {order.orderCode}
+            </span>
           </div>
 
           <div>
-            <FaMapMarkedAlt /> العنوان: {order.address}
+            <span className="label">
+              <FaMapMarkedAlt /> العنوان:
+            </span>{" "}
+            {order.address}
           </div>
           <div className="totalbar">
-            <span>اسم الزبون: {order.userName}</span>
-            <span>الرقم: {order.number}</span>
+            <span>
+              <span className="label">اسم الزبون:</span> {order.userName}
+            </span>
+            <span>
+              <span className="label">الرقم:</span> {order.number}
+            </span>
           </div>
         </div>
 
         {!hidden && <OrderEnd proceedProducts={order.products} />}
         <OrderControllBar />
         <div className="footer">
-          <span>المراحل : </span>
+          <span className="label">المراحل : </span>
           <div>
             <ArrowBar />
           </div>
@@ -75,6 +89,10 @@ const OrderItem = ({ order }) => {
 
         .totalbar span {
           flex: 1 1 100%;
+        }
+
+        .label {
+          color: ${styles.secondaryColor};
         }
       `}</style>
     </>

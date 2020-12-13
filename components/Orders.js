@@ -13,16 +13,22 @@ export default function Orders({ current, orderList }) {
             <div className="orderContainer">
               <div className="header">
                 <div>
-                  <FaCalendarAlt /> تاريخ الطلب: {obj.date}
+                  <span className="label">
+                    <FaCalendarAlt /> تاريخ الطلب:
+                  </span>{" "}
+                  {obj.date}
                 </div>
                 <div className="totalbar">
-                  <span>الإجمالي: {obj.total} ل.ل</span>{" "}
-                  <span>رقم الطلب: </span>
+                  <span>
+                    <span className="label">الإجمالي: </span>
+                    {obj.total} ل.ل
+                  </span>{" "}
+                  <span className="label">رقم الطلب: </span>
                 </div>
               </div>
               <OrderEnd proceedProducts={obj.products} />
               <div className="footer">
-                <span>المراحل : </span>
+                <span className="label">المراحل : </span>
                 <div>
                   <ArrowBar />
                 </div>
@@ -63,6 +69,9 @@ export default function Orders({ current, orderList }) {
         }
         .totalbar span {
           flex: 1 1 100%;
+        }
+        .label {
+          color: ${styles.secondaryColor};
         }
       `}</style>
     </>

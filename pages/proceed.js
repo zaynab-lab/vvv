@@ -70,7 +70,6 @@ export default function Proceed() {
       ) : (
         <>
           <TopBar title="المرحلة النهائية" page={true} cart={false} />
-
           <div className="container">
             <label>
               <span>اجمالي الطلب بـ</span>{" "}
@@ -148,7 +147,6 @@ export default function Proceed() {
           overflow: auto;
           display: flex;
           flex-direction: column;
-          padding: 1.5rem;
           font-size: 1.2rem;
         }
 

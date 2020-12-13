@@ -62,57 +62,65 @@ export default function Profile() {
       {!loading && (
         <>
           <div className="container">
-            {roles.length > 1 && (
-              <Link href="/details/management">
-                <div onClick={() => setLoading(true)} className="management">
-                  <FaTasks />
-                  <span className="section-title-name">الصفحة الإدارية</span>
-                </div>
-              </Link>
-            )}
+            <div className="id">
+              {roles.length > 1 && (
+                <Link href="/details/management">
+                  <div onClick={() => setLoading(true)} className="management">
+                    <span className="icon">
+                      <FaTasks />
+                    </span>
+                    <span>الصفحة الإدارية</span>
+                  </div>
+                </Link>
+              )}
 
-            <div className="section-title">
-              <FaIdCard />
-              <span className="section-title-name">الهوية</span>
-            </div>
-            {dots ? (
-              <div className="dots">
-                <Dots />
+              <div className="section-title">
+                <span className="icon">
+                  <FaIdCard />
+                </span>
+                <span>الهوية</span>
               </div>
-            ) : (
-              <>
-                <div className="inputContainer">
-                  {userInputList.map((obj, index) => (
-                    <Input
-                      key={index}
-                      name={obj.name}
-                      value={state[obj.name]}
-                      type={obj.type}
-                      placeholder={obj.placeholder}
-                      disabled={obj.disabled}
-                      handleChange={handleChange.bind(this)}
-                    />
-                  ))}
+              {dots ? (
+                <div className="dots">
+                  <Dots />
                 </div>
-                <div>تاريخ الميلاد</div>
+              ) : (
+                <>
+                  <div className="inputContainer">
+                    {userInputList.map((obj, index) => (
+                      <Input
+                        key={index}
+                        name={obj.name}
+                        value={state[obj.name]}
+                        type={obj.type}
+                        placeholder={obj.placeholder}
+                        disabled={obj.disabled}
+                        handleChange={handleChange.bind(this)}
+                      />
+                    ))}
+                  </div>
+                  <div>تاريخ الميلاد</div>
 
-                <input
-                  className="birth"
-                  name={"birth"}
-                  type="date"
-                  ata-date=""
-                  data-date-format="DD MMMM YYYY"
-                  value="2019-01-01"
-                />
-              </>
-            )}
-
+                  <input
+                    className="birth"
+                    name={"birth"}
+                    type="date"
+                    ata-date=""
+                    data-date-format="DD MMMM YYYY"
+                    value="2019-01-01"
+                  />
+                </>
+              )}
+            </div>
             {/* ////////////////Address////////////// */}
 
             <div className="address">
               <div className="section-title">
-                <FaMapMarkedAlt />
-                <span className="section-title-name">العناوين</span>
+                <span className="icon">
+                  {" "}
+                  <FaMapMarkedAlt />
+                </span>
+                <span>العناوين</span>
               </div>
               {dots ? (
                 <div className="dots">
@@ -168,18 +176,22 @@ export default function Profile() {
       )}
       <style jsx>{`
         .container {
-          padding: 0.5rem;
           height: calc(100vh - 3rem);
           overflow: auto;
         }
 
-        .management {
+        .id {
           padding: 0.5rem;
+        }
+        .management {
+          padding: 0.2rem;
           color: ${styles.secondaryColor};
           border: 1.5px solid ${styles.primaryColor};
           border-radius: 0.5rem;
-          text-align: center;
           font-size: 1.2rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         .inputContainer {
           display: flex;
@@ -195,12 +207,15 @@ export default function Profile() {
         }
 
         .section-title {
+          margin: 0.5rem;
           font-size: 1.2rem;
+          display: flex;
+          align-items: center;
           color: ${styles.secondaryColor};
         }
 
-        .section-title-name {
-          padding: 0.3rem 0.5rem 0 0.5rem;
+        .icon {
+          margin: 0 0.5rem;
         }
 
         .Logout {
@@ -212,7 +227,6 @@ export default function Profile() {
         .address {
           border: 1px solid lightgrey;
           border-width: 1px 0;
-          padding: 0.5rem;
         }
         .dots {
           height: 7rem;

@@ -28,7 +28,7 @@
     height: 100vh;
   }
   body {
-    background-color: lightblue;
+    background-color: #eef1fe;
     background-image: url("../public/img/png/background.png");
     background-repeat: repeat;
   }

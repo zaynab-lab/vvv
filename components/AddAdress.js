@@ -13,7 +13,7 @@ const addressInputList = [
   { name: "details", placeholder: "تفاصيل العنوان", type: "text" }
 ];
 
-const ModalContent = ({ setModal, setAddresses }) => {
+const ModalContent = ({ setModal, setnewAddress }) => {
   const [state, setState] = useState({
     city: "بيروت",
     region: "",
@@ -87,6 +87,7 @@ const ModalContent = ({ setModal, setAddresses }) => {
                       )
                       .then((res) => {
                         const { data } = res;
+                        data === "done" && setnewAddress(fadd);
                         data === "done" &&
                           setState({
                             city: "بيروت",
@@ -150,6 +151,10 @@ export default function AddAddress({ setSelectedAddress, setHasAddress }) {
   const [modal, setModal] = useState(false);
   const [addresses, setAddresses] = useState([]);
 
+  const setnewAddress = (newAddress) => {
+    const a = [...addresses, { content: newAddress }];
+    setAddresses(a);
+  };
   useEffect(() => {
     axios.get("/api/users/addresses").then((res) => {
       const { data } = res;
@@ -187,7 +192,10 @@ export default function AddAddress({ setSelectedAddress, setHasAddress }) {
       {modal && (
         <Modal
           children={
-            <ModalContent setAddresses={setAddresses} setModal={setModal} />
+            <ModalContent
+              setnewAddress={setnewAddress.bind(this)}
+              setModal={setModal}
+            />
           }
           setModal={setModal}
         />
@@ -195,7 +203,7 @@ export default function AddAddress({ setSelectedAddress, setHasAddress }) {
       <style jsx>{`
         .addressContainer {
           display: flex;
-          margin: 0.5rem 0;
+          margin: 0.5rem;
         }
 
         .select-address {

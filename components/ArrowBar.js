@@ -59,7 +59,7 @@ export default function ArrowBar() {
           width: 9rem;
           float: right;
           position: relative;
-          background-color: #ddd;
+          background-color: #eee;
           -webkit-user-select: none;
           -moz-user-select: none;
           -ms-user-select: none;
@@ -79,7 +79,7 @@ export default function ArrowBar() {
           height: 0;
           border-top: 1rem solid transparent;
           border-bottom: 1.1rem solid transparent;
-          border-right: 1rem solid #ddd;
+          border-right: 1rem solid #eee;
           z-index: 2;
         }
 
