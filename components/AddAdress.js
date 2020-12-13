@@ -175,8 +175,10 @@ export default function AddAddress({ setSelectedAddress, setHasAddress }) {
             onChange={(e) => setSelectedAddress(e.target.value)}
           >
             <option value="">اختر عنوان</option>
-            {addresses.map((obj) => (
-              <option value={obj.content}>{obj.content}</option>
+            {addresses.map((obj, index) => (
+              <option key={index} value={obj.content}>
+                {obj.content}
+              </option>
             ))}
           </select>
         )}
@@ -203,22 +205,21 @@ export default function AddAddress({ setSelectedAddress, setHasAddress }) {
       <style jsx>{`
         .addressContainer {
           display: flex;
-          margin: 0.5rem;
+          padding: 0.5rem;
         }
 
         .select-address {
           flex: 1 1 70%;
-          margin: 0.5rem;
-          margin-right: 0;
           padding: 0.2rem 0.8rem;
           background: white;
           border-radius: 0.5rem;
           max-width: calc(100% - 6.8rem);
+          font-size: 1.1rem;
         }
 
         .addbtn {
           display: block;
-          margin: 0.5rem auto;
+          margin-right: 0.5rem;
           background: white;
           color: ${styles.primaryColor};
           border: 1.5px solid ${styles.primaryColor};
