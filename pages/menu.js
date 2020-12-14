@@ -102,7 +102,7 @@ export default function Menu() {
 
                   <Link href="/details/orders">
                     <li onClick={() => setDots(true)}>
-                      <FaTruckLoading /> <span>الطلبيات السابقة</span>
+                      <FaTruckLoading /> <span>الطلبيات </span>
                     </li>
                   </Link>
                 </>

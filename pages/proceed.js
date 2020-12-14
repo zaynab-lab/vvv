@@ -10,6 +10,7 @@ import { useRecoilValue } from "recoil";
 import OrderEnd from "../components/OrderEnd";
 import AddAddress from "../components/AddAdress";
 import SnakBar from "../components/SnakBar";
+import Switch from "../components/Switch";
 
 export default function Proceed() {
   const cartList = useRecoilValue(cartListState);
@@ -21,14 +22,18 @@ export default function Proceed() {
   const [payment, setPayment] = useState("عند الإستلام");
   const [selectedAddress, setSelectedAddress] = useState("");
   const [hasAddress, setHasAddress] = useState(false);
-  const [message, setMessage] = useState("");
+  const [snak, setSnak] = useState("");
+  const fire = (message) => {
+    setSnak({ message, show: true });
+    setTimeout(() => setSnak(""), 3000);
+  };
 
   useEffect(() => {
     axios.get("/api/auth").then((res) => {
       if (res.data === "noToken" || res.data === "invalid") {
         Router.push("/Login");
       } else {
-        setRoute(false);
+        cartList.length ? setRoute(false) : Router.push("/cart");
       }
     });
   }, []);
@@ -48,18 +53,17 @@ export default function Proceed() {
           ...cartList.find((item) => item.id === obj._id)
         }))
     );
-    cartList.length
-      ? setTotal(
-          cartList
-            .map(
-              (obj) =>
-                productList
-                  .filter((items) => items._id === obj.id)
-                  .map((items) => items.price) * obj.quantity
-            )
-            .reduce((a, b) => a + b)
-        )
-      : Router.push("/cart");
+    cartList.length &&
+      setTotal(
+        cartList
+          .map(
+            (obj) =>
+              productList
+                .filter((items) => items._id === obj.id)
+                .map((items) => items.price) * obj.quantity
+          )
+          .reduce((a, b) => a + b)
+      );
   }, [setProceedProducts, productList, cartList]);
 
   return (
@@ -103,21 +107,31 @@ export default function Proceed() {
 
             {/* ///////////////////////////////// */}
             <div className="pay">
-              <span className="label">الدفع: </span>
-              <select
-                className="select"
-                onChange={(e) => setPayment(e.target.value)}
-              >
-                <option value="عند الإستلام">عند الإستلام</option>
-                <option value="بطاقة الائتمان">بطاقة الائتمان</option>
-                <option
-                  onClick={() => alert("الخدمة غير متوفرة حاليا")}
-                  disabled
+              <div>
+                <span className="label">طريقة الدفع: </span>
+                <select
+                  className="select"
+                  onChange={(e) => setPayment(e.target.value)}
                 >
-                  عبر الإنترنت
-                </option>
-              </select>
+                  <option value="عند الإستلام">عند الإستلام</option>
+                  <option disabled value="بطاقة الائتمان">
+                    بطاقة الائتمان
+                  </option>
+                  <option
+                    onClick={() => alert("الخدمة غير متوفرة حاليا")}
+                    disabled
+                    value="عبر الإنترنت"
+                  >
+                    عبر الإنترنت
+                  </option>
+                </select>
+              </div>
+              <div>
+                <span className="label">خصم من الرصيد:</span>
+                <Switch />
+              </div>
             </div>
+
             <div className="confirmbtn">
               {dots ? (
                 <Dots />
@@ -126,8 +140,8 @@ export default function Proceed() {
                   onClick={() => {
                     if (selectedAddress === "") {
                       !hasAddress
-                        ? alert("اضف عنوان للتمكن من الإرسال")
-                        : alert("اختر العنوان المطلوب الإرسال إليه");
+                        ? fire("اضف عنوان للتمكن من الإرسال")
+                        : fire("اختر العنوان المطلوب الإرسال إليه");
                     } else {
                       setDots(true);
                       axios
@@ -139,14 +153,11 @@ export default function Proceed() {
                         .then((res) => {
                           const { data } = res;
                           data === "done" && setDots(false);
-                          data === "done" &&
-                            setMessage(
-                              "تم تسجيل الطلبية بنجاح، ستوافى بالمعلومات عن طريق الصفحة الشخصية"
-                            );
+                          data === "done" && fire("تم تسجيل الطلبية بنجاح");
                         })
                         .then(() => {
                           localStorage.setItem("cartList", JSON.stringify([]));
-                          router.push("/");
+                          setTimeout(() => Router.push("/"), 1500);
                         });
                     }
                   }}
@@ -158,7 +169,7 @@ export default function Proceed() {
           </div>
         </>
       )}
-
+      <SnakBar show={snak.show} message={snak.message} />
       <style jsx>{`
         .container {
           height: calc(100vh - 3rem);
@@ -172,6 +183,7 @@ export default function Proceed() {
           font-size: 1.2rem;
           color: ${styles.secondaryColor};
         }
+
         .select {
           border-radius: 0.5rem;
           font-size: 1rem;
@@ -224,6 +236,11 @@ export default function Proceed() {
         .pay {
           padding: 0.8rem;
           width: 100%;
+        }
+        .pay div {
+          display: flex;
+          justify-content: space-between;
+          padding: 0.2rem;
         }
       `}</style>
     </>

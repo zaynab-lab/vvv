@@ -1,66 +1,77 @@
-import { useEffect, useState } from "react";
-export default function SnakBar({ message }) {
-  const [msg, setMsg] = useState(message);
+import { styles } from "../public/js/styles";
 
-  useEffect(() => {
-    setTimeout(setMsg("jhjj"), 3000);
-  }, [msg]);
-
+export default function SnakBar({ message, show }) {
   return (
     <>
-      <div className="cont">
-        <div className="snkcontainer">{msg}</div>
-      </div>
-      <style>{`
-      .cont{
-        display:block;
-        position:absolute;
-        bottom:1.5rem;
-        width:100%;
-        animation: fade ease 2s;
-        -webkit-animation: fade ease 2s;
-      }
-      .snkcontainer{
-        background:grey;
-        min-width:10rem;
-        padding:.8rem;
-        border-radius:3rem;
-        color:white;
-        text-align:center;
-        width:fit-content;
-        margin:auto;    
-        z-index:20;
-      }
-      
-      @keyframes fade {
-        0% {opacity:0;}
-        100% {opacity:1;}
-        0% {opacity:0;}
-      }
-      
-      @-moz-keyframes fade {
-        0% {opacity:0;}
-        100% {opacity:1;}
-        0% {opacity:0;}
-      }
-      
-      @-webkit-keyframes fade {
-        0% {opacity:0;}
-        100% {opacity:1;}
-        0% {opacity:0;}
-      }
-      
-      @-o-keyframes fade {
-        0% {opacity:0;}
-        100% {opacity:1;}
-        0% {opacity:0;}
-      }
-      
-      @-ms-keyframes fade {
-        0% {opacity:0;}
-        100% {opacity:1;}
-        0% {opacity:0;}
-      }
+      {show && (
+        <div className="mainsnkcontainer">
+          <div className="snkcontainer">
+            <div className="snkbar"> {message} </div>
+          </div>
+        </div>
+      )}
+
+      <style jsx>{`
+        .mainsnkcontainer {
+          position: absolute;
+          top: 3.3rem;
+          width: 100%;
+        }
+        .snkcontainer {
+          display: flex;
+          justify-content: center;
+          align-content: center;
+        }
+        .snkbar {
+          background: ${styles.secondaryColor};
+          color: white;
+          width: fit-content;
+          padding: 0.2rem 1rem;
+          font-size: 1rem;
+          border-radius: 1.8rem;
+          -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+          animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        @-webkit-keyframes fadein {
+          from {
+            bottom: 0;
+            opacity: 0;
+          }
+          to {
+            bottom: 6rem;
+            opacity: 1;
+          }
+        }
+        @keyframes fadein {
+          from {
+            bottom: 0;
+            opacity: 0;
+          }
+          to {
+            bottom: 6rem;
+            opacity: 1;
+          }
+        }
+        @-webkit-keyframes fadeout {
+          from {
+            bottom: 6rem;
+            opacity: 1;
+          }
+          to {
+            bottom: 0;
+            opacity: 0;
+          }
+        }
+        @keyframes fadeout {
+          from {
+            bottom: 6rem;
+            opacity: 1;
+          }
+          to {
+            bottom: 0;
+            opacity: 0;
+          }
+        }
       `}</style>
     </>
   );
