@@ -31,12 +31,12 @@ export default function Proceed() {
   useEffect(() => {
     axios.get("/api/auth").then((res) => {
       if (res.data === "noToken" || res.data === "invalid") {
-        Router.push("/Login");
+        Router.push("/Login?routeTo=cart");
       } else {
         cartList.length ? setRoute(false) : Router.push("/cart");
       }
     });
-  }, []);
+  }, [cartList.length]);
 
   useEffect(() => {
     axios.get("/api/products").then((res) => {
@@ -157,7 +157,10 @@ export default function Proceed() {
                         })
                         .then(() => {
                           localStorage.setItem("cartList", JSON.stringify([]));
-                          setTimeout(() => Router.push("/"), 1500);
+                          setTimeout(
+                            () => Router.push("/details/orders"),
+                            1500
+                          );
                         });
                     }
                   }}

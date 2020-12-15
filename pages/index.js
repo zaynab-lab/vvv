@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import LoadData from "../components/LoadData";
 import SlideShow from "../components/SlideShow";
+import { useRouter } from "next/router";
+import SnakBar from "../components/SnakBar";
 
 export const productsState = atom({
   key: "productList",
@@ -28,6 +30,17 @@ export default function IndexPage() {
       setCategoryListInfo(data);
     });
   }, [setCategoryList, setCategoryListInfo]);
+  const [snak, setSnak] = useState("");
+  const fire = (message) => {
+    setSnak({ message, show: true });
+    setTimeout(() => setSnak(""), 3000);
+  };
+  const router = useRouter();
+  const { msg } = router.query;
+
+  useEffect(() => {
+    msg ? fire(msg) : fire("مرحبا بك عزيزي المستخدم");
+  }, [msg]);
 
   return (
     <>
@@ -37,6 +50,7 @@ export default function IndexPage() {
         <SlideShow />
         <CategoryItems categories={categoryList} />
       </div>
+      <SnakBar show={snak.show} message={snak.message} />
       <LoadData />
       <style jsx>{`
         .container {

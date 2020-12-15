@@ -6,6 +6,7 @@ import { cartListState } from "../pages/cart";
 import { styles } from "../public/js/styles";
 import Loader from "./Loader";
 import LoadData from "./LoadData";
+import { FaArrowRight, FaHome, FaShoppingCart } from "react-icons/fa";
 
 export default function TopBar({ title, page, cart, main }) {
   const cartList = useRecoilValue(cartListState);
@@ -30,7 +31,7 @@ export default function TopBar({ title, page, cart, main }) {
                 Router.back();
               }}
             >
-              &#8735;
+              <FaArrowRight />
             </div>
           ) : (
             <div
@@ -40,7 +41,7 @@ export default function TopBar({ title, page, cart, main }) {
                 Router.push("/") || Router.back();
               }}
             >
-              &#8962;
+              <FaHome />
             </div>
           )
         ) : (
@@ -62,7 +63,7 @@ export default function TopBar({ title, page, cart, main }) {
             <div className="cart" onClick={() => setLoading(true)}>
               <span className="point">{quantity}</span>
               <span role="img" aria-label="cart">
-                &#128722;
+                <FaShoppingCart />
               </span>
             </div>
           </Link>
@@ -91,11 +92,12 @@ export default function TopBar({ title, page, cart, main }) {
         }
 
         .arrow {
-          transform: translateX(-0.5rem) rotate(-135deg);
+          font-size: 1.6rem;
+          transform: translateX(-0.2rem);
         }
 
         .home {
-          font-size: 1.5rem;
+          font-size: 1.6rem;
           transform: translateX(-0.5rem);
         }
 
@@ -107,7 +109,9 @@ export default function TopBar({ title, page, cart, main }) {
           background: white;
           border-radius: 0.2rem;
           padding: 0.2rem;
+          padding-bottom: 0;
           font-size: 1.2rem;
+          color: ${styles.secondaryColor};
         }
 
         .point {

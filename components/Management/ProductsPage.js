@@ -109,6 +109,7 @@ export default function ProductsPage() {
                 <EditProduct
                   product={currentProduct}
                   refresh={setActionById.bind(this)}
+                  GM={roles.includes("GM")}
                 />
               }
             />

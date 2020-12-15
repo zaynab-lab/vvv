@@ -19,7 +19,7 @@ export default function OrdersPage() {
 
   return (
     <>
-      <TopBar title="الطلبيات" page={true} />
+      <TopBar title="الطلبيات" page={false} />
       <div className="container">
         <div className="topBar">
           <div

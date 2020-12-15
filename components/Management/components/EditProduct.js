@@ -15,7 +15,7 @@ const productInputList = [
 ];
 const measures = ["كيلوغرام", "حبة", "ربطة"];
 
-export default function EditProduct({ add, product, refresh }) {
+export default function EditProduct({ add, product, refresh, GM }) {
   const [categoryList, setCategoryList] = useState([]);
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [dots, setDots] = useState(false);
@@ -184,7 +184,7 @@ export default function EditProduct({ add, product, refresh }) {
               <span>تعديل المنتج</span>
             )}
           </button>
-          {!add && (
+          {!add && GM && (
             <button
               className="delete-btn"
               onClick={() => {

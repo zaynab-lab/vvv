@@ -4,7 +4,7 @@ import { atom, useRecoilValue } from "recoil";
 import Name from "../components/Name";
 import TopBar from "../components/TopBar";
 import axios from "axios";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import Loader from "../components/Loader";
 
 export const PhonePageState = atom({
@@ -15,6 +15,8 @@ export const PhonePageState = atom({
 export default function Login() {
   const phonePage = useRecoilValue(PhonePageState);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const { routeTo } = router.query;
 
   useEffect(() => {
     axios.get("/api/auth").then((res) => {
@@ -29,10 +31,16 @@ export default function Login() {
 
   return (
     <>
-      <TopBar title="تسجيل الدخول" page={true} />
+      <TopBar title="تسجيل الدخول" page={false} />
       {loading && <Loader />}
       {!loading && (
-        <div className="container">{phonePage ? <PhoneOTP /> : <Name />}</div>
+        <div className="container">
+          {phonePage ? (
+            <PhoneOTP routeTo={routeTo} />
+          ) : (
+            <Name routeTo={routeTo} />
+          )}
+        </div>
       )}
       <style jsx global>{`
         * {

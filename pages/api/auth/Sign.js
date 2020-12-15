@@ -1,7 +1,5 @@
 import dbConnection from "../../../util/dbConnection";
 import User from "../../../models/user";
-import axios from "axios";
-import qs from "qs";
 import twilio from "twilio";
 
 const client = twilio(process.env.TWILIO_ACSID, process.env.TWILIO_AUTH_TOKEN);
@@ -37,9 +35,9 @@ export default async (req, res) => {
         }).exec();
 
         if (user) {
-          const min = 3 - (d - user.date) / 60000;
+          const min = 2 - (d - user.date) / 60000;
 
-          if (min < 3 && min > 0) {
+          if (min < 2 && min > 0) {
             var mins = Math.ceil(min);
             return res.end(`لإعادة المحاولة، نرجو منك الإنتظار ${mins} دقيقة.`);
           } else {

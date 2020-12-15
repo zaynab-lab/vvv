@@ -58,8 +58,16 @@ export default async (req, res) => {
       break;
     case "DELETE":
       try {
-        Product.findByIdAndRemove(id, (err) => {
-          return err && res.end("invalid");
+        const token = req.cookies.jwt;
+        if (!token) return res.end("noToken");
+        jwt.verify(token, process.env.TOKEN_SECRET, async (err, decoded) => {
+          if (err) return res.end("invalid");
+          const user = await User.findById(decoded.id).exec();
+          if (user.roles.includes("GM")) {
+            Product.findByIdAndRemove(id, (err) => {
+              return err && res.end("invalid");
+            });
+          }
         });
       } catch (err) {
         return res.end("invalid");
