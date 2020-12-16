@@ -2,7 +2,7 @@ export const styles = {
   primaryColor: "#ff9900",
   primaryColorLight: "sandybrown",
   secondaryColor: "#60b0f4",
-  thirdColor: "#fffaf0"
+  thirdColor: "#fffcfa"
   // thirdColor: "#f9f5ff",
   // primaryColor: "#7F5AB3",
   // primaryColorLight: "#7F5AB3",

@@ -39,7 +39,7 @@ export default function IndexPage() {
   const { msg } = router.query;
 
   useEffect(() => {
-    msg ? fire(msg) : fire("مرحبا بك عزيزي المستخدم");
+    msg && fire(msg);
   }, [msg]);
 
   return (

@@ -220,9 +220,9 @@ export default function AddAddress({ setSelectedAddress, setHasAddress }) {
         .addbtn {
           display: block;
           margin-right: 0.5rem;
-          background: white;
-          color: ${styles.primaryColor};
-          border: 1.5px solid ${styles.primaryColor};
+          color: white;
+          background: ${styles.primaryColorLight};
+          border: none;
           border-radius: 0.5rem;
           padding: 0.5rem 0.8rem;
         }

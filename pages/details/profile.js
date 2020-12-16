@@ -140,9 +140,6 @@ export default function Profile() {
                       }}
                     >
                       <span>حذف العنوان</span>
-                      <span className="icon">
-                        <FaTrash />
-                      </span>
                     </div>
                   )}
                 </>
@@ -236,15 +233,14 @@ export default function Profile() {
         }
         .delete {
           font-size: 0.9rem;
-          background: ${styles.primaryColor};
+          background: ${styles.primaryColorLight};
           color: white;
           width: fit-content;
-          padding: 0.4rem;
+          padding: 0.4rem 0.8rem;
           border-radius: 0.5rem;
           text-align: center;
           margin: auto;
-          display: flex;
-          justify-content: center;
+          margin-bottom: 1rem;
         }
         .icon {
           margin: auto 0.3rem;

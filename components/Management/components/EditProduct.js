@@ -13,7 +13,7 @@ const productInputList = [
   { name: "price", placeholder: "السعر النهائي", type: "number" },
   { name: "description", placeholder: "الشرح", type: "text" }
 ];
-const measures = ["كيلوغرام", "حبة", "ربطة"];
+const measures = ["كيلوغرام", "حبة", "ربطة", "وقية"];
 
 export default function EditProduct({ add, product, refresh, GM }) {
   const [categoryList, setCategoryList] = useState([]);
