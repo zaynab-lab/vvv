@@ -31,6 +31,7 @@ export default function OrdersPage() {
         data && setOrderList(data);
       });
     } else {
+      setOrderList([]);
       axios.get(`/api/orders/${current}`).then((res) => {
         const { data } = res;
         data && setOrderList(data);
@@ -41,17 +42,14 @@ export default function OrdersPage() {
   return (
     <>
       <OrderTopBar setCurrent={setCurrent} current={current} />
-      {current === "record" && roles.includes("ordersManager") && (
+      {roles.includes("ordersManager") && (
         <div>
           {orderList.map((obj) => (
-            <OrderItem order={obj} role={roles.includes("GM") && "GM"} />
-          ))}
-        </div>
-      )}
-      {current === "preparation" && roles.includes("ordersManager") && (
-        <div>
-          {orderList.map((obj) => (
-            <OrderItem order={obj} role={roles.includes("GM") && "GM"} />
+            <OrderItem
+              order={obj}
+              role={roles.includes("GM") && "GM"}
+              current={current}
+            />
           ))}
         </div>
       )}

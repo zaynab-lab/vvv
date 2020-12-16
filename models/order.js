@@ -21,15 +21,19 @@ const orderSchema = new mongoose.Schema(
     paymentMethod: { type: String },
     date: { type: Date, default: Date.now },
     progress: {
-      acceptance: {
-        date: { type: Date },
-        done: { type: Boolean, default: false }
-      },
       preparation: {
         date: { type: Date },
         done: { type: Boolean, default: false }
       },
+      audit: {
+        date: { type: Date },
+        done: { type: Boolean, default: false }
+      },
       dispatch: {
+        date: { type: Date },
+        done: { type: Boolean, default: false }
+      },
+      arrive: {
         date: { type: Date },
         done: { type: Boolean, default: false }
       },

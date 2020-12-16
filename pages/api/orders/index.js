@@ -17,7 +17,10 @@ export default async (req, res) => {
           if (err) return res.end("invalid");
           const user = await User.findById(decoded.id).exec();
           if (user.roles.includes("ordersManager")) {
-            const orders = await Order.find({});
+            const orders = await Order.find({
+              "progress.preparation.done": false,
+              "progress.cancelation.done": false
+            });
             return res.end(JSON.stringify(orders));
           }
           return res.end("done");

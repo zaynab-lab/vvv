@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { styles } from "../../../public/js/styles";
 import OrderEnd from "../../../components/OrderEnd";
-import ArrowBar from "../../ArrowBar";
 import { FaCalendarAlt, FaMapMarkedAlt } from "react-icons/fa";
 import OrderControll from "./OrderControll";
 
-export default function OrderItem({ order, role }) {
+export default function OrderItem({ order, role, current }) {
   const [hidden, setHidden] = useState(true);
 
   return (
@@ -50,7 +49,7 @@ export default function OrderItem({ order, role }) {
         {!hidden && <OrderEnd proceedProducts={order.products} />}
 
         <div className="footer">
-          <OrderControll role={role} />
+          <OrderControll role={role} id={order._id} current={current} />
         </div>
       </div>
 

@@ -1,11 +1,21 @@
+import axios from "axios";
 import { FaBan, FaCheckCircle, FaEdit } from "react-icons/fa";
 import { styles } from "../../../public/js/styles";
 
-export default function OrderControll({ role }) {
+export default function OrderControll({ role, id, current }) {
   return (
     <>
       <div className="controlBar">
-        <div className="done" onClick={() => alert("i am done buttom")}>
+        <div
+          className="done"
+          onClick={() =>
+            axios.put(
+              `/api/orders/id/${id}`,
+              { done: true, step: current },
+              { "content-type": "application/json" }
+            )
+          }
+        >
           <span className="icon">
             <FaCheckCircle />
           </span>
@@ -20,7 +30,16 @@ export default function OrderControll({ role }) {
               </span>
               <span>تعديل الطلبية</span>
             </div>
-            <div className="cancel" onClick={() => alert("i am cancel buttom")}>
+            <div
+              className="cancel"
+              onClick={() =>
+                axios.put(
+                  `/api/orders/id/${id}`,
+                  { done: true, step: "cancelation" },
+                  { "content-type": "application/json" }
+                )
+              }
+            >
               <span className="icon">
                 <FaBan />
               </span>

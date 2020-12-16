@@ -24,6 +24,7 @@ export default async (req, res) => {
               try {
                 const orders = await Order.find({
                   "progress.preparation.done": true,
+                  "progress.audit.done": false,
                   "progress.cancelation.done": false
                 });
                 return res.end(JSON.stringify(orders));
@@ -35,6 +36,7 @@ export default async (req, res) => {
               try {
                 const orders = await Order.find({
                   "progress.audit.done": true,
+                  "progress.dispatch.done": false,
                   "progress.cancelation.done": false
                 });
                 return res.end(JSON.stringify(orders));
@@ -46,6 +48,7 @@ export default async (req, res) => {
               try {
                 const orders = await Order.find({
                   "progress.dispatch.done": true,
+                  "progress.arrive.done": false,
                   "progress.cancelation.done": false
                 });
                 return res.end(JSON.stringify(orders));
