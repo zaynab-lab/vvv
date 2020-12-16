@@ -1,13 +1,23 @@
+import { useState } from "react";
 import {
   FaCheckCircle,
   FaSearchPlus,
   FaShoppingBag,
   FaSmileWink,
+  FaTimesCircle,
   FaTruck
 } from "react-icons/fa";
 import { styles } from "../public/js/styles";
 
-export default function ArrowBar() {
+export default function ArrowBar({ progress }) {
+  const [state, setState] = useState({
+    preparation: progress.preparation.done,
+    audit: progress.audit.done,
+    dispatch: progress.dispatch.done,
+    arrive: progress.arrive.done,
+    cancel: progress.cancelation.done,
+    return: progress.return.done
+  });
   return (
     <>
       <div className="arrow-steps clearfix">
@@ -17,30 +27,54 @@ export default function ArrowBar() {
           </span>
           <span>تسجيل الطلبية</span>
         </div>
-        <div className="step">
-          <span className="icon">
-            <FaShoppingBag />
-          </span>
-          <span>تحضير الطلبية</span>
-        </div>
-        <div className="step">
-          <span className="icon">
-            <FaSearchPlus />
-          </span>
-          <span>تدقيق الطلبية</span>
-        </div>
-        <div className="step">
-          <span className="icon">
-            <FaTruck />
-          </span>
-          <span>الإرسال</span>
-        </div>
-        <div className="step">
-          <span className="icon">
-            <FaSmileWink />
-          </span>
-          <span>التسليم</span>
-        </div>
+        {(!state.cancel || state.preparation) && (
+          <div className={`step ${state.preparation && "done"}`}>
+            <span className="icon">
+              <FaShoppingBag />
+            </span>
+            <span>تحضير الطلبية</span>
+          </div>
+        )}
+        {(!state.cancel || state.audit) && (
+          <div className={`step ${state.audit && "done"}`}>
+            <span className="icon">
+              <FaSearchPlus />
+            </span>
+            <span>تدقيق الطلبية</span>
+          </div>
+        )}
+        {(!state.cancel || state.dispatch) && (
+          <div className={`step ${state.dispatch && "done"}`}>
+            <span className="icon">
+              <FaTruck />
+            </span>
+            <span>الإرسال</span>
+          </div>
+        )}
+        {(!state.cancel || state.arrive) && (
+          <div className="step">
+            <span className="icon">
+              <FaSmileWink />
+            </span>
+            <span>التسليم</span>
+          </div>
+        )}
+        {state.cancel && (
+          <div className="step cancel">
+            <span className="icon">
+              <FaTimesCircle />
+            </span>
+            <span>تم إلغاء الطلب</span>
+          </div>
+        )}
+        {!state.cancel && state.return && (
+          <div className="step cancel">
+            <span className="icon">
+              <FaTimesCircle />
+            </span>
+            <span>تم إرجاع الطلب</span>
+          </div>
+        )}
       </div>
       <style jsx>{`
         .clearfix:after {
@@ -59,7 +93,7 @@ export default function ArrowBar() {
           width: 9rem;
           float: right;
           position: relative;
-          background-color: #eee;
+          background-color: #f6f6f6;
           -webkit-user-select: none;
           -moz-user-select: none;
           -ms-user-select: none;
@@ -79,7 +113,7 @@ export default function ArrowBar() {
           height: 0;
           border-top: 1rem solid transparent;
           border-bottom: 1.1rem solid transparent;
-          border-right: 1rem solid #eee;
+          border-right: 1rem solid #f6f6f6;
           z-index: 2;
         }
 
@@ -109,6 +143,11 @@ export default function ArrowBar() {
 
         .icon {
           padding: 0rem 0.3rem;
+        }
+
+        .arrow-steps .step.cancel {
+          color: #fff;
+          background-color: red;
         }
       `}</style>
     </>

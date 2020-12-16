@@ -29,15 +29,15 @@ export default function Orders({ current, orderList }) {
               <OrderEnd proceedProducts={obj.products} />
               <div className="footer">
                 <span className="label">المراحل : </span>
-                <div>
-                  <ArrowBar />
+                <div className="stepContainer">
+                  <ArrowBar progress={obj.progress} />
                 </div>
               </div>
             </div>
           ))}
         </>
       ) : (
-        <div>past</div>
+        <div></div>
       )}
       <style jsx>{`
         .orderContainer {
@@ -64,6 +64,11 @@ export default function Orders({ current, orderList }) {
         .footer span {
           flex: 1 0 5rem;
         }
+
+        .stepContainer {
+          flex: 1 0 56rem;
+        }
+
         .totalbar {
           display: flex;
         }

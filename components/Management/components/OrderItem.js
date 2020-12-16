@@ -3,9 +3,9 @@ import { styles } from "../../../public/js/styles";
 import OrderEnd from "../../../components/OrderEnd";
 import ArrowBar from "../../ArrowBar";
 import { FaCalendarAlt, FaMapMarkedAlt } from "react-icons/fa";
-import OrderControllBar from "./OrderControllBar";
+import OrderControll from "./OrderControll";
 
-export default function OrderItem({ order }) {
+export default function OrderItem({ order, role }) {
   const [hidden, setHidden] = useState(true);
 
   return (
@@ -49,14 +49,8 @@ export default function OrderItem({ order }) {
 
         {!hidden && <OrderEnd proceedProducts={order.products} />}
 
-        <OrderControllBar />
-
         <div className="footer">
-          <span className="label">المراحل : </span>
-
-          <div>
-            <ArrowBar />
-          </div>
+          <OrderControll role={role} />
         </div>
       </div>
 
@@ -70,26 +64,20 @@ export default function OrderItem({ order }) {
         .header,
         .footer {
           padding: 0.5rem;
-
           background: ${styles.thirdColor};
-
           color: ${styles.primaryColor};
-
           border-radius: 0.5rem;
         }
 
         .footer {
           display: flex;
-
           align-items: center;
-
           overflow: auto;
-
           width: 100%;
         }
 
-        .footer div {
-          flex: 1 0 46rem;
+        .stepContainer {
+          flex: 1 0 56rem;
         }
 
         .footer span {
