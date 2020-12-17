@@ -80,37 +80,30 @@ export default function Profile() {
                 </span>
                 <span>الهوية</span>
               </div>
-              {dots ? (
-                <div className="dots">
-                  <Dots />
-                </div>
-              ) : (
-                <>
-                  <div className="inputContainer">
-                    {userInputList.map((obj, index) => (
-                      <Input
-                        key={index}
-                        name={obj.name}
-                        value={state[obj.name]}
-                        type={obj.type}
-                        placeholder={obj.placeholder}
-                        disabled={obj.disabled}
-                        handleChange={handleChange.bind(this)}
-                      />
-                    ))}
-                  </div>
-                  <div>تاريخ الميلاد</div>
 
-                  <input
-                    className="birth"
-                    name={"birth"}
-                    type="date"
-                    ata-date=""
-                    data-date-format="DD MMMM YYYY"
-                    value="2019-01-01"
+              <div className="inputContainer">
+                {userInputList.map((obj, index) => (
+                  <Input
+                    key={index}
+                    name={obj.name}
+                    value={state[obj.name]}
+                    type={obj.type}
+                    placeholder={obj.placeholder}
+                    disabled={obj.disabled}
+                    handleChange={handleChange.bind(this)}
                   />
-                </>
-              )}
+                ))}
+              </div>
+              <div>تاريخ الميلاد</div>
+
+              <input
+                className="birth"
+                name={"birth"}
+                type="date"
+                ata-date=""
+                data-date-format="DD MMMM YYYY"
+                value="2019-01-01"
+              />
             </div>
             {/* ////////////////Address////////////// */}
 
@@ -122,27 +115,20 @@ export default function Profile() {
                 </span>
                 <span>العناوين</span>
               </div>
-              {dots ? (
-                <div className="dots">
-                  <Dots />
+
+              <AddAddress
+                setSelectedAddress={setSelectedAddress}
+                setHasAddress={setHasAddress}
+              />
+              {hasAddress && selectedAddress !== "" && (
+                <div
+                  className="delete"
+                  onClick={() => {
+                    alert("this should delete");
+                  }}
+                >
+                  <span>حذف العنوان</span>
                 </div>
-              ) : (
-                <>
-                  <AddAddress
-                    setSelectedAddress={setSelectedAddress}
-                    setHasAddress={setHasAddress}
-                  />
-                  {hasAddress && selectedAddress !== "" && (
-                    <div
-                      className="delete"
-                      onClick={() => {
-                        alert("this should delete");
-                      }}
-                    >
-                      <span>حذف العنوان</span>
-                    </div>
-                  )}
-                </>
               )}
             </div>
             {/* /////////////////LOGOUT///////////////////// */}

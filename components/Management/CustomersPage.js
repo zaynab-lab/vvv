@@ -1,11 +1,6 @@
 import { useState, useEffect } from "react";
-
-// import { styles } from "../../public/js/styles";
-
 import axios from "axios";
-
-// import Input from "../Input";
-// import { FaTrash } from "react-icons/fa";
+import CustomerCard from "./components/CustomerCard";
 
 export default function CustomersPage() {
   const [roles, setRoles] = useState("");
@@ -29,9 +24,7 @@ export default function CustomersPage() {
         <div>
           <ul>
             {userList.map((obj, index) => (
-              <>
-                <div key={index}>{obj.name}</div>
-              </>
+              <CustomerCard key={index} user={obj} />
             ))}
           </ul>
         </div>

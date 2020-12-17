@@ -7,6 +7,8 @@ import TopBar from "../components/TopBar";
 import { styles } from "../public/js/styles";
 import axios from "axios";
 import Dots from "../components/Loaders/Dots";
+import SnakBar from "../components/SnakBar";
+import { useRouter } from "next/router";
 
 export const cartListState = atom({
   key: "cartList",
@@ -19,6 +21,13 @@ export default function CartPage() {
   const [total, setTotal] = useState(0);
   const [productList, setProductList] = useState([]);
   const [dots, setDots] = useState(false);
+  const router = useRouter();
+  const { msg } = router.query;
+  const [snak, setSnak] = useState("");
+  const fire = (message) => {
+    setSnak({ message, show: true });
+    setTimeout(() => setSnak(""), 3000);
+  };
 
   useEffect(() => {
     axios.get("/api/products").then((res) => {
@@ -45,6 +54,10 @@ export default function CartPage() {
         )
       : setTotal(0);
   }, [productList, cartList]);
+
+  useEffect(() => {
+    msg && fire(msg);
+  }, [msg]);
 
   return (
     <>
@@ -79,6 +92,9 @@ export default function CartPage() {
           </Link>
         )}
       </div>
+
+      <SnakBar show={snak.show} message={snak.message} />
+
       <LoadData />
       <style jsx>{`
         .currency:after {
