@@ -9,6 +9,7 @@ import { FaWhatsapp } from "react-icons/fa";
 export default function OrdersPage() {
   const [current, setCurrent] = useState(true);
   const [orderList, setOrderList] = useState([]);
+  const [currentList, setCurrentList] = useState([]);
 
   useEffect(() => {
     axios.get("/api/orders/user").then((res) => {
@@ -26,19 +27,21 @@ export default function OrdersPage() {
         <div className="topBar">
           <div
             className={`topBar-item ${current && "current"}`}
-            onClick={() => setCurrent(true)}
+            onClick={() => {
+              setCurrent(true);
+            }}
           >
             الحالية
           </div>
-
           <div
             className={`topBar-item ${!current && "current"}`}
-            onClick={() => setCurrent(false)}
+            onClick={() => {
+              setCurrent(false);
+            }}
           >
             السابقة
           </div>
         </div>
-
         <Orders current={current} orderList={orderList} />
         <div className="contactUs">
           <div>في حال وجود أي مشكلة</div>

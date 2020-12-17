@@ -52,7 +52,7 @@ export default function ArrowBar({ progress }) {
           </div>
         )}
         {(!state.cancel || state.arrive) && (
-          <div className="step">
+          <div className={`step ${state.dispatch && "done"}`}>
             <span className="icon">
               <FaSmileWink />
             </span>

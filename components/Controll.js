@@ -68,7 +68,7 @@ export default function Controll(props) {
 
       .controll {
       display: flex;
-      margin: 1rem 0.3rem;
+      margin: .6rem 0.2rem;
       font-size: 1.5rem;
       direction: ltr;
       }

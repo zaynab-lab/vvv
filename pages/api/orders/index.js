@@ -21,12 +21,12 @@ export default async (req, res) => {
               "progress.preparation.done": false,
               "progress.cancelation.done": false
             });
-            return res.end(JSON.stringify(orders));
+            return res.status(200).end(JSON.stringify(orders));
           }
-          return res.end("done");
+          return res.status(200).end("done");
         });
       } catch (err) {
-        return res.end("invalid");
+        return res.status(200).end("invalid");
       }
       break;
     case "POST":
@@ -48,17 +48,15 @@ export default async (req, res) => {
               address: body.selectedAddress
             });
             await order.save().catch((err) => console.log(err));
-            return res.end("done");
+            return res.status(200).end("done");
           }
-          return res.end("invalid");
+          return res.status(200).end("invalid");
         });
       } catch (err) {
-        return res.end("invalid");
+        return res.status(200).end("invalid");
       }
-
       break;
-
     default:
-      return res.end("invalid");
+      return res.status(200).end("invalid");
   }
 };

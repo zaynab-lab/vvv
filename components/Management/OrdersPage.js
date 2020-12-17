@@ -3,6 +3,7 @@ import { styles } from "../../public/js/styles";
 import axios from "axios";
 import OrderItem from "./components/OrderItem";
 import {
+  FaBackward,
   FaCheckCircle,
   FaSearchPlus,
   FaShoppingBag,
@@ -38,17 +39,22 @@ export default function OrdersPage() {
       });
     }
   }, [setCurrent, current]);
+  const handleRemove = (id) => {
+    setOrderList(orderList.filter((obj) => obj._id !== id));
+  };
 
   return (
     <>
       <OrderTopBar setCurrent={setCurrent} current={current} />
       {roles.includes("ordersManager") && (
         <div>
-          {orderList.map((obj) => (
+          {orderList.map((obj, index) => (
             <OrderItem
+              key={index}
               order={obj}
               role={roles.includes("GM") && "GM"}
               current={current}
+              handleRemove={handleRemove.bind(this)}
             />
           ))}
         </div>
@@ -119,6 +125,15 @@ const OrderTopBar = ({ setCurrent, current }) => {
             <FaTimesCircle />
           </span>
           <span>ملغاة</span>
+        </div>
+        <div
+          className={`step ${current === "return" && "current"}`}
+          onClick={() => setCurrent("return")}
+        >
+          <span className="icon">
+            <FaBackward />
+          </span>
+          <span>تم ارجاعها</span>
         </div>
       </div>
 

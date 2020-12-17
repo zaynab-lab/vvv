@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { styles } from "../public/js/styles";
 import Loader from "./Loader";
+import ContentLoad from "./CategoryContentLoader";
 
 const Cover = ({ name }) => (
   <>
@@ -24,7 +25,7 @@ const CataItem = ({ title, name }) => {
       <Link href={`/${name}`}>
         <div className="container" onClick={() => setLoading(true)}>
           <div className="icon">
-            <Cover name={name} />
+            {name ? <Cover name={name} /> : <ContentLoad />}
           </div>
           <div className="title">{title}</div>
         </div>
@@ -51,9 +52,12 @@ const CataItem = ({ title, name }) => {
   );
 };
 export default function CategoryItems({ categories }) {
+  const skelaton = new Array(20).fill(0);
   return (
     <>
       <div className="container">
+        {categories.length === 0 &&
+          skelaton.map((obj, index) => <CataItem key={index} />)}
         {categories.map((obj, index) => (
           <CataItem key={index} title={obj.title} name={obj.name} />
         ))}

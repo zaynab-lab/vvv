@@ -27,7 +27,7 @@ export default async (req, res) => {
                   "progress.audit.done": false,
                   "progress.cancelation.done": false
                 });
-                return res.end(JSON.stringify(orders));
+                return res.status(200).end(JSON.stringify(orders));
               } catch (err) {
                 console.log(err);
               }
@@ -39,7 +39,7 @@ export default async (req, res) => {
                   "progress.dispatch.done": false,
                   "progress.cancelation.done": false
                 });
-                return res.end(JSON.stringify(orders));
+                return res.status(200).end(JSON.stringify(orders));
               } catch (err) {
                 console.log(err);
               }
@@ -51,7 +51,7 @@ export default async (req, res) => {
                   "progress.arrive.done": false,
                   "progress.cancelation.done": false
                 });
-                return res.end(JSON.stringify(orders));
+                return res.status(200).end(JSON.stringify(orders));
               } catch (err) {
                 console.log(err);
               }
@@ -62,7 +62,7 @@ export default async (req, res) => {
                   "progress.arrive.done": true,
                   "progress.cancelation.done": false
                 });
-                return res.end(JSON.stringify(orders));
+                return res.status(200).end(JSON.stringify(orders));
               } catch (err) {
                 console.log(err);
               }
@@ -72,18 +72,18 @@ export default async (req, res) => {
                 const orders = await Order.find({
                   "progress.cancelation.done": true
                 });
-                return res.end(JSON.stringify(orders));
+                return res.status(200).end(JSON.stringify(orders));
               } catch (err) {
                 console.log(err);
               }
               break;
             default:
-              return;
+              return res.status(200).end("invalid");
           }
         }
       });
     } catch (err) {
-      return res.end("invalid");
+      return res.status(200).end("invalid");
     }
   }
 };

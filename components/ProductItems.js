@@ -1,26 +1,45 @@
 import Controll from "./Controll";
 import { styles } from "../public/js/styles";
+import ImageLoader, { PriceLoader } from "./ProductContentLoader";
 
 const ProductCard = ({ product }) => (
   <>
     {product.appear && (
       <div className="card">
-        <img
-          className="card-img"
-          src={`/img/png/${product.category}/${product._id}.png`}
-          alt=""
-        />
+        {product.category ? (
+          <img
+            className="card-img"
+            src={`/img/png/${product.category}/${product._id}.png`}
+            alt=""
+          />
+        ) : (
+          <ImageLoader />
+        )}
         <div className="card-content">
-          <div className="card-name">{product.name}</div>
+          {product.name ? (
+            <>
+              <div className="card-name">
+                {product.name}
+                <span className="card-description">{product.description}</span>
+              </div>
+              <div className="card-description">{product.brand}</div>
+            </>
+          ) : (
+            <PriceLoader />
+          )}
           <div className="card-price">
             <div className="initprice">{product.initprice}</div>
-            <div className="price">{product.price}</div>
+            <div className="price">
+              {product.price ? <>{product.price}</> : <PriceLoader />}
+            </div>
           </div>
         </div>
         {product.exist ? (
           <Controll id={product._id} measure={product.measure} />
         ) : (
-          <div className="exist">نفذ المنتج</div>
+          <div className="exist">
+            {product.name ? <>نفذ المنتج</> : <PriceLoader />}
+          </div>
         )}
       </div>
     )}
@@ -57,7 +76,7 @@ const ProductCard = ({ product }) => (
           border: solid ${styles.primaryColor};
           border-width: 1px 0;
           margin: 0;
-          height: 4rem;
+          height: 3.6rem;
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -65,16 +84,19 @@ const ProductCard = ({ product }) => (
 
         .price:after {
           font-size: 1rem;
-
           content: " ل.ل";
         }
 
         .card-name {
           margin: 0.3rem;
         }
+        .card-description {
+          margin: 0 0.3rem;
+          font-size: 0.8rem;
+        }
 
         .initprice {
-          font-size: 1rem;
+          font-size: 0.8rem;
           color: ${styles.secondaryColor};
           text-decoration: line-through;
         }
@@ -84,7 +106,7 @@ const ProductCard = ({ product }) => (
           ${product.initprice && "content:' ل.ل'"};
         }
         .exist {
-          line-height: 4rem;
+          line-height: 3.6rem;
           color: ${styles.primaryColor};
         }
       `}
@@ -93,10 +115,16 @@ const ProductCard = ({ product }) => (
 );
 
 export default function ProductsList({ pageProducts }) {
+  const skelaton = new Array(20).fill({ appear: true });
+
   return (
     <>
       <div>
         <div className="productsList">
+          {pageProducts.length === 0 &&
+            skelaton.map((obj, index) => (
+              <ProductCard key={index} product={obj} />
+            ))}
           {pageProducts.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}

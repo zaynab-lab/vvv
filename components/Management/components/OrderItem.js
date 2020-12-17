@@ -4,8 +4,21 @@ import OrderEnd from "../../../components/OrderEnd";
 import { FaCalendarAlt, FaMapMarkedAlt } from "react-icons/fa";
 import OrderControll from "./OrderControll";
 
-export default function OrderItem({ order, role, current }) {
+export default function OrderItem({ order, role, current, handleRemove }) {
   const [hidden, setHidden] = useState(true);
+  const dateChanger = (od) => {
+    const date = new Date(od);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const dt = date.getDate();
+    const hours = date.getHours();
+    const min = date.getMinutes();
+    dt < 10 && (dt = "0" + dt);
+    month < 10 && (month = "0" + month);
+    hours < 10 && (hours = "0" + hours);
+    min < 10 && (min = "0" + min);
+    return hours + ":" + min + " / " + dt + "-" + month + "-" + year;
+  };
 
   return (
     <>
@@ -15,42 +28,53 @@ export default function OrderItem({ order, role, current }) {
             <span className="label">
               <FaCalendarAlt /> تاريخ الطلب:{" "}
             </span>
-
-            {order.date}
+            {dateChanger(order.date)}
           </div>
+          {!hidden && (
+            <>
+              <div className="totalbar">
+                <span>
+                  <span className="label">الإجمالي:</span> {order.total} ل.ل
+                </span>{" "}
+                <span>
+                  <span className="label">رقم الطلب:</span> {order.orderCode}
+                </span>
+              </div>
 
-          <div className="totalbar">
-            <span>
-              <span className="label">الإجمالي:</span> {order.total} ل.ل
-            </span>{" "}
-            <span>
-              <span className="label">رقم الطلب:</span> {order.orderCode}
-            </span>
-          </div>
+              <div>
+                <span className="label">
+                  <FaMapMarkedAlt /> العنوان:
+                </span>{" "}
+                {order.address}
+              </div>
 
-          <div>
-            <span className="label">
-              <FaMapMarkedAlt /> العنوان:
-            </span>{" "}
-            {order.address}
-          </div>
+              <div className="totalbar">
+                <span>
+                  <span className="label">اسم الزبون:</span> {order.userName}
+                </span>
 
-          <div className="totalbar">
-            <span>
-              <span className="label">اسم الزبون:</span> {order.userName}
-            </span>
-
-            <span>
-              <span className="label">الرقم:</span> {order.number}
-            </span>
-          </div>
+                <span>
+                  <span className="label">الرقم:</span> {order.number}
+                </span>
+              </div>
+            </>
+          )}
         </div>
 
-        {!hidden && <OrderEnd proceedProducts={order.products} />}
+        {!hidden && (
+          <>
+            <OrderEnd proceedProducts={order.products} />
 
-        <div className="footer">
-          <OrderControll role={role} id={order._id} current={current} />
-        </div>
+            <div className="footer">
+              <OrderControll
+                role={role}
+                id={order._id}
+                current={current}
+                handleRemove={handleRemove.bind(this)}
+              />
+            </div>
+          </>
+        )}
       </div>
 
       <style jsx>{`
@@ -59,7 +83,6 @@ export default function OrderItem({ order, role, current }) {
           border: 1px solid ${styles.primaryColor};
           border-radius: 0.5rem;
         }
-
         .header,
         .footer {
           padding: 0.5rem;
