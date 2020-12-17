@@ -15,17 +15,17 @@ export default function SlideShow() {
       <style jsx>{`
         .container {
           color: #999;
-          text-transform: uppercase;
           font-size: 1.6rem;
           font-weight: bold;
           width: 100%;
           padding: 0.5rem 0.8rem;
           display: flex;
           justify-content: center;
+          min-height: 3.4rem;
         }
 
         .flip {
-          height: 3rem;
+          height: 3.2rem;
           overflow: hidden;
           display: flex;
           flex-direction: column;
@@ -37,7 +37,7 @@ export default function SlideShow() {
           padding: 0.2rem 0.8rem;
           margin: 0 1.2rem;
           height: 3rem;
-          margin-bottom: 40px;
+          margin-bottom: 3rem;
           display: inline-block;
         }
 
@@ -57,28 +57,28 @@ export default function SlideShow() {
 
         @keyframes show {
           0% {
-            margin-top: -270px;
+            margin-top: -20rem;
           }
           5% {
-            margin-top: -180px;
+            margin-top: -12.2rem;
           }
           33% {
-            margin-top: -180px;
+            margin-top: -12.2rem;
           }
           38% {
-            margin-top: -90px;
+            margin-top: -6.2rem;
           }
           66% {
-            margin-top: -90px;
+            margin-top: -6.2rem;
           }
           71% {
-            margin-top: 0px;
+            margin-top: -0.2rem;
           }
           99.99% {
-            margin-top: 0px;
+            margin-top: -0.2rem;
           }
           100% {
-            margin-top: -270px;
+            margin-top: -20px;
           }
         }
       `}</style>

@@ -4,6 +4,7 @@ import axios from "axios";
 import { PhonePageState } from "../pages/Login";
 import { styles } from "../public/js/styles";
 import Router from "next/router";
+import ContactUs from "./ContactUs";
 
 export const phoneState = atom({
   key: "phone",
@@ -74,7 +75,6 @@ export default function PhoneOTP({ routeTo }) {
       <div className="phoneContainer">
         <select className="countryCode">
           <option>961+</option>
-
           <option>1+</option>
         </select>
 
@@ -103,7 +103,7 @@ export default function PhoneOTP({ routeTo }) {
       <button className="btn" onClick={() => handleClick()}>
         {waiting ? "تسجيل الدخول" : "طلب الرمز المؤقت"}
       </button>
-
+      <ContactUs />
       <style jsx>{`
         .message {
           color: ${styles.secondaryColor};
@@ -160,8 +160,8 @@ export default function PhoneOTP({ routeTo }) {
           background-color: ${styles.primaryColorLight};
           color: white;
           margin: 0.5rem;
-          padding: 0.2rem 0.8rem;
-          border-radius: 0.2rem;
+          padding: 0.5rem 0.8rem;
+          border-radius: 0.5rem;
         }
       `}</style>
     </>

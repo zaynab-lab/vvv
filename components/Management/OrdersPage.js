@@ -11,6 +11,7 @@ import {
   FaTimesCircle,
   FaTruck
 } from "react-icons/fa";
+import OrdersContentLoader from "../OrdersContentLoader";
 
 export default function OrdersPage() {
   const [roles, setRoles] = useState("");
@@ -48,15 +49,19 @@ export default function OrdersPage() {
       <OrderTopBar setCurrent={setCurrent} current={current} />
       {roles.includes("ordersManager") && (
         <div>
-          {orderList.map((obj, index) => (
-            <OrderItem
-              key={index}
-              order={obj}
-              role={roles.includes("GM") && "GM"}
-              current={current}
-              handleRemove={handleRemove.bind(this)}
-            />
-          ))}
+          {orderList.length === 0 ? (
+            <OrdersContentLoader />
+          ) : (
+            orderList.map((obj, index) => (
+              <OrderItem
+                key={index}
+                order={obj}
+                role={roles.includes("GM") && "GM"}
+                current={current}
+                handleRemove={handleRemove.bind(this)}
+              />
+            ))
+          )}
         </div>
       )}
     </>

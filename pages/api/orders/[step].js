@@ -77,8 +77,20 @@ export default async (req, res) => {
                 console.log(err);
               }
               break;
+            case "return":
+              try {
+                const orders = await Order.find({
+                  "progress.return.done": true
+                });
+                return res.status(200).end(JSON.stringify(orders));
+              } catch (err) {
+                console.log(err);
+              }
+
+              break;
+
             default:
-              return res.status(200).end("invalid");
+              return res.status(200).end([]);
           }
         }
       });

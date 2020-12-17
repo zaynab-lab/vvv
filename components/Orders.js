@@ -13,12 +13,13 @@ const OrderItem = ({ currentList }) => {
     const month = date.getMonth() + 1;
     const dt = date.getDate();
     const hours = date.getHours();
-    const min = date.getMinutes();
-    dt < 10 && (dt = "0" + dt);
-    month < 10 && (month = "0" + month);
-    hours < 10 && (hours = "0" + hours);
-    min < 10 && (min = "0" + min);
-    return hours + ":" + min + " / " + dt + "-" + month + "-" + year;
+    const minute = date.getMinutes();
+    const day = dt < 10 ? "0" + dt : dt;
+    const mon = month < 10 ? "0" + month : month;
+    const hou = hours < 10 ? "0" + hours : hours;
+    const min = minute < 10 ? "0" + minute : minute;
+
+    return hou + ":" + min + " / " + day + "-" + mon + "-" + year;
   };
   return (
     <>
@@ -126,7 +127,7 @@ export default function Orders({ current, orderList }) {
 
   return (
     <>
-      {orderList.length === 0 ? (
+      {currentList.length === 0 ? (
         <ContentLoad />
       ) : (
         <>

@@ -81,11 +81,6 @@ export default function CartPage() {
       </div>
       <LoadData />
       <style jsx>{`
-        .cartItems {
-          height: calc(100vh - 11rem);
-          overflow: auto;
-        }
-
         .currency:after {
           content: " ل.ل";
         }
