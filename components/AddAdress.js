@@ -9,7 +9,7 @@ const addressInputList = [
   { name: "region", placeholder: "المنطقة*", type: "text" },
   { name: "street", placeholder: "الشارع*", type: "text" },
   { name: "building", placeholder: "المبنى*", type: "text" },
-  { name: "floor", placeholder: "الطابق*", type: "number" },
+  { name: "floor", placeholder: "رقم الطابق*", type: "number" },
   { name: "details", placeholder: "تفاصيل العنوان", type: "text" }
 ];
 
@@ -65,6 +65,7 @@ const ModalContent = ({ setModal, setnewAddress }) => {
                     state.street === ""
                   ) {
                     alert("املاء الخانات اللازمة، واللتي تحتوي على نجمة*");
+                    alert("يجب أدخال الطابق بالأرقام");
                     setDots(false);
                   } else {
                     const fadd =
