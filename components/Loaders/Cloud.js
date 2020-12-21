@@ -53,19 +53,14 @@ export default function Cloud() {
       <style jsx>{`
         #arrow {
           -webkit-transform-origin: 50% 50%;
-
           transform-origin: 50% 50%;
-
           opacity: 1;
-
           -webkit-transform: translate(0, 0) scale(1);
-
           transform: translate(0, 0) scale(1);
         }
 
         #arrow {
           -webkit-animation: cloud_arrow ${arrow_speed} infinite;
-
           animation: cloud_arrow ${arrow_speed} infinite;
         }
 

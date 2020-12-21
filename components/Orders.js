@@ -69,32 +69,40 @@ const OrderItem = ({ currentList }) => {
         }
 
         .footer {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
           overflow: auto;
           width: 100%;
         }
-
         .footer div {
+          -webkit-box-flex: 1;
+          -ms-flex: 1 0 46rem;
           flex: 1 0 46rem;
         }
-
         .footer span {
+          -webkit-box-flex: 1;
+          -ms-flex: 1 0 5rem;
           flex: 1 0 5rem;
         }
-
         .stepContainer {
+          -webkit-box-flex: 1;
+          -ms-flex: 1 0 56rem;
           flex: 1 0 56rem;
         }
-
         .totalbar {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
         }
-
         .totalbar span {
+          -webkit-box-flex: 1;
+          -ms-flex: 1 1 100%;
           flex: 1 1 100%;
         }
-
         .label {
           color: ${styles.secondaryColor};
         }

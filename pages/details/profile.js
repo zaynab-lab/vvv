@@ -6,10 +6,9 @@ import Link from "next/link";
 import Router from "next/router";
 import { styles } from "../../public/js/styles";
 import Input from "../../components/Input";
-import { FaIdCard, FaMapMarkedAlt, FaTasks, FaTrash } from "react-icons/fa";
+import { FaIdCard, FaMapMarkedAlt, FaTasks } from "react-icons/fa";
 import { useRecoilValue } from "recoil";
 import { userState } from "../menu";
-import Dots from "../../components/Loaders/Dots";
 import AddAddress from "../../components/AddAdress";
 
 const userInputList = [
@@ -172,12 +171,24 @@ export default function Profile() {
           border: 1.5px solid ${styles.primaryColor};
           border-radius: 0.5rem;
           font-size: 1.2rem;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
           justify-content: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
         }
+
         .inputContainer {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
           flex-direction: column;
         }
 
@@ -192,7 +203,11 @@ export default function Profile() {
         .section-title {
           margin: 0.5rem;
           font-size: 1.2rem;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
           color: ${styles.secondaryColor};
         }
@@ -211,16 +226,24 @@ export default function Profile() {
           border: 1px solid lightgrey;
           border-width: 1px 0;
         }
+
         .dots {
           height: 7rem;
           padding: 1rem;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
           justify-content: center;
         }
+
         .delete {
           font-size: 0.9rem;
           background: ${styles.primaryColorLight};
           color: white;
+          width: -webkit-fit-content;
+          width: -moz-fit-content;
           width: fit-content;
           padding: 0.4rem 0.8rem;
           border-radius: 0.5rem;

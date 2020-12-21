@@ -112,7 +112,12 @@ export default function PhoneOTP({ routeTo }) {
         }
 
         .phoneContainer {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-orient: horizontal;
+          -webkit-box-direction: reverse;
+          -ms-flex-direction: row-reverse;
           flex-direction: row-reverse;
           margin: 0.8rem auto;
           max-width: 100vw;
@@ -144,11 +149,26 @@ export default function PhoneOTP({ routeTo }) {
           border: 1px solid ${styles.primaryColor};
         }
 
+        .phone::-webkit-input-placeholder {
+          color: lightgrey;
+          font-size: 1.2rem;
+        }
+        .phone::-moz-placeholder {
+          color: lightgrey;
+          font-size: 1.2rem;
+        }
+        .phone:-ms-input-placeholder {
+          color: lightgrey;
+          font-size: 1.2rem;
+        }
+        .phone::-ms-input-placeholder {
+          color: lightgrey;
+          font-size: 1.2rem;
+        }
         .phone::placeholder {
           color: lightgrey;
           font-size: 1.2rem;
         }
-
         .otp {
           margin-bottom: 0.8rem;
           min-width: 19rem;

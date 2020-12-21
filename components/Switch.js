@@ -24,9 +24,18 @@ export default () => {
       </div>
       <style jsx>{`
         .switch {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-orient: horizontal;
+          -webkit-box-direction: ${toggle ? "reverse" : "normal"};
+          -ms-flex-direction: ${toggle ? "row-reverse" : "row"};
           flex-direction: ${toggle ? "row-reverse" : "row"};
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
           justify-content: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
           border: 1px solid grey;
           border-radius: 0.3rem;
@@ -35,8 +44,14 @@ export default () => {
           height: fit-content;
         }
         .switch-btn {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
           justify-content: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
           width: 1.5rem;
           height: 1.5rem;

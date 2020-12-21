@@ -42,26 +42,20 @@ export default function Login() {
           )}
         </div>
       )}
-      <style jsx global>{`
-        * {
-          margin: 0;
-          padding: 0;
-          font-weight: 800;
-          box-sizing: border-box;
-          text-decoration: unset;
-          outline: none;
-          -webkit-user-select: none;
-          -webkit-tap-highlight-color: transparent;
-          direction: rtl;
-          overscroll-behavior: contain;
-        }
-      `}</style>
-
       <style jsx>{`
         .container {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
           flex-direction: column;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
           justify-content: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
           height: 70vh;
         }

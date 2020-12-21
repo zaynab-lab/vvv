@@ -3,8 +3,6 @@ import TopBar from "../../components/TopBar";
 import { styles } from "../../public/js/styles";
 import Orders from "../../components/Orders";
 import axios from "axios";
-import Link from "next/link";
-import { FaWhatsapp } from "react-icons/fa";
 import ContactUs from "../../components/ContactUs";
 
 export default function OrdersPage() {
@@ -48,6 +46,8 @@ export default function OrdersPage() {
       </div>
       <style jsx>{`
         .topBar {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
           width: 100%;
           overflow: auto;
@@ -58,19 +58,29 @@ export default function OrdersPage() {
           height: calc(100vh - 3rem);
           overflow: auto;
         }
-
         .topBar-item {
           text-align: center;
           padding: 0.2rem 2rem;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
           flex-direction: column;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
           justify-content: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
         }
 
         .current {
           color: ${styles.secondaryColor};
           font-size: 1.4rem;
+          -webkit-box-flex: 1;
+          -ms-flex: 1 1 100%;
           flex: 1 1 100%;
         }
       `}</style>

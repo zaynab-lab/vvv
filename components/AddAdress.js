@@ -127,10 +127,14 @@ const ModalContent = ({ setModal, setnewAddress }) => {
           background: white;
           border-radius: 0.5rem;
         }
+
         .btnContainer {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
           padding: 0 0.2rem;
         }
+
         .addbtn {
           background: ${!dots && styles.primaryColorLight};
           color: white;
@@ -139,6 +143,8 @@ const ModalContent = ({ setModal, setnewAddress }) => {
           border-radius: 0.5rem;
           padding: 0.2rem 0.8rem;
           margin: 0.5rem 0;
+          -webkit-box-flex: 1;
+          -ms-flex: 1 1 100%;
           flex: 1 1 100%;
           line-height: 2.2rem;
         }
@@ -204,11 +210,14 @@ export default function AddAddress({ setSelectedAddress, setHasAddress }) {
       )}
       <style jsx>{`
         .addressContainer {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
           padding: 0.5rem;
         }
-
         .select-address {
+          -webkit-box-flex: 1;
+          -ms-flex: 1 1 70%;
           flex: 1 1 70%;
           padding: 0.2rem 0.8rem;
           background: white;
@@ -216,7 +225,6 @@ export default function AddAddress({ setSelectedAddress, setHasAddress }) {
           max-width: calc(100% - 6.8rem);
           font-size: 1.1rem;
         }
-
         .addbtn {
           display: block;
           margin-right: 0.5rem;

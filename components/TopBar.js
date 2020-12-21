@@ -74,8 +74,14 @@ export default function TopBar({ title, page, cart, main }) {
       {loading && <Loader />}
       <style jsx>{`
         .topBar {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
           justify-content: space-between;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
           background-color: ${styles.primaryColorLight};
           color: white;
@@ -87,23 +93,32 @@ export default function TopBar({ title, page, cart, main }) {
 
         .burger {
           color: white;
+          -webkit-transform: rotate(90deg);
+          -ms-transform: rotate(90deg);
           transform: rotate(90deg);
           font-size: 1.6rem;
         }
-
         .arrow {
           font-size: 1.6rem;
+          -webkit-transform: translateX(-0.2rem);
+          -ms-transform: translateX(-0.2rem);
           transform: translateX(-0.2rem);
         }
-
         .home {
           font-size: 1.6rem;
+          -webkit-transform: translateX(-0.5rem);
+          -ms-transform: translateX(-0.5rem);
           transform: translateX(-0.5rem);
         }
-
         .cart {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
           justify-content: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
           width: 1.8rem;
           background: white;
@@ -120,11 +135,19 @@ export default function TopBar({ title, page, cart, main }) {
           background: white;
           border: 1px solid ${styles.primaryColorLight};
           position: absolute;
+          -webkit-transform: translate(1.2rem, -0.85rem);
+          -ms-transform: translate(1.2rem, -0.85rem);
           transform: translate(1.2rem, -0.85rem);
           border-radius: 1rem;
           font-size: 0.9rem;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
           justify-content: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
           color: ${styles.primaryColor};
         }

@@ -136,9 +136,15 @@ export default function Menu() {
         }
         .menu-header {
           color: ${styles.primaryColorLight};
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
           flex-direction: column;
-          // justify-content: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
           border-bottom: 1px solid ${styles.primaryColor};
         }
@@ -162,8 +168,14 @@ export default function Menu() {
         }
 
         .amount-container {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
           justify-content: space-between;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
         }
 
@@ -181,15 +193,14 @@ export default function Menu() {
         .dots {
           height: 7rem;
           padding: 1rem;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
           justify-content: center;
         }
       `}</style>
     </>
   );
 }
-// export async function getServerSideProps() {
-//   const res = await fetch("https://localhost:3000/api/auth");
-//   const resault = await res.json();
-//   return { props: { user: resault.data } };
-// }

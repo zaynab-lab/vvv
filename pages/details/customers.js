@@ -49,9 +49,7 @@ export default function Customer() {
 
         .title {
           padding-top: 1rem;
-
           font-size: 1.2rem;
-
           color: ${styles.secondaryColor};
         }
       `}</style>

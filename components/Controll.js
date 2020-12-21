@@ -67,10 +67,12 @@ export default function Controll(props) {
       <style jsx>{`
 
       .controll {
-      display: flex;
-      margin: .6rem 0.2rem;
-      font-size: 1.5rem;
-      direction: ltr;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        margin: .6rem 0.2rem;
+        font-size: 1.5rem;
+        direction: ltr; 
       }
 
       .controll-add,

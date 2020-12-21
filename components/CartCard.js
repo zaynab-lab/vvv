@@ -32,14 +32,25 @@ export default function CartCard({ product }) {
 
       <style jsx>{`
         .cartCard {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: space-evenly;
+          -ms-flex-pack: space-evenly;
           justify-content: space-evenly;
+          height: -webkit-fit-content;
+          height: -moz-fit-content;
           height: fit-content;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
           border: 1px solid ${styles.primaryColorLight};
           border-radius: 0.5rem;
+          -webkit-box-flex: 1;
+          -ms-flex: 1 1 100%;
           flex: 1 1 100%;
           margin: 0.3rem;
+          -ms-flex-wrap: wrap;
           flex-wrap: wrap;
         }
 
@@ -49,34 +60,54 @@ export default function CartCard({ product }) {
         }
 
         .cartCard-ImgName {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: space-evenly;
+          -ms-flex-pack: space-evenly;
           justify-content: space-evenly;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
           width: 100%;
           padding: 0.5rem 1rem;
         }
-
         .cartCard-price:after {
           padding-right: 0.3rem;
           content: "ل.ل";
         }
-
         .cartCard-content {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
           flex-direction: column;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
           justify-content: space-between;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
+          -webkit-box-flex: 1;
+          -ms-flex: 1 1 100%;
           flex: 1 1 100%;
         }
-
         .cartCard-name {
           font-size: 1.2rem;
           color: ${styles.secondaryColor};
         }
 
         .cartCard-footer {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: space-evenly;
+          -ms-flex-pack: space-evenly;
           justify-content: space-evenly;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
           color: lightgray;
           padding: 0.2rem 0.8rem;
@@ -86,6 +117,8 @@ export default function CartCard({ product }) {
         }
 
         .cartCard-total {
+          -webkit-box-flex: 1;
+          -ms-flex: 1 1 70%;
           flex: 1 1 70%;
           text-align: center;
           color: ${styles.primaryColor};

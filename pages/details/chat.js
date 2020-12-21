@@ -77,15 +77,31 @@ export default function Chat() {
           overflow-x: hidden;
           overflow-y: auto;
           background: white;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
           flex-direction: column;
+          -webkit-box-align: start;
+          -ms-flex-align: start;
           align-items: flex-start;
         }
         .chatbox_messagebox {
           background: wheat;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
           flex-direction: column;
+          -webkit-box-align: end;
+          -ms-flex-align: end;
           align-items: flex-end;
+          width: -webkit-fit-content;
+          width: -moz-fit-content;
           width: fit-content;
           padding: 0.5rem;
           margin: 0.2rem 0;
@@ -97,37 +113,38 @@ export default function Chat() {
         .chatbox_number {
           color: gray;
           font-size: 0.9rem;
+          -ms-flex-item-align: start;
           align-self: flex-start;
           padding-bottom: 0.2rem;
+          -webkit-transform: translateY(-0.2rem) translateX(-0.2rem);
+          -ms-transform: translateY(-0.2rem) translateX(-0.2rem);
           transform: translateY(-0.2rem) translateX(-0.2rem);
         }
-
         .chatbox_message {
           font-size: 1.1rem;
+          width: -webkit-fit-content;
+          width: -moz-fit-content;
           width: fit-content;
           display: block;
           word-wrap: break-word;
           max-width: 100%;
+          -ms-flex-item-align: start;
           align-self: flex-start;
         }
-
         .chatbox_time {
           color: gray;
           font-size: 0.7rem;
+          -webkit-transform: translateY(0.4rem) translateX(0.2rem);
+          -ms-transform: translateY(0.4rem) translateX(0.2rem);
           transform: translateY(0.4rem) translateX(0.2rem);
         }
-
         .chatbox::-webkit-scrollbar {
           display: none;
-        }
-
-        /* Hide scrollbar for IE, Edge and Firefox */
-
+        } /* Hide scrollbar for IE, Edge and Firefox */
         .chatbox {
           -ms-overflow-style: none; /* IE and Edge */
           scrollbar-width: none; /* Firefox */
         }
-
         .messageInput {
           border: 1px solid lightgrey;
           border-radius: 0.5rem;
@@ -140,11 +157,27 @@ export default function Chat() {
           outline: none;
           border: 1px solid ${styles.primaryColor};
         }
+        .messageInput::-webkit-input-placeholder {
+          color: #aaa;
+        }
+        .messageInput::-moz-placeholder {
+          color: #aaa;
+        }
+        .messageInput:-ms-input-placeholder {
+          color: #aaa;
+        }
+        .messageInput::-ms-input-placeholder {
+          color: #aaa;
+        }
         .messageInput::placeholder {
           color: #aaa;
         }
         .sendbox {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
         }
 

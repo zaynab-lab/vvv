@@ -98,8 +98,14 @@ export default function ArrowBar({ progress }) {
           -moz-user-select: none;
           -ms-user-select: none;
           user-select: none;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
           justify-content: center;
         }
 
@@ -116,18 +122,15 @@ export default function ArrowBar({ progress }) {
           border-right: 1rem solid #f6f6f6;
           z-index: 2;
         }
-
         .arrow-steps .step:before {
           left: auto;
           right: 0;
           border-right: 17px solid #fff;
           z-index: 0;
         }
-
         .arrow-steps .step:first-child:before {
           border: none;
         }
-
         .arrow-steps .step:last-child:after {
           border: none;
         }

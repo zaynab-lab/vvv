@@ -177,7 +177,12 @@ export default function Proceed() {
         .container {
           height: calc(100vh - 3rem);
           overflow: auto;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
           flex-direction: column;
           font-size: 1.2rem;
         }
@@ -206,7 +211,11 @@ export default function Proceed() {
           font-size: 1rem;
         }
         .bill-content div {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
           justify-content: space-between;
         }
         .bill-total {
@@ -233,7 +242,11 @@ export default function Proceed() {
         .dots {
           height: 7rem;
           padding: 1rem;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
           justify-content: center;
         }
         .pay {
@@ -241,7 +254,11 @@ export default function Proceed() {
           width: 100%;
         }
         .pay div {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
           justify-content: space-between;
           padding: 0.2rem;
         }

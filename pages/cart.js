@@ -114,7 +114,10 @@ export default function CartPage() {
         }
 
         .total {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -ms-flex-pack: distribute;
           justify-content: space-around;
           background: ${styles.thirdColor};
           padding: 0.3rem;

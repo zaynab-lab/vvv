@@ -17,14 +17,23 @@ export default function SnakBar({ message, show }) {
           top: 3.3rem;
           width: 100%;
         }
+
         .snkcontainer {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
           justify-content: center;
+          -ms-flex-line-pack: center;
           align-content: center;
         }
+
         .snkbar {
           background: ${styles.secondaryColor};
           color: white;
+          width: -webkit-fit-content;
+          width: -moz-fit-content;
           width: fit-content;
           padding: 0.2rem 1rem;
           font-size: 1rem;

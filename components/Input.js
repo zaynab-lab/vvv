@@ -36,7 +36,6 @@ export default function Input({
           position: relative;
           margin: 0.6rem 0;
         }
-
         .input {
           width: 100%;
           border: 1px solid gray;
@@ -48,14 +47,28 @@ export default function Input({
 
         .input:focus {
           border: 1px solid ${styles.primaryColor};
+          -webkit-box-shadow: 0px 0px 5px lightgrey;
           box-shadow: 0px 0px 5px lightgrey;
         }
 
+        .input::-webkit-input-placeholder {
+          color: lightgrey;
+        }
+        .input::-moz-placeholder {
+          color: lightgrey;
+        }
+        .input:-ms-input-placeholder {
+          color: lightgrey;
+        }
+        .input::-ms-input-placeholder {
+          color: lightgrey;
+        }
         .input::placeholder {
           color: lightgrey;
         }
-
         .label {
+          width: -webkit-fit-content;
+          width: -moz-fit-content;
           width: fit-content;
           font-size: 0.8rem;
           position: absolute;
@@ -65,8 +78,12 @@ export default function Input({
           pointer-events: none;
           color: grey;
           background: white;
+          -webkit-transform: translateY(-1.4rem);
+          -ms-transform: translateY(-1.4rem);
           transform: translateY(-1.4rem);
           opacity: ${disabled === true && "0"};
+          -webkit-transition: all 0.8s ease;
+          -o-transition: all 0.8s ease;
           transition: all 0.8s ease;
         }
       `}</style>

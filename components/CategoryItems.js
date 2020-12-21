@@ -36,10 +36,19 @@ const CataItem = ({ title, name }) => {
           border: 1.5px solid ${styles.primaryColor};
           margin: 0.3rem;
           padding: 0.3rem 0.5rem;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
           flex-direction: column;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
           border-radius: 0.5rem;
+          -webkit-box-flex: 1;
+          -ms-flex: 1 1 150px;
           flex: 1 1 150px;
         }
 
@@ -64,9 +73,16 @@ export default function CategoryItems({ categories }) {
       </div>
       <style jsx>{`
         .container {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -ms-flex-wrap: wrap;
           flex-wrap: wrap;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
           justify-content: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
         }
       `}</style>

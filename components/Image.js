@@ -43,12 +43,17 @@ export default function Image({ name, img, id, setFile }) {
           z-index: -1;
           width: 5rem;
         }
-
         #imglabel,
         #img {
           cursor: pointer;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
           justify-content: center;
           border: 1px var(--grey-dark-2) solid;
           font-size: 2rem;

@@ -78,6 +78,18 @@ export default function Name({ routeTo }) {
           border: 1px solid ${styles.primaryColor};
         }
 
+        .name::-webkit-input-placeholder {
+          color: lightgrey;
+        }
+        .name::-moz-placeholder {
+          color: lightgrey;
+        }
+        .name:-ms-input-placeholder {
+          color: lightgrey;
+        }
+        .name::-ms-input-placeholder {
+          color: lightgrey;
+        }
         .name::placeholder {
           color: lightgrey;
         }

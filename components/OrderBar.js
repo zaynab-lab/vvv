@@ -54,8 +54,14 @@ export default function OrderBar() {
           border: 1.5px solid ${styles.primaryColor};
           border-radius: 0.5rem;
           text-align: center;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: space-evenly;
+          -ms-flex-pack: space-evenly;
           justify-content: space-evenly;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
           font-size: 1.2rem;
         }

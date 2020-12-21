@@ -46,13 +46,26 @@ const ProductCard = ({ product }) => (
     <style jsx>
       {`
         .card {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
           flex-direction: column;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
           justify-content: center;
+          height: -webkit-fit-content;
+          height: -moz-fit-content;
           height: fit-content;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
           align-items: center;
           border: 1px solid ${styles.primaryColor};
           border-radius: 0.5rem;
+          -webkit-box-flex: 1;
+          -ms-flex: 1 1 10rem;
           flex: 1 1 10rem;
           margin: 0.3rem;
           font-size: 1.2rem;
@@ -77,8 +90,15 @@ const ProductCard = ({ product }) => (
           border-width: 1px 0;
           margin: 0;
           height: 3.6rem;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
           flex-direction: column;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
           justify-content: center;
         }
 
@@ -134,7 +154,10 @@ export default function ProductsList({ pageProducts }) {
       <style jsx>{`
         .productsList {
           overflow: auto;
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -ms-flex-wrap: wrap;
           flex-wrap: wrap;
           height: calc(100vh - 3rem);
         }

@@ -8,6 +8,7 @@ import LoadData from "../components/LoadData";
 import SlideShow from "../components/SlideShow";
 import { useRouter } from "next/router";
 import SnakBar from "../components/SnakBar";
+import Image from "next/image";
 
 export const productsState = atom({
   key: "productList",
@@ -48,13 +49,19 @@ export default function IndexPage() {
       <div className="container">
         {/* <OrderBar /> */}
         <SlideShow />
+        {/* <Image src="/Logo.png" width="7rem" height="7rem" /> */}
         <CategoryItems categories={categoryList} />
       </div>
       <SnakBar show={snak.show} message={snak.message} />
       <LoadData />
       <style jsx>{`
         .container {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
           flex-direction: column;
           height: calc(100vh - 3rem);
           overflow: auto;
