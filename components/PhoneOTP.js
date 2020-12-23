@@ -13,10 +13,12 @@ export const phoneState = atom({
 
 export default function PhoneOTP({ routeTo }) {
   const [waiting, setWaiting] = useState(false);
+  const [hasPass, setHasPass] = useState(false);
   const setphone = useSetRecoilState(phoneState);
   const setPhonePage = useSetRecoilState(PhonePageState);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [oTP, setOTP] = useState("");
+  const [passWord, setPassWord] = useState("");
   const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
@@ -27,11 +29,19 @@ export default function PhoneOTP({ routeTo }) {
     } else {
       setPhoneNumber(e.target.value);
     }
-    phoneNumber.length >= 8 && setMessage("الرجاء التأكد من الرقم");
   };
 
   const handleClick = () => {
     setMessage("");
+    if (!(phoneNumber.length === 7 || phoneNumber.length === 8)) {
+      setMessage("الرجاء التأكد من الرقم");
+      return;
+    }
+    if (hasPass && passWord === "") {
+      setMessage("ادخل الرمز الصحيح");
+      return;
+    }
+
     waiting
       ? axios
           .post(
@@ -52,10 +62,22 @@ export default function PhoneOTP({ routeTo }) {
                   "/?msg=%D8%AA%D9%85%20%D8%AA%D8%B3%D8%AC%D9%8A%D9%84%20%D8%AF%D8%AE%D9%88%D9%84%D9%83%20%D8%A8%D9%86%D8%AC%D8%A7%D8%AD"
                 ) &&
                 setMessage("تم تسجيل الدخول بنجاح");
-
             res.data !== "done" && res.data !== "exist" && setMessage(res.data);
           })
-      : axios
+      : hasPass
+      ? alert("الدخول عن طريق الرمز ليس متوفر حاليا")
+      : // axios
+        //     .post(
+        //       "/api/auth/Sign",
+        //       { phoneNumber, passWord },
+        //       { "content-type": "application/json" }
+        //     )
+        //     .then((res) => {
+        //       res.data === "done" && setWaiting(true);
+        //       res.data === "done" && setphone(phoneNumber);
+        //       res.data !== "done" && setMessage(res.data);
+        //     })
+        axios
           .post(
             "/api/auth/Sign",
             { phoneNumber },
@@ -70,41 +92,78 @@ export default function PhoneOTP({ routeTo }) {
 
   return (
     <>
-      <div className="message">{message}</div>
+      <div>
+        <div className="formContainer">
+          <div className="message">{message}</div>
 
-      <div className="phoneContainer">
-        <select className="countryCode">
-          <option>961+</option>
-          <option>1+</option>
-        </select>
+          <div className="phoneContainer">
+            <select className="countryCode">
+              <option>961+</option>
+              <option>1+</option>
+            </select>
 
-        <input
-          placeholder="أدخل رقمك الخليوي"
-          className="phone"
-          onChange={(e) => handleChange(e)}
-          value={phoneNumber}
-          name="phoneNumber"
-          type="number"
-          disabled={waiting}
-          autoComplete="off"
-        />
+            <input
+              placeholder="أدخل رقمك الخليوي"
+              className="phone"
+              onChange={(e) => handleChange(e)}
+              value={phoneNumber}
+              name="phoneNumber"
+              type="number"
+              disabled={waiting}
+              autoComplete="off"
+            />
+          </div>
+          {waiting && (
+            <input
+              placeholder="أدخل الرمز المؤقت، يرجى الانتظار"
+              className="phone otp"
+              value={oTP}
+              onChange={(e) => setOTP(e.target.value)}
+              type="number"
+            />
+          )}
+          {hasPass && (
+            <input
+              placeholder="أدخل الرمز الخاص بك"
+              className="phone otp"
+              value={passWord}
+              type="password"
+              onChange={(e) => setPassWord(e.target.value)}
+            />
+          )}
+          <div className="btnContainer">
+            <button className="btn" onClick={() => handleClick()}>
+              {waiting || hasPass ? "تسجيل الدخول" : "طلب الرمز المؤقت"}
+            </button>
+            <button
+              className="passwordbtn"
+              onClick={() => {
+                setHasPass(!hasPass);
+              }}
+            >
+              {hasPass ? "ليس لدي الرمز الخاص بي" : "لدي الرمز الخاص بي"}
+            </button>
+          </div>
+        </div>
+        <ContactUs />
       </div>
-
-      {waiting && (
-        <input
-          placeholder="أدخل الرمز المؤقت، يرجى الانتظار"
-          className="phone otp"
-          value={oTP}
-          onChange={(e) => setOTP(e.target.value)}
-          type="number"
-        />
-      )}
-
-      <button className="btn" onClick={() => handleClick()}>
-        {waiting ? "تسجيل الدخول" : "طلب الرمز المؤقت"}
-      </button>
-      <ContactUs />
       <style jsx>{`
+        .formContainer {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+          flex-direction: column;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          justify-content: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          align-items: center;
+          margin: 5rem 0;
+        }
         .message {
           color: ${styles.secondaryColor};
           padding: 0;
@@ -173,15 +232,27 @@ export default function PhoneOTP({ routeTo }) {
           margin-bottom: 0.8rem;
           min-width: 19rem;
         }
+        .btnContainer {
+          display: flex;
+          display: -webkit-box;
+          display: -ms-flexbox;
+        }
 
         .btn {
-          font-size: 1.2rem;
+          font-size: 1.1rem;
           border: none;
           background-color: ${styles.primaryColorLight};
           color: white;
           margin: 0.5rem;
           padding: 0.5rem 0.8rem;
           border-radius: 0.5rem;
+        }
+        .passwordbtn {
+          background: white;
+          border: none;
+          padding: 0rem 0.5rem;
+          color: ${styles.secondaryColor};
+          font-size: 0.8rem;
         }
       `}</style>
     </>

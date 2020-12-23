@@ -19,6 +19,8 @@ export default function EditProduct({ add, product, refresh, GM }) {
   const [categoryList, setCategoryList] = useState([]);
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [dots, setDots] = useState(false);
+  const [file, setFile] = useState("");
+  const [completed, setCompleted] = useState(0);
   const [state, setState] = useState({
     img: add ? false : product.img,
     name: add ? "" : product.name,
@@ -34,6 +36,73 @@ export default function EditProduct({ add, product, refresh, GM }) {
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
+
+  const upload = async (id) => {
+    const formData = new FormData();
+    if (file !== "") {
+      await formData.append("file", file);
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+        onUploadProgress: (progressEvent) => {
+          setCompleted(
+            Math.round((progressEvent.loaded / progressEvent.total) * 100)
+          );
+        }
+      };
+      axios
+        .post(
+          `/api/products/id/uploadImg?id=${id}&category=${product.category}`,
+          formData,
+          config
+        )
+        .then((res) => {
+          const { data } = res;
+          return data;
+        });
+    }
+    return;
+  };
+
+  const handleAddEditbtn = async () => {
+    if (state.category !== "" && state.name !== "" && state.price !== "") {
+      setDots(true);
+      const config = { "content-type": "application/json" };
+
+      add
+        ? axios.post("/api/products", { ...state }, config).then((res) => {
+            const { data } = res;
+            data === "done" &&
+              setState({
+                ...state,
+                name: "",
+                brand: "",
+                initprice: "",
+                price: "",
+                description: ""
+              });
+            setDots(false);
+          })
+        : axios
+            .put(`/api/products/id/${product._id}`, { ...state }, config)
+            .then((res) => {
+              const { data } = res;
+              data === "done" && upload(product._id);
+            })
+            .then(() =>
+              setState({
+                ...state,
+                name: "",
+                brand: "",
+                initprice: "",
+                price: "",
+                description: ""
+              })
+            )
+            .then(() => refresh(product._id, "update", state));
+    } else {
+      alert("املء المطلوب");
+    }
+  };
   useEffect(() => {
     axios.get("/api/categories").then((res) => {
       const { data } = res;
@@ -45,7 +114,17 @@ export default function EditProduct({ add, product, refresh, GM }) {
     <>
       <div className="crtproduct-container">
         <div className="crtproduct-img">
-          <Image name="soon" />
+          {product ? (
+            <Image
+              name="soon"
+              id={product._id}
+              category={product.category}
+              img={product.img}
+              setFile={setFile.bind(this)}
+            />
+          ) : (
+            <Image name="soon" setFile={setFile.bind(this)} />
+          )}
         </div>
         {productInputList.map((obj, index) => (
           <Input
@@ -121,56 +200,7 @@ export default function EditProduct({ add, product, refresh, GM }) {
         <div className="btnContainer">
           <button
             className="crtproduct-btn"
-            onClick={() => {
-              if (
-                state.category !== "" &&
-                state.name !== "" &&
-                state.price !== ""
-              ) {
-                setDots(true);
-                add
-                  ? axios
-                      .post(
-                        "/api/products",
-                        { ...state },
-                        { "content-type": "application/json" }
-                      )
-                      .then((res) => {
-                        const { data } = res;
-                        data === "done" &&
-                          setState({
-                            ...state,
-                            name: "",
-                            brand: "",
-                            initprice: "",
-                            price: "",
-                            description: ""
-                          });
-                        setDots(false);
-                      })
-                  : axios
-                      .put(
-                        `/api/products/id/${product._id}`,
-                        { ...state },
-                        { "content-type": "application/json" }
-                      )
-                      .then((res) => {
-                        const { data } = res;
-                        data === "done" &&
-                          setState({
-                            ...state,
-                            name: "",
-                            brand: "",
-                            initprice: "",
-                            price: "",
-                            description: ""
-                          });
-                      })
-                      .then(() => refresh(product._id, "update", state));
-              } else {
-                alert("املء المطلوب");
-              }
-            }}
+            onClick={handleAddEditbtn.bind(this)}
           >
             {add ? (
               dots ? (

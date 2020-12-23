@@ -12,12 +12,15 @@ export default function CartCard({ product }) {
     <>
       <div className="cartCard">
         <div className="cartCard-ImgName">
-          <img
-            className="cartCard-img"
-            src={`/img/png/${product.category}/${product._id}.png`}
-            alt=""
-          />
-
+          {product.img ? (
+            <img
+              className="cartCard-img"
+              src={`https://storage.googleapis.com/za-market/Products/${product.category}/${product._id}.png`}
+              alt={product.name}
+            />
+          ) : (
+            <img className="cartCard-ImgName" src="/img/png/noImg.png" alt="" />
+          )}
           <div className="cartCard-content">
             <div className="cartCard-name">{product.name}</div>
             <Controll id={product._id} measure={product.measure} />

@@ -33,7 +33,6 @@ export default async (req, res) => {
               Product.findByIdAndUpdate(
                 id,
                 {
-                  img: body.img,
                   name: body.name,
                   brand: body.brand,
                   initprice: body.initprice,
@@ -48,7 +47,7 @@ export default async (req, res) => {
                 }
               ).exec();
             }
-            return res.end("done");
+            return res.status(200).end("done");
           }
           return res.end("invalid");
         });

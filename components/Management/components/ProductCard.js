@@ -13,12 +13,15 @@ export default function ProductCard({ product, setActionById }) {
     <>
       <div className="productCard">
         <div className="productCard-ImgName">
-          <img
-            className="productCard-img"
-            src={`/img/png/${newproduct.category}/${newproduct._id}.png`}
-            // src={`/img/png/Default.png`}
-            alt=""
-          />
+          {product.img ? (
+            <img
+              className="productCard-img"
+              src={`https://storage.googleapis.com/za-market/Products/${newproduct.category}/${newproduct._id}.png`}
+              alt=""
+            />
+          ) : (
+            <img className="productCard-img" src="/img/png/noImg.png" alt="" />
+          )}
           <div className="productCard-content">
             <div className="productCard-name">{newproduct.name}</div>
             {newproduct.brand && (

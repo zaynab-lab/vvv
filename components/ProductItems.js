@@ -7,11 +7,15 @@ const ProductCard = ({ product }) => (
     {product.appear && (
       <div className="card">
         {product.category ? (
-          <img
-            className="card-img"
-            src={`/img/png/${product.category}/${product._id}.png`}
-            alt=""
-          />
+          product.img ? (
+            <img
+              className="card-img"
+              src={`https://storage.googleapis.com/za-market/Products/${product.category}/${product._id}.png`}
+              alt={product.name}
+            />
+          ) : (
+            <img className="card-img" src="/img/png/noImg.png" alt="" />
+          )
         ) : (
           <ImageLoader />
         )}

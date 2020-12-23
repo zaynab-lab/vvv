@@ -1,38 +1,47 @@
 import { useState } from "react";
 
-export default function Image({ name, img, id, setFile }) {
-  const [filesrc, setFilesrc] = useState(`/img/png/${img ? id : name}.png`);
-  const handleChange = (e) => {
-    var file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      reader.readyState === 2
-        ? setFilesrc(reader.result)
-        : setFilesrc(`/${id}.png`);
-    };
-
-    if (file && file.type.match("image.png")) {
-      reader.readAsDataURL(file);
-      var blob = file.slice(0, file.size, "image/png");
-      var newFile = new File([blob], id, { type: "image/png" });
-      // setFile(newFile);
-    }
-  };
-
+export default function ({ name, img, id, category, setFile }) {
+  const [filesrc, setFilesrc] = useState(`/img/png/${name}.png`);
+  const [hasImg, setHasImg] = useState(img);
   return (
     <>
       <div>
         <label id="imglabel" htmlFor="imgInput">
-          <img id="img" src={filesrc} alt="" />
+          {hasImg ? (
+            <img
+              id="img"
+              src={`https://storage.googleapis.com/za-market/Products/${category}/${id}.png`}
+              alt=""
+            />
+          ) : (
+            <img id="img" src={filesrc} alt="" />
+          )}
         </label>
 
         <input
           type="file"
           id="imgInput"
           name="img"
-          onChange={(e) => handleChange(e)}
-          accept="image/x-png"
+          onChange={(e) => {
+            setHasImg(false);
+            var file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = () => {
+              reader.readyState === 2 && setFilesrc(reader.result);
+            };
+            if (file) {
+              reader.readAsDataURL(file);
+              var blob = file.slice(0, file.size);
+              var newFile = new File([blob], "file");
+              setFilesrc(newFile);
+              setFile(file);
+            } else {
+              setFilesrc(`/img/png/${img && name}.png`);
+              img && setHasImg(true);
+              setFile("");
+            }
+          }}
+          accept="image/png, image/jpeg, image/jpg"
         />
       </div>
 

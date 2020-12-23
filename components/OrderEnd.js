@@ -3,12 +3,15 @@ import { styles } from "../public/js/styles";
 const ProductCard = ({ product }) => (
   <>
     <div className="card">
-      <img
-        className="card-img"
-        src={`/img/png/${product.category}/${product._id}.png`}
-        alt=""
-      />
-
+      {product.img ? (
+        <img
+          className="card-img"
+          src={`https://storage.googleapis.com/za-market/Products/${product.category}/${product._id}.png`}
+          alt={product.name}
+        />
+      ) : (
+        <img className="card-img" src="/img/png/noImg.png" alt="" />
+      )}
       <div className="card-content">
         <div className="card-name">{product.name}</div>
         <div>
