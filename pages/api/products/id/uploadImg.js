@@ -10,7 +10,7 @@ dbConnection();
 
 const gc = new Storage({
   projectId: process.env.GCLOUD_PROJECT,
-  keyFilename: "public/config.json"
+  keyFilename: "/public/config.json"
 });
 
 export const config = { api: { bodyParser: false } };
@@ -24,8 +24,8 @@ export default async (req, res) => {
   } = req;
 
   if (method === "POST") {
-    !fs.existsSync("public/config.json") &&
-      (await fs.writeFile("public/config.json", process.env.GCLOUD_KEY, () =>
+    !fs.existsSync("/public/config.json") &&
+      (await fs.writeFile("/public/config.json", process.env.GCLOUD_KEY, () =>
         console.log("finished")
       ));
     try {
