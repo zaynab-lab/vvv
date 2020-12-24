@@ -57,7 +57,8 @@ export default function CartPage() {
 
   useEffect(() => {
     msg && fire(msg);
-  }, [msg]);
+    msg && router.push("/");
+  }, [msg, router]);
 
   return (
     <>

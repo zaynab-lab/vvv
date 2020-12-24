@@ -8,6 +8,7 @@ import LoadData from "../components/LoadData";
 import SlideShow from "../components/SlideShow";
 import { useRouter } from "next/router";
 import SnakBar from "../components/SnakBar";
+import { route } from "next/dist/next-server/server/router";
 
 export const productsState = atom({
   key: "productList",
@@ -40,7 +41,8 @@ export default function IndexPage() {
 
   useEffect(() => {
     msg && fire(msg);
-  }, [msg]);
+    msg && router.push("/");
+  }, [msg, router]);
 
   return (
     <>
