@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 dbConnection();
 
-export default async (req, res) => {
+export default async function Auth(req, res) {
   const { method } = req;
   if (method === "GET") {
     const token = req.cookies.jwt;
@@ -27,4 +27,4 @@ export default async (req, res) => {
   } else {
     return res.end("invalid");
   }
-};
+}

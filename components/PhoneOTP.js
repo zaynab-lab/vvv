@@ -41,7 +41,6 @@ export default function PhoneOTP({ routeTo }) {
       setMessage("ادخل الرمز الصحيح");
       return;
     }
-
     waiting
       ? axios
           .post(
@@ -66,18 +65,7 @@ export default function PhoneOTP({ routeTo }) {
           })
       : hasPass
       ? alert("الدخول عن طريق الرمز ليس متوفر حاليا")
-      : // axios
-        //     .post(
-        //       "/api/auth/Sign",
-        //       { phoneNumber, passWord },
-        //       { "content-type": "application/json" }
-        //     )
-        //     .then((res) => {
-        //       res.data === "done" && setWaiting(true);
-        //       res.data === "done" && setphone(phoneNumber);
-        //       res.data !== "done" && setMessage(res.data);
-        //     })
-        axios
+      : axios
           .post(
             "/api/auth/Sign",
             { phoneNumber },
@@ -95,7 +83,6 @@ export default function PhoneOTP({ routeTo }) {
       <div>
         <div className="formContainer">
           <div className="message">{message}</div>
-
           <div className="phoneContainer">
             <select className="countryCode">
               <option>961+</option>
@@ -113,24 +100,28 @@ export default function PhoneOTP({ routeTo }) {
               autoComplete="off"
             />
           </div>
-          {waiting && (
-            <input
-              placeholder="أدخل الرمز المؤقت، يرجى الانتظار"
-              className="phone otp"
-              value={oTP}
-              onChange={(e) => setOTP(e.target.value)}
-              type="number"
-            />
-          )}
-          {hasPass && (
-            <input
-              placeholder="أدخل الرمز الخاص بك"
-              className="phone otp"
-              value={passWord}
-              type="password"
-              onChange={(e) => setPassWord(e.target.value)}
-            />
-          )}
+          <>
+            {waiting && (
+              <input
+                placeholder="أدخل الرمز المؤقت، يرجى الانتظار"
+                className="phone otp"
+                value={oTP}
+                onChange={(e) => setOTP(e.target.value)}
+                type="number"
+              />
+            )}
+          </>
+          <>
+            {hasPass && (
+              <input
+                placeholder="أدخل الرمز الخاص بك"
+                className="phone otp"
+                value={passWord}
+                type="password"
+                onChange={(e) => setPassWord(e.target.value)}
+              />
+            )}
+          </>
           <div className="btnContainer">
             <button className="btn" onClick={() => handleClick()}>
               {waiting || hasPass ? "تسجيل الدخول" : "طلب الرمز المؤقت"}
