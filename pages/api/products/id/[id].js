@@ -49,10 +49,10 @@ export default async (req, res) => {
             }
             return res.status(200).end("done");
           }
-          return res.end("invalid");
+          return res.status(400).end("invalid");
         });
       } catch (err) {
-        return res.end("invalid");
+        return res.status(400).end("invalid");
       }
       break;
     case "DELETE":

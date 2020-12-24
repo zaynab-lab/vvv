@@ -26,26 +26,25 @@ export default async (req, res) => {
               initprice: body.initprice,
               price: body.price,
               measure: body.measure,
-              img: body.img,
               description: body.description
             });
             await createdProduct.save().catch((err) => console.log(err));
-            return res.end("done");
+            return res.status(200).end(JSON.stringify(createdProduct));
           }
-          return res.end("invalid");
+          return res.status(400).end("invalid");
         });
       } catch (err) {
-        return res.end(JSON.stringify([]));
+        return res.status(400).end(err);
       }
       break;
     case "GET":
       try {
         const products = await Product.find({}).exec();
-        return res.end(JSON.stringify(products));
+        return res.status(200).end(JSON.stringify(products));
       } catch (err) {
-        return res.end("invalid");
+        return res.status(200).end("invalid");
       }
     default:
-      return res.end(JSON.stringify([]));
+      return res.status(200).end(JSON.stringify([]));
   }
 };

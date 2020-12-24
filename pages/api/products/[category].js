@@ -12,11 +12,11 @@ export default async (req, res) => {
     case "GET":
       try {
         const products = await Product.find({ category: category });
-        return res.end(JSON.stringify(products));
+        return res.status(200).end(JSON.stringify(products));
       } catch (err) {
-        return res.end(JSON.stringify([]));
+        return res.status(200).end(JSON.stringify([]));
       }
     default:
-      return res.end(JSON.stringify([]));
+      return res.status(200).end(JSON.stringify([]));
   }
 };

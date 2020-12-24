@@ -29,14 +29,16 @@ export default function ({ name, img, id, category, setFile }) {
             reader.onload = () => {
               reader.readyState === 2 && setFilesrc(reader.result);
             };
-            if (file) {
+            if (file && file.size < 200000) {
               reader.readAsDataURL(file);
               var blob = file.slice(0, file.size);
               var newFile = new File([blob], "file");
               setFilesrc(newFile);
               setFile(file);
+            } else if (file && file.size > 200000) {
+              alert("لا يمكن أن يتجاوز حجم الصورة 200k");
             } else {
-              setFilesrc(`/img/png/${img && name}.png`);
+              setFilesrc(`/img/png/${name}.png`);
               img && setHasImg(true);
               setFile("");
             }

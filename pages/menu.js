@@ -27,6 +27,7 @@ export default function Menu() {
   const [dots, setDots] = useState(true);
   const [user, setUser] = useState(userInfo !== {} ? userInfo : "");
   const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState("");
 
   useEffect(() => {
     axios
@@ -51,7 +52,7 @@ export default function Menu() {
         <div className="menu-header">
           {user ? (
             <>
-              <Image name={"Profile"} />
+              <Image name="Profile" setFile={setFile} />
               <div className="userName">{user.name}</div>
             </>
           ) : (

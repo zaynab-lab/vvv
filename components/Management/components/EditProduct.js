@@ -20,7 +20,7 @@ export default function EditProduct({ add, product, refresh, GM }) {
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [dots, setDots] = useState(false);
   const [file, setFile] = useState("");
-  const [completed, setCompleted] = useState(0);
+  const [completed, setCompleted] = useState();
   const [state, setState] = useState({
     img: add ? false : product.img,
     name: add ? "" : product.name,
@@ -37,7 +37,7 @@ export default function EditProduct({ add, product, refresh, GM }) {
     setState({ ...state, [e.target.name]: e.target.value });
   };
 
-  const upload = async (id) => {
+  const upload = async (id, category) => {
     const formData = new FormData();
     if (file !== "") {
       await formData.append("file", file);
@@ -51,58 +51,17 @@ export default function EditProduct({ add, product, refresh, GM }) {
       };
       axios
         .post(
-          `/api/products/id/uploadImg?id=${id}&category=${product.category}`,
+          `/api/products/id/uploadImg?id=${id}&category=${category}`,
           formData,
           config
         )
         .then((res) => {
           const { data } = res;
-          return data;
+          data && alert("تم رفع الصورة، قم بتحديث الصفحة");
         });
     }
-    return;
   };
 
-  const handleAddEditbtn = async () => {
-    if (state.category !== "" && state.name !== "" && state.price !== "") {
-      setDots(true);
-      const config = { "content-type": "application/json" };
-
-      add
-        ? axios.post("/api/products", { ...state }, config).then((res) => {
-            const { data } = res;
-            data === "done" &&
-              setState({
-                ...state,
-                name: "",
-                brand: "",
-                initprice: "",
-                price: "",
-                description: ""
-              });
-            setDots(false);
-          })
-        : axios
-            .put(`/api/products/id/${product._id}`, { ...state }, config)
-            .then((res) => {
-              const { data } = res;
-              data === "done" && upload(product._id);
-            })
-            .then(() =>
-              setState({
-                ...state,
-                name: "",
-                brand: "",
-                initprice: "",
-                price: "",
-                description: ""
-              })
-            )
-            .then(() => refresh(product._id, "update", state));
-    } else {
-      alert("املء المطلوب");
-    }
-  };
   useEffect(() => {
     axios.get("/api/categories").then((res) => {
       const { data } = res;
@@ -200,7 +159,59 @@ export default function EditProduct({ add, product, refresh, GM }) {
         <div className="btnContainer">
           <button
             className="crtproduct-btn"
-            onClick={handleAddEditbtn.bind(this)}
+            onClick={() => {
+              if (
+                state.category !== "" &&
+                state.name !== "" &&
+                state.price !== ""
+              ) {
+                setDots(true);
+                const config = { "content-type": "application/json" };
+                add
+                  ? axios
+                      .post("/api/products", { ...state }, config)
+                      .then((res) => {
+                        const { status } = res;
+                        status === 200 &&
+                          upload(res.data._id, res.data.category);
+                      })
+                      .then(() => {
+                        setState({
+                          ...state,
+                          name: "",
+                          brand: "",
+                          initprice: "",
+                          price: "",
+                          description: ""
+                        });
+                        setDots(false);
+                      })
+                  : axios
+                      .put(
+                        `/api/products/id/${product._id}`,
+                        { ...state },
+                        config
+                      )
+                      .then((res) => {
+                        const { data } = res;
+                        data === "done" &&
+                          upload(product._id, product.category);
+                      })
+                      .then(() =>
+                        setState({
+                          ...state,
+                          name: "",
+                          brand: "",
+                          initprice: "",
+                          price: "",
+                          description: ""
+                        })
+                      )
+                      .then(() => refresh(product._id, "update", state));
+              } else {
+                alert("املء المطلوب");
+              }
+            }}
           >
             {add ? (
               dots ? (

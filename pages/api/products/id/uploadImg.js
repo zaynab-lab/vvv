@@ -36,7 +36,7 @@ export default async (req, res) => {
         const user = await User.findById(decoded.id).exec();
         if (user.roles.includes("productsManager")) {
           const form = new formidable.IncomingForm();
-          form.keepExtensions = true;
+          form.keepExtensions = false;
           await form.parse(req, (err, fields, files) => {
             bucket.upload(
               files.file.path,
@@ -44,19 +44,19 @@ export default async (req, res) => {
                 destination: `Products/${category}/${id}.png`,
                 gzip: true,
                 metadata: {
-                  cacheControl: "public, max-age=31536000"
+                  cacheControl: "public, max-age=1"
                 }
               },
               (err, file) => {
-                res.status(200).end(file.name);
                 !err &&
                   Product.findByIdAndUpdate(id, { img: true }, (err) => {
                     return err && res.end("invalid");
                   }).exec();
+                res.status(200).end(file.name);
               }
             );
           });
-          return res.status(200).end("done");
+          // return res.status(200).end("done");
         }
         return res.end("invalid");
       });
