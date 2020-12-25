@@ -7,14 +7,13 @@ const fs = require("fs");
 const formidable = require("formidable");
 
 dbConnection();
+// export const config = { api: { bodyParser: false } };
 
 const gc = new Storage({
   // projectId: process.env.GCLOUD_PROJECT,
   // keyFilename: "public/config.json"
   credentials: JSON.parse(process.env.GCLOUD_KEY)
 });
-
-export const config = { api: { bodyParser: false } };
 
 const bucket = gc.bucket(process.env.BUCKET_NAME);
 

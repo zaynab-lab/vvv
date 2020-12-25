@@ -37,10 +37,6 @@ export default function PhoneOTP({ routeTo }) {
       setMessage("الرجاء التأكد من الرقم");
       return;
     }
-    if (hasPass && passWord === "") {
-      setMessage("ادخل الرمز الصحيح");
-      return;
-    }
     waiting
       ? axios
           .post(
@@ -64,7 +60,7 @@ export default function PhoneOTP({ routeTo }) {
             res.data !== "done" && res.data !== "exist" && setMessage(res.data);
           })
       : hasPass
-      ? alert("الدخول عن طريق الرمز ليس متوفر حاليا")
+      ? setMessage("الدخول عن طريق الرمز ليس متوفر حاليا")
       : axios
           .post(
             "/api/auth/Sign",
@@ -76,6 +72,11 @@ export default function PhoneOTP({ routeTo }) {
             res.data === "done" && setphone(phoneNumber);
             res.data !== "done" && setMessage(res.data);
           });
+    if (hasPass && passWord === "") {
+      setMessage("ادخل الرمز الصحيح");
+
+      return;
+    }
   };
 
   return (
