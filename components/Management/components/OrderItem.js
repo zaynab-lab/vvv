@@ -3,23 +3,10 @@ import { styles } from "../../../public/js/styles";
 import OrderEnd from "../../../components/OrderEnd";
 import { FaCalendarAlt, FaMapMarkedAlt } from "react-icons/fa";
 import OrderControll from "./OrderControll";
+import dateChanger from "../../../util/dateChanger";
 
 export default function OrderItem({ order, role, current, handleRemove }) {
   const [hidden, setHidden] = useState(true);
-  const dateChanger = (od) => {
-    const date = new Date(od);
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const dt = date.getDate();
-    const hours = date.getHours();
-    const minute = date.getMinutes();
-    const day = dt < 10 ? "0" + dt : dt;
-    const mon = month < 10 ? "0" + month : month;
-    const hou = hours < 10 ? "0" + hours : hours;
-    const min = minute < 10 ? "0" + minute : minute;
-
-    return hou + ":" + min + " / " + day + "-" + mon + "-" + year;
-  };
 
   return (
     <>
@@ -53,7 +40,6 @@ export default function OrderItem({ order, role, current, handleRemove }) {
                 <span>
                   <span className="label">اسم الزبون:</span> {order.userName}
                 </span>
-
                 <span>
                   <span className="label">الرقم:</span> {order.number}
                 </span>
@@ -65,7 +51,6 @@ export default function OrderItem({ order, role, current, handleRemove }) {
         {!hidden && (
           <>
             <OrderEnd proceedProducts={order.products} />
-
             <div className="footer">
               <OrderControll
                 role={role}

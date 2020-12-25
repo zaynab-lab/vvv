@@ -4,23 +4,11 @@ import { FaCalendarAlt } from "react-icons/fa";
 import ArrowBar from "./ArrowBar";
 import ContentLoad from "./OrdersContentLoader";
 import { useEffect, useState } from "react";
+import dateChanger from "../util/dateChanger";
 
 const OrderItem = ({ currentList }) => {
   const [hidden, setHidden] = useState(true);
-  const dateChanger = (od) => {
-    const date = new Date(od);
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const dt = date.getDate();
-    const hours = date.getHours();
-    const minute = date.getMinutes();
-    const day = dt < 10 ? "0" + dt : dt;
-    const mon = month < 10 ? "0" + month : month;
-    const hou = hours < 10 ? "0" + hours : hours;
-    const min = minute < 10 ? "0" + minute : minute;
 
-    return hou + ":" + min + " / " + day + "-" + mon + "-" + year;
-  };
   return (
     <>
       <div className="orderContainer">
@@ -41,17 +29,13 @@ const OrderItem = ({ currentList }) => {
           </div>
         </div>
 
-        {!hidden && (
-          <>
-            <OrderEnd proceedProducts={currentList.products} />
-            <div className="footer">
-              <span className="label">المراحل : </span>
-              <div className="stepContainer">
-                <ArrowBar progress={currentList.progress} />
-              </div>
-            </div>
-          </>
-        )}
+        {!hidden && <OrderEnd proceedProducts={currentList.products} />}
+        <div className="footer">
+          <span className="label">المراحل : </span>
+          <div className="stepContainer">
+            <ArrowBar progress={currentList.progress} />
+          </div>
+        </div>
       </div>
       <style jsx>{`
         .orderContainer {

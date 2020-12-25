@@ -56,8 +56,10 @@ export default function EditProduct({ add, product, refresh, GM }) {
           config
         )
         .then((res) => {
-          const { data } = res;
-          data && alert("تم رفع الصورة، قم بتحديث الصفحة");
+          const { status } = res;
+          status === 200
+            ? alert("تم رفع الصورة، قم بتحديث الصفحة")
+            : alert("حدث خطأ ما");
         });
     }
   };

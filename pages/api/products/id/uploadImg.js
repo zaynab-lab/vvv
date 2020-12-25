@@ -9,8 +9,9 @@ const formidable = require("formidable");
 dbConnection();
 
 const gc = new Storage({
-  projectId: process.env.GCLOUD_PROJECT,
-  keyFilename: "/public/config.json"
+  // projectId: process.env.GCLOUD_PROJECT,
+  // keyFilename: "public/config.json"
+  credentials: JSON.parse(process.env.GCLOUD_KEY)
 });
 
 export const config = { api: { bodyParser: false } };
@@ -24,10 +25,10 @@ export default async (req, res) => {
   } = req;
 
   if (method === "POST") {
-    !fs.existsSync("/public/config.json") &&
-      (await fs.writeFile("/public/config.json", process.env.GCLOUD_KEY, () =>
-        console.log("finished")
-      ));
+    // !fs.existsSync("./public/config.json") &&
+    //   (await fs.writeFile("./public/config.json", process.env.GCLOUD_KEY, () =>
+    //     console.log("finished")
+    //   ));
     try {
       const token = req.cookies.jwt;
       if (!token) return res.end("noToken");
@@ -48,11 +49,12 @@ export default async (req, res) => {
                 }
               },
               (err, file) => {
+                if (err) return console.log(err);
                 !err &&
                   Product.findByIdAndUpdate(id, { img: true }, (err) => {
                     return err && res.end("invalid");
                   }).exec();
-                res.status(200).end(file.name);
+                return !err && res.status(200).end(file.name);
               }
             );
           });
