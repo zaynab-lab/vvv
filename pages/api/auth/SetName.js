@@ -19,7 +19,7 @@ export default async (req, res) => {
         },
         (err) => console.log(err)
       );
-      res.end("done");
+      res.status(200).end("done");
     } catch (err) {
       return res.end("هناك خطأ في النظام يرجى المحاولة مجدداً");
     }

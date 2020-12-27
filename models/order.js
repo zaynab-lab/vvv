@@ -5,7 +5,7 @@ const orderSchema = new mongoose.Schema(
     userID: { type: String },
     userName: { type: String },
     number: { type: Number },
-    orderCode: { type: Number },
+    orderCode: { type: String },
     products: [
       {
         id: { type: String },
@@ -17,7 +17,9 @@ const orderSchema = new mongoose.Schema(
       }
     ],
     address: { type: String },
+    delivery: { type: Number },
     total: { type: Number },
+    shouldpay: { type: Number },
     paymentMethod: { type: String },
     date: { type: Date, default: Date.now },
     progress: {

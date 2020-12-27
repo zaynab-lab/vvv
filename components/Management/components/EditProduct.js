@@ -194,21 +194,11 @@ export default function EditProduct({ add, product, refresh, GM }) {
                         { ...state },
                         config
                       )
-                      .then((res) => {
+                      .then(async (res) => {
                         const { data } = res;
                         data === "done" &&
-                          upload(product._id, product.category);
+                          (await upload(product._id, product.category));
                       })
-                      .then(() =>
-                        setState({
-                          ...state,
-                          name: "",
-                          brand: "",
-                          initprice: "",
-                          price: "",
-                          description: ""
-                        })
-                      )
                       .then(() => refresh(product._id, "update", state));
               } else {
                 alert("املء المطلوب");

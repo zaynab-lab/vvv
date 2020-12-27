@@ -62,8 +62,8 @@ export default function CartPage() {
 
   return (
     <>
-      <TopBar title="عربة التسوق" page={true} />
-      <div>
+      <TopBar title="عربة التسوق" />
+      <div className="container">
         <div className="cartItems">
           {cartProducts.map((obj) => (
             <div key={obj._id}>
@@ -98,6 +98,19 @@ export default function CartPage() {
 
       <LoadData />
       <style jsx>{`
+        .container {
+          height: calc(100vh - 3rem);
+          overflow: auto;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+          flex-direction: column;
+          font-size: 1.2rem;
+        }
+
         .currency:after {
           content: " ل.ل";
         }

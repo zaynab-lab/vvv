@@ -28,6 +28,16 @@ export default function OrderItem({ order, role, current, handleRemove }) {
                   <span className="label">رقم الطلب:</span> {order.orderCode}
                 </span>
               </div>
+              <div className="totalbar">
+                <span>
+                  <span className="label">توصيل: </span>
+                  {order.delivery} ل.ل
+                </span>{" "}
+                <span>
+                  <span className="label">المطلوب: </span>
+                  {order.shouldpay} ل.ل
+                </span>{" "}
+              </div>
 
               <div>
                 <span className="label">

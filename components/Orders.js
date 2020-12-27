@@ -25,7 +25,17 @@ const OrderItem = ({ currentList }) => {
               <span className="label">الإجمالي: </span>
               {currentList.total} ل.ل
             </span>{" "}
-            <span className="label">رقم الطلب: </span>
+            <span className="label">رقم الطلب: {currentList.orderCode}</span>
+          </div>
+          <div className="totalbar">
+            <span>
+              <span className="label">توصيل: </span>
+              {currentList.delivery} ل.ل
+            </span>{" "}
+            <span>
+              <span className="label">المطلوب: </span>
+              {currentList.shouldpay} ل.ل
+            </span>{" "}
           </div>
         </div>
 

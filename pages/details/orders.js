@@ -8,7 +8,6 @@ import ContactUs from "../../components/ContactUs";
 export default function OrdersPage() {
   const [current, setCurrent] = useState(true);
   const [orderList, setOrderList] = useState([]);
-  const [currentList, setCurrentList] = useState([]);
 
   useEffect(() => {
     axios.get("/api/orders/user").then((res) => {

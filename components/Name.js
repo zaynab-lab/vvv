@@ -24,8 +24,8 @@ export default function Name({ routeTo }) {
         { "content-type": "application/json" }
       )
       .then((res) => {
-        if (res.data === "done") {
-          setUserName(name);
+        const { status } = res;
+        if (status === 200) {
           setMessage(
             "تمت عضويتك بشكل كامل، يمكنك اكمال المعلومات في الملف الشخصي"
           );
@@ -36,7 +36,7 @@ export default function Name({ routeTo }) {
             : Router.push(
                 "/?msg=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%20%D8%A8%D9%83%20%D9%85%D8%B9%D9%86%D8%A7%D8%8C%20%D8%A7%D9%86%D8%AA%20%D8%A7%D9%84%D8%A2%D9%86%20%D8%B9%D8%B6%D9%88%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%AA%D8%B7%D8%A8%D9%8A%D9%82"
               );
-        } else {
+          setUserName(name);
         }
       });
   };
@@ -44,7 +44,6 @@ export default function Name({ routeTo }) {
   return (
     <>
       <div className="message">{message}</div>
-
       <input
         placeholder="الإسم الكامل"
         className="name"

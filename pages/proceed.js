@@ -10,19 +10,23 @@ import { useRecoilValue } from "recoil";
 import OrderEnd from "../components/OrderEnd";
 import AddAddress from "../components/AddAdress";
 import SnakBar from "../components/SnakBar";
-import Switch from "../components/Switch";
+import Switch, { toggleState } from "../components/Switch";
+import { orderCode } from "../util/dateChanger";
 
 export default function Proceed() {
   const cartList = useRecoilValue(cartListState);
+  const toggle = useRecoilValue(toggleState);
   const [route, setRoute] = useState(true);
   const [dots, setDots] = useState(false);
   const [total, setTotal] = useState(0);
+  const [delivery, setDelivery] = useState(3000);
   const [productList, setProductList] = useState([]);
   const [proceedProducts, setProceedProducts] = useState([]);
   const [payment, setPayment] = useState("عند الإستلام");
   const [selectedAddress, setSelectedAddress] = useState("");
   const [hasAddress, setHasAddress] = useState(false);
   const [snak, setSnak] = useState("");
+  const [user, setUser] = useState("");
   const fire = (message) => {
     setSnak({ message, show: true });
     setTimeout(() => setSnak(""), 3000);
@@ -30,9 +34,11 @@ export default function Proceed() {
 
   useEffect(() => {
     axios.get("/api/auth").then((res) => {
-      if (res.data === "noToken" || res.data === "invalid") {
+      const { data } = res;
+      if (data === "noToken" || data === "invalid") {
         Router.push("/Login?routeTo=cart");
       } else {
+        setUser(data);
         cartList.length ? setRoute(false) : Router.push("/cart");
       }
     });
@@ -65,6 +71,9 @@ export default function Proceed() {
           .reduce((a, b) => a + b)
       );
   }, [setProceedProducts, productList, cartList]);
+  useEffect(() => {
+    total > 30000 && setDelivery(0);
+  }, [total]);
 
   return (
     <>
@@ -83,28 +92,25 @@ export default function Proceed() {
                   <span className="price">{total} </span>
                 </div>
                 <div>
-                  <span>اجرة النقل</span> <span className="price">2000 </span>{" "}
+                  <span>اجرة التوصيل</span>{" "}
+                  <span className="price">{delivery} </span>{" "}
+                </div>
+                <div>
+                  <span>الخصم</span> <span className="price">- </span>{" "}
                 </div>
                 <div className="bill-total">
                   <span>الإجمالي النهائي</span>{" "}
-                  <span className="price">{total + 2000} </span>{" "}
+                  <span className="price">{total + delivery} </span>{" "}
                 </div>
               </div>
             </div>
             {/* ////////////////Address////////////// */}
             <div className="address">
-              {dots ? (
-                <div className="dots">
-                  <Dots />
-                </div>
-              ) : (
-                <AddAddress
-                  setSelectedAddress={setSelectedAddress}
-                  setHasAddress={setHasAddress}
-                />
-              )}
+              <AddAddress
+                setSelectedAddress={setSelectedAddress}
+                setHasAddress={setHasAddress}
+              />
             </div>
-
             {/* ///////////////////////////////// */}
             <div className="pay">
               <div>
@@ -127,11 +133,26 @@ export default function Proceed() {
                 </select>
               </div>
               <div>
-                <span className="label">خصم من الرصيد:</span>
+                <span className="label">
+                  الدفع من الرصيد:{" "}
+                  <span className="amount">
+                    {user.amount - (toggle && total + delivery)}
+                  </span>
+                </span>
                 <Switch />
               </div>
+              <div>
+                <span className="label">
+                  المطلوب:{" "}
+                  <span className="amount">
+                    {total + delivery - (toggle && user.amount) > 0
+                      ? total + delivery - (toggle && user.amount)
+                      : 0}
+                  </span>
+                </span>
+              </div>
             </div>
-
+            {/* ///////////////////////////// */}
             <div className="confirmbtn">
               {dots ? (
                 <Dots />
@@ -147,7 +168,15 @@ export default function Proceed() {
                       axios
                         .post(
                           "/api/orders",
-                          { proceedProducts, total, payment, selectedAddress },
+                          {
+                            proceedProducts,
+                            total,
+                            payment,
+                            selectedAddress,
+                            toggle,
+                            delivery,
+                            orderCode
+                          },
                           { "content-type": "application/json" }
                         )
                         .then((res) => {
@@ -261,6 +290,15 @@ export default function Proceed() {
           -ms-flex-pack: justify;
           justify-content: space-between;
           padding: 0.2rem;
+        }
+        .amount {
+          margin: auto 0.5rem;
+          font-size: 0.9rem;
+          color: black;
+        }
+        .amount:after {
+          margin: auto 0.5rem;
+          content: "ل.ل";
         }
       `}</style>
     </>

@@ -157,9 +157,12 @@ const ModalContent = ({ setModal, setnewAddress }) => {
 export default function AddAddress({ setSelectedAddress, setHasAddress }) {
   const [modal, setModal] = useState(false);
   const [addresses, setAddresses] = useState([]);
+  const [addedAddress, setAddedAddress] = useState("");
 
   const setnewAddress = (newAddress) => {
     const a = [...addresses, { content: newAddress }];
+    setSelectedAddress(newAddress);
+    setAddedAddress(newAddress);
     setAddresses(a);
   };
   useEffect(() => {
@@ -167,11 +170,12 @@ export default function AddAddress({ setSelectedAddress, setHasAddress }) {
       const { data } = res;
       const { status } = res;
       if (status === 200) {
+        console.log(data);
         setAddresses(data);
         data.length > 0 && setHasAddress(true);
       }
     });
-  }, []);
+  }, [setAddresses, setHasAddress]);
 
   return (
     <>
@@ -183,7 +187,11 @@ export default function AddAddress({ setSelectedAddress, setHasAddress }) {
           >
             <option value="">اختر عنوان</option>
             {addresses.map((obj, index) => (
-              <option key={index} value={obj.content}>
+              <option
+                key={index}
+                value={obj.content}
+                selected={obj.content === addedAddress}
+              >
                 {obj.content}
               </option>
             ))}

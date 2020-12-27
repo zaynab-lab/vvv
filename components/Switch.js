@@ -38,7 +38,7 @@ export default () => {
           -ms-flex-align: center;
           align-items: center;
           border: 1px solid grey;
-          border-radius: 0.3rem;
+          border-radius: 5rem;
           background: white;
           width: fit-content;
           height: fit-content;
@@ -55,14 +55,15 @@ export default () => {
           align-items: center;
           width: 1.5rem;
           height: 1.5rem;
+          padding: 0.2rem;
           background: white;
           color: ${toggle ? styles.secondaryColor : "red"};
           border: 1px solid ${toggle ? styles.secondaryColor : "red"};
-          border-radius: 0.3rem;
+          border-radius: 5rem;
           box-shadow: 0px 0px 2px 3px ${toggle ? styles.secondaryColor : "red"};
         }
         .switch-body {
-          width: 2rem;
+          width: 1.5rem;
         }
       `}</style>
     </>

@@ -5,6 +5,7 @@ import { PhonePageState } from "../pages/Login";
 import { styles } from "../public/js/styles";
 import Router from "next/router";
 import ContactUs from "./ContactUs";
+import timer from "../util/timer";
 
 export const phoneState = atom({
   key: "phone",
@@ -19,10 +20,11 @@ export default function PhoneOTP({ routeTo }) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [oTP, setOTP] = useState("");
   const [passWord, setPassWord] = useState("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(" ");
+  const [time, setTime] = useState("02:00");
 
   const handleChange = (e) => {
-    setMessage("");
+    setMessage(" ");
     if (phoneNumber === "") {
       e.target.value !== "0" && setPhoneNumber(e.target.value);
       e.target.value === "0" && setMessage("ابدء الرقم بدون صفر");
@@ -31,65 +33,74 @@ export default function PhoneOTP({ routeTo }) {
     }
   };
 
-  const handleClick = () => {
-    setMessage("");
-    if (!(phoneNumber.length === 7 || phoneNumber.length === 8)) {
+  const checkNumber = (action) => {
+    setMessage(" ");
+    if (
+      !(
+        phoneNumber.length === 7 ||
+        phoneNumber.length === 8 ||
+        phoneNumber.length === 10
+      )
+    ) {
       setMessage("الرجاء التأكد من الرقم");
       return;
     }
-    waiting
-      ? axios
-          .post(
-            "/api/auth/Login",
-            { phoneNumber, oTP },
-            { "content-type": "application/json" }
-          )
-          .then((res) => {
-            res.data === "done" && setPhonePage(false);
-            routeTo
-              ? res.data === "exist" &&
-                Router.push(
-                  "/cart?msg=%D9%8A%D9%85%D9%83%D9%86%D9%83%20%D8%A7%D8%AA%D9%85%D8%A7%D9%85%20%D8%B9%D9%85%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B4%D8%B1%D8%A7%D8%A1"
-                ) &&
-                setMessage("تم تسجيل الدخول بنجاح")
-              : res.data === "exist" &&
-                Router.push(
-                  "/?msg=%D8%AA%D9%85%20%D8%AA%D8%B3%D8%AC%D9%8A%D9%84%20%D8%AF%D8%AE%D9%88%D9%84%D9%83%20%D8%A8%D9%86%D8%AC%D8%A7%D8%AD"
-                ) &&
-                setMessage("تم تسجيل الدخول بنجاح");
-            res.data !== "done" && res.data !== "exist" && setMessage(res.data);
-          })
-      : hasPass
-      ? setMessage("الدخول عن طريق الرمز ليس متوفر حاليا")
-      : axios
-          .post(
-            "/api/auth/Sign",
-            { phoneNumber },
-            { "content-type": "application/json" }
-          )
-          .then((res) => {
-            res.data === "done" && setWaiting(true);
-            res.data === "done" && setphone(phoneNumber);
-            res.data !== "done" && setMessage(res.data);
-          });
-    if (hasPass && passWord === "") {
-      setMessage("ادخل الرمز الصحيح");
+    action();
+  };
 
-      return;
-    }
+  const requestOTP = () => {
+    checkNumber(() => {
+      axios
+        .post(
+          "/api/auth/Sign",
+          { phoneNumber },
+          { "content-type": "application/json" }
+        )
+        .then((res) => {
+          if (res.data === "done") {
+            setWaiting(true);
+            timer(119, setTime);
+            setphone(phoneNumber);
+          } else {
+            setMessage(res.data);
+          }
+        });
+    });
+  };
+  const login = () => {
+    axios
+      .post(
+        "/api/auth/Login",
+        { phoneNumber, oTP },
+        { "content-type": "application/json" }
+      )
+      .then((res) => {
+        res.data === "done" && setPhonePage(false);
+        res.data === "exist" &&
+          (routeTo
+            ? Router.push(
+                "/cart?msg=%D9%8A%D9%85%D9%83%D9%86%D9%83%20%D8%A7%D8%AA%D9%85%D8%A7%D9%85%20%D8%B9%D9%85%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B4%D8%B1%D8%A7%D8%A1"
+              ) && setMessage("بإمكانك إتمام عملية الشراء")
+            : Router.push(
+                "/?msg=%D8%AA%D9%85%20%D8%AA%D8%B3%D8%AC%D9%8A%D9%84%20%D8%AF%D8%AE%D9%88%D9%84%D9%83%20%D8%A8%D9%86%D8%AC%D8%A7%D8%AD"
+              ) && setMessage("تم تسجيل الدخول بنجاح"));
+        res.data !== "done" && res.data !== "exist" && setMessage(res.data);
+      });
   };
 
   return (
     <>
       <div>
         <div className="formContainer">
-          <div className="message">{message}</div>
+          <div className="message">
+            {message}
+            <span>{!(time === "02:00" || time === "00:00") && " " + time}</span>
+          </div>
           <div className="phoneContainer">
             <select className="countryCode">
               <option>961+</option>
               <option>1+</option>
             </select>
-
             <input
               placeholder="أدخل رقمك الخليوي"
               className="phone"
@@ -107,7 +118,10 @@ export default function PhoneOTP({ routeTo }) {
                 placeholder="أدخل الرمز المؤقت، يرجى الانتظار"
                 className="phone otp"
                 value={oTP}
-                onChange={(e) => setOTP(e.target.value)}
+                onChange={(e) => {
+                  setMessage(" ");
+                  setOTP(e.target.value);
+                }}
                 type="number"
               />
             )}
@@ -124,9 +138,15 @@ export default function PhoneOTP({ routeTo }) {
             )}
           </>
           <div className="btnContainer">
-            <button className="btn" onClick={() => handleClick()}>
-              {waiting || hasPass ? "تسجيل الدخول" : "طلب الرمز المؤقت"}
-            </button>
+            {waiting ? (
+              <button className="btn" onClick={() => login()}>
+                تسجيل الدخول
+              </button>
+            ) : (
+              <button className="btn" onClick={() => requestOTP()}>
+                طلب الرمز المؤقت
+              </button>
+            )}
             <button
               className="passwordbtn"
               onClick={() => {
@@ -136,6 +156,11 @@ export default function PhoneOTP({ routeTo }) {
               {hasPass ? "ليس لدي الرمز الخاص بي" : "لدي الرمز الخاص بي"}
             </button>
           </div>
+          {waiting && time === "00:00" && (
+            <button className="btnRequest" onClick={() => requestOTP()}>
+              طلب الرمز مجدداً
+            </button>
+          )}
         </div>
         <ContactUs />
       </div>
@@ -237,6 +262,15 @@ export default function PhoneOTP({ routeTo }) {
           color: white;
           margin: 0.5rem;
           padding: 0.5rem 0.8rem;
+          border-radius: 0.5rem;
+        }
+        .btnRequest {
+          font-size: 0.9rem;
+          border: none;
+          background: white;
+          color: ${styles.primaryColorLight};
+          margin: 0.5rem;
+          padding: 0.2rem 0.8rem;
           border-radius: 0.5rem;
         }
         .passwordbtn {
